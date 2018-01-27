@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Talon;
@@ -97,76 +98,78 @@ public class RobotMap {
         //driveRobotDrive41.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
         //driveRobotDrive41.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
         driveQuadEncLeftDrive = new Encoder(0, 1, false, EncodingType.k4X);
-        LiveWindow.addSensor("Drive", "Quad Enc LeftDrive", driveQuadEncLeftDrive);
+       // LiveWindow.addSensor("Drive", "Quad Enc LeftDrive", driveQuadEncLeftDrive);
         driveQuadEncLeftDrive.setDistancePerPulse(1.0);
         driveQuadEncLeftDrive.setPIDSourceType(PIDSourceType.kRate);
         driveQuadEncRightDrive = new Encoder(2, 3, false, EncodingType.k4X);
-        LiveWindow.addSensor("Drive", "QuadEnc RightDrive", driveQuadEncRightDrive);
+       // LiveWindow.addSensor("Drive", "QuadEnc RightDrive", driveQuadEncRightDrive);
         driveQuadEncRightDrive.setDistancePerPulse(1.0);
         driveQuadEncRightDrive.setPIDSourceType(PIDSourceType.kRate);
         elevatorQuadEncElevator = new Encoder(4, 5, false, EncodingType.k4X);
-        LiveWindow.addSensor("Elevator", "Quad Enc Elevator", elevatorQuadEncElevator);
+       // LiveWindow.addSensor("Elevator", "Quad Enc Elevator", elevatorQuadEncElevator);
         elevatorQuadEncElevator.setDistancePerPulse(1.0);
         elevatorQuadEncElevator.setPIDSourceType(PIDSourceType.kRate);
         elevatorSRX5Elevator = new WPI_TalonSRX(5);
                 
         elevatorPIDController1 = new PIDController(1.0, 0.0, 0.0, 0.0, elevatorQuadEncElevator, elevatorSRX5Elevator, 0.02);
-        LiveWindow.addActuator("Elevator", "PID Controller 1", elevatorPIDController1);
+       // LiveWindow.addActuator("Elevator", "PID Controller 1", elevatorPIDController1);
         elevatorPIDController1.setContinuous(false);
         elevatorPIDController1.setAbsoluteTolerance(0.2);
 
         elevatorPIDController1.setOutputRange(-1.0, 1.0);
         elevatorSwitch7ElevatorTop = new DigitalInput(7);
-        LiveWindow.addSensor("Elevator", "Switch7ElevatorTop", elevatorSwitch7ElevatorTop);
+      //  LiveWindow.addSensor("Elevator", "Switch7ElevatorTop", elevatorSwitch7ElevatorTop);
         
         elevatorSwitch8ElevatorBottom = new DigitalInput(8);
-        LiveWindow.addSensor("Elevator", "Switch8ElevatorBottom", elevatorSwitch8ElevatorBottom);
+        //LiveWindow.addSensor("Elevator", "Switch8ElevatorBottom", elevatorSwitch8ElevatorBottom);
+        
         
         pickerSRX6PickerL = new WPI_TalonSRX(6);
                 
         pickerSRX7PickerR = new WPI_TalonSRX(7);
                 
         pickerSwitch1Picker = new DigitalInput(6);
-        LiveWindow.addSensor("Picker", "Switch1Picker", pickerSwitch1Picker);
+        ///LiveWindow.addSensor("Picker", "Switch1Picker", pickerSwitch1Picker);
         
         pickerDoubleSolenoid1Pick = new DoubleSolenoid(0, 0, 1);
-        LiveWindow.addActuator("Picker", "Double Solenoid 1 Pick", pickerDoubleSolenoid1Pick);
+       // LiveWindow.addActuator("Picker", "Double Solenoid 1 Pick", pickerDoubleSolenoid1Pick);
         
         climberSRR8Climb = new WPI_TalonSRX(8);
         
         
         climberDoubleSolenoid2Climb = new DoubleSolenoid(0, 2, 3);
-        LiveWindow.addActuator("Climber", "Double Solenoid 2 Climb", climberDoubleSolenoid2Climb);
+       // LiveWindow.addActuator("Climber", "Double Solenoid 2 Climb", climberDoubleSolenoid2Climb);
         
         navigationAnalogGyro1 = new AnalogGyro(0);
-        LiveWindow.addSensor("Navigation", "AnalogGyro 1", navigationAnalogGyro1);
+       // LiveWindow.addSensor("Navigation", "AnalogGyro 1", navigationAnalogGyro1);
         navigationAnalogGyro1.setSensitivity(0.007);
         navigationUltrasonic1 = new Ultrasonic(9, 10);
-        LiveWindow.addSensor("Navigation", "Ultrasonic 1", navigationUltrasonic1);
+       // LiveWindow.addSensor("Navigation", "Ultrasonic 1", navigationUltrasonic1);
         
         navigationDigitalInput1NullZoneColor = new DigitalInput(11);
-        LiveWindow.addSensor("Navigation", "Digital Input 1 Null Zone Color", navigationDigitalInput1NullZoneColor);
+        //LiveWindow.addSensor("Navigation", "Digital Input 1 Null Zone Color", navigationDigitalInput1NullZoneColor);
         
         utilitiesPowerDistributionPanel1 = new PowerDistributionPanel(18);
-        LiveWindow.addSensor("Utilities", "PowerDistributionPanel 1", utilitiesPowerDistributionPanel1);
+      //  LiveWindow.addSensor("Utilities", "PowerDistributionPanel 1", utilitiesPowerDistributionPanel1);
         
         utilitiesPCMCompressor = new Compressor(16);
         
         
         pickerPWMTalonSRRF = new Talon(1);
-        LiveWindow.addActuator("PickerPWM", "TalonSRRF", (Talon) pickerPWMTalonSRRF);
+      //  LiveWindow.addActuator("PickerPWM", "TalonSRRF", (Talon) pickerPWMTalonSRRF);
+        SmartDashboard.putData("Talon 1", driveSRX1DriveLR);
         
         pickerPWMTalonSRLR = new Talon(2);
-        LiveWindow.addActuator("PickerPWM", "TalonSRLR", (Talon) pickerPWMTalonSRLR);
+      //  LiveWindow.addActuator("PickerPWM", "TalonSRLR", (Talon) pickerPWMTalonSRLR);
         
         pickerPWMTalonSRLF = new Talon(3);
-        LiveWindow.addActuator("PickerPWM", "TalonSRLF", (Talon) pickerPWMTalonSRLF);
+     //   LiveWindow.addActuator("PickerPWM", "TalonSRLF", (Talon) pickerPWMTalonSRLF);
         
         pickerPWMTalonSRRR = new Talon(0);
-        LiveWindow.addActuator("PickerPWM", "TalonSRRR", (Talon) pickerPWMTalonSRRR);
+      //  LiveWindow.addActuator("PickerPWM", "TalonSRRR", (Talon) pickerPWMTalonSRRR);
         
         pickerPWMSharpDistPickCube = new AnalogInput(1);
-        LiveWindow.addSensor("PickerPWM", "SharpDistPickCube", pickerPWMSharpDistPickCube);
+     //   LiveWindow.addSensor("PickerPWM", "SharpDistPickCube", pickerPWMSharpDistPickCube);
         
 
     // END AUTOGENERATED CODE, SOURCE=ROBOTBUILDER ID=CONSTRUCTORS

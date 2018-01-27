@@ -77,6 +77,7 @@ public class Robot extends IterativeRobot {
      * You can use it to reset subsystems before shutting down.
      */
     public void disabledInit(){
+    	System.out.println("Disabled Init");
 
     }
 
@@ -86,6 +87,7 @@ public class Robot extends IterativeRobot {
 
     public void autonomousInit() {
         // schedule the autonomous command (example)
+    	System.out.println("Auto Init");
         if (autonomousCommand != null) autonomousCommand.start();
     }
 
@@ -101,6 +103,7 @@ public class Robot extends IterativeRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
+    	System.out.println("Robot Init");
         if (autonomousCommand != null) autonomousCommand.cancel();
     }
 
