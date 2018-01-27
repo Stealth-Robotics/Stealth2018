@@ -9,9 +9,10 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc4089.Stealth2018M.commands;
+package org.usfirst.frc4089.Stealth2018.commands;
+import org.usfirst.frc4089.Stealth2018.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc4089.Stealth2018M.Robot;
 
 /**
  *

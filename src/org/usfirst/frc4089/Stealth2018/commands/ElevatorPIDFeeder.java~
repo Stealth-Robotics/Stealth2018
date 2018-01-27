@@ -9,11 +9,12 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc4089.Stealth2018M.commands;
+package org.usfirst.frc4089.Stealth2018.commands;
+
+import org.usfirst.frc4089.Stealth2018.Robot;
+import org.usfirst.frc4089.Stealth2018.RobotMap;
 
 import edu.wpi.first.wpilibj.command.PIDCommand;
-import org.usfirst.frc4089.Stealth2018M.Robot;
-import org.usfirst.frc4089.Stealth2018M.RobotMap;
 
 /**
  *

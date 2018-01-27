@@ -9,9 +9,10 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc4089.Stealth2018M.commands;
+package org.usfirst.frc4089.Stealth2018.commands;
+import org.usfirst.frc4089.Stealth2018.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc4089.Stealth2018M.Robot;
 
 /**
  *
@@ -41,6 +42,7 @@ public class PickerWheelIn extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.pickerPWM.runPickerIn();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -50,6 +52,7 @@ public class PickerWheelIn extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.pickerPWM.stopPicker();
     }
 
     // Called when another command which requires one or more of the same

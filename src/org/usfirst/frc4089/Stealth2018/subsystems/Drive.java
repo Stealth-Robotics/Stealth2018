@@ -38,7 +38,7 @@ public class Drive extends Subsystem {
     private final WPI_TalonSRX sRX2DriveLF = RobotMap.driveSRX2DriveLF;
     private final WPI_TalonSRX sRX3DriveRR = RobotMap.driveSRX3DriveRR;
     private final WPI_TalonSRX sRX4DriveRF = RobotMap.driveSRX4DriveRF;
-    private final DifferentialDrive robotDrive41 = RobotMap.driveRobotDrive41;
+    private final RobotDrive robotDrive41 = RobotMap.driveRobotDrive41;
     private final Encoder quadEncLeftDrive = RobotMap.driveQuadEncLeftDrive;
     private final Encoder quadEncRightDrive = RobotMap.driveQuadEncRightDrive;
 

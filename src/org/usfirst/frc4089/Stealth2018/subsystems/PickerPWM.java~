@@ -9,10 +9,12 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc4089.Stealth2018M.subsystems;
+package org.usfirst.frc4089.Stealth2018.subsystems;
 
-import org.usfirst.frc4089.Stealth2018M.RobotMap;
-import org.usfirst.frc4089.Stealth2018M.commands.*;
+import org.usfirst.frc4089.Stealth2018.Constants;
+import org.usfirst.frc4089.Stealth2018.RobotMap;
+import org.usfirst.frc4089.Stealth2018.commands.*;
+
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
@@ -51,5 +53,35 @@ public class PickerPWM extends Subsystem {
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
     }
+    
+    public void runPickerIn () {
+    	talonSRRF.set(Constants.pickerRFSpeed);
+    	talonSRRR.set(Constants.pickerRRSpeed);
+    	talonSRLF.set(-Constants.pickerLFSpeed);
+    	talonSRLR.set(-Constants.pickerLRSpeed);
+    }
+    
+    public void runPickerOut () {
+    	talonSRRF.set(Constants.pickerRFSpeed);
+    	talonSRRR.set(Constants.pickerRRSpeed);
+    	talonSRLF.set(-Constants.pickerLFSpeed);
+    	talonSRLR.set(-Constants.pickerLRSpeed);
+    }
+    
+    public void runPickerVariable(double speed) {
+    	talonSRRF.set(speed);
+    	talonSRRR.set(speed);
+    	talonSRLF.set(-speed);
+    	talonSRLR.set(-speed);
+    }
+    
+    public void stopPicker() {
+    	talonSRRF.set(0);
+    	talonSRRR.set(0);
+    	talonSRLF.set(0);
+    	talonSRLR.set(0);
+    }
+    
+   
 }
 

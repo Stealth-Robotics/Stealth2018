@@ -9,10 +9,11 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc4089.Stealth2018M.subsystems;
+package org.usfirst.frc4089.Stealth2018.subsystems;
 
-import org.usfirst.frc4089.Stealth2018M.RobotMap;
-import org.usfirst.frc4089.Stealth2018M.commands.*;
+import org.usfirst.frc4089.Stealth2018.RobotMap;
+import org.usfirst.frc4089.Stealth2018.commands.*;
+
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 

@@ -9,10 +9,11 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc4089.Stealth2018M.subsystems;
+package org.usfirst.frc4089.Stealth2018.subsystems;
 
-import org.usfirst.frc4089.Stealth2018M.RobotMap;
-import org.usfirst.frc4089.Stealth2018M.commands.*;
+import org.usfirst.frc4089.Stealth2018.RobotMap;
+import org.usfirst.frc4089.Stealth2018.commands.*;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
@@ -20,6 +21,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 
 /**
@@ -36,7 +38,7 @@ public class Drive extends Subsystem {
     private final WPI_TalonSRX sRX2DriveLF = RobotMap.driveSRX2DriveLF;
     private final WPI_TalonSRX sRX3DriveRR = RobotMap.driveSRX3DriveRR;
     private final WPI_TalonSRX sRX4DriveRF = RobotMap.driveSRX4DriveRF;
-    private final RobotDrive robotDrive41 = RobotMap.driveRobotDrive41;
+    private final DifferentialDrive robotDrive41 = RobotMap.driveRobotDrive41;
     private final Encoder quadEncLeftDrive = RobotMap.driveQuadEncLeftDrive;
     private final Encoder quadEncRightDrive = RobotMap.driveQuadEncRightDrive;
 
@@ -54,6 +56,18 @@ public class Drive extends Subsystem {
 
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
+    }
+    /**
+     * 
+     * @param speed -1.0 (reverse) : 1.0 (forward) 
+     * @param rotation -1.0 (counter clockwise) : 1.0 (clockwise)
+     */
+    public void arcDrive (double speed, double rotation) {
+       	robotDrive41.arcadeDrive(speed, rotation);
+    }
+    
+    public void drive (double leftSpeed, double rightSpeed, boolean squaredInputs) {
+    	robotDrive41.tankDrive(leftSpeed, rightSpeed, squaredInputs);
     }
 }
 
