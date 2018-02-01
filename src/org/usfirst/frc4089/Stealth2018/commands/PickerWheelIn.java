@@ -42,7 +42,8 @@ public class PickerWheelIn extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.pickerPWM.runPickerIn();
+    	//Robot.pickerPWM.runPickerIn();
+    	Robot.picker.runPickerIn();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -52,7 +53,8 @@ public class PickerWheelIn extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.pickerPWM.stopPicker();
+    	//Robot.pickerPWM.stopPicker();
+    	Robot.picker.stopPicker();
     }
 
     // Called when another command which requires one or more of the same

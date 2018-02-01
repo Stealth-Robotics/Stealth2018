@@ -11,6 +11,7 @@
 
 package org.usfirst.frc4089.Stealth2018.subsystems;
 
+import org.usfirst.frc4089.Stealth2018.Constants;
 import org.usfirst.frc4089.Stealth2018.RobotMap;
 import org.usfirst.frc4089.Stealth2018.commands.*;
 
@@ -55,7 +56,18 @@ public class Picker extends Subsystem {
     }
     
     public void runPickerIn () {
-    	
+    	sRX6PickerL.set(Constants.pickerLeftSpeed);
+    	sRX7PickerR.set(-Constants.pickerRightSpeed);
+
+    }
+    public void runPickerOut () {
+    	sRX6PickerL.set(-Constants.pickerLeftSpeed);
+    	sRX7PickerR.set(Constants.pickerRightSpeed);
+
+    }
+    public void stopPicker() {
+    	sRX6PickerL.set(0);
+    	sRX7PickerR.set(0);
     }
 }
 
