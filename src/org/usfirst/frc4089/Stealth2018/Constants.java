@@ -1,5 +1,7 @@
 package org.usfirst.frc4089.Stealth2018;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 public class Constants {
 	//below are values for 2018
 	public static final double pickerLRSpeed = 1;
@@ -9,6 +11,44 @@ public class Constants {
 	public static final double pickerLeftSpeed = 1;
 	public static final double pickerRightSpeed = 1;
 	
+	// CAN assignments
+	public static final int CANTalonSRXDriveLR = 1;
+	public static final int CANTalonSRXDriveLF = 2;
+	public static final int CANTalonSRXDriveRR = 3;
+	public static final int CANTalonSRXDriveRF = 4;
+	public static final int CANTalonSRXElevator = 5;
+	public static final int CANTalonSRXPickerL = 6;
+	public static final int CANTalonSRXPickerR = 7;
+	public static final int CANTalonSRXClimb = 8;
+	
+	   
+     
+	public static final int CANPCM1 = 16;
+	public static final int CANPCM2 = 17;
+	public static final int CANPDP = 18;
+
+	
+	//below are values for navigation
+	
+	public static final double drivekAngleSetpoint = 0.0;
+	public static final double drivekP = 0.004; // propotional turning constant
+	public static final double drivekD = 0.001; // propotional turning constant
+	public static final double drivekI = 0.001; // propotional turning constant
+    public static final double drivekMaxAcum = 1000;
+	
+    public static final double leftDrivekAngleSetpoint = 0.0;
+	public static final double leftDrivekP = 0.004; // propotional turning constant
+	public static final double leftDrivekD = 0.001; // propotional turning constant
+	public static final double leftDrivekI = 0.001; // propotional turning constant
+    public static final double leftDrivekMaxAcum = 1000;
+    
+    public static final double rightDrivekAngleSetpoint = 0.0;
+	public static final double rightDrivekP = 0.004; // propotional turning constant
+	public static final double rightDrivekD = 0.001; // propotional turning constant
+	public static final double rightDrivekI = 0.001; // propotional turning constant
+    public static final double rightDrivekMaxAcum = 1000;
+    
+    
 	//TODO refactor for 2018
 	//below are values from 2017
 	//assorted variables
