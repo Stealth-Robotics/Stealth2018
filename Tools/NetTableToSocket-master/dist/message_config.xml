@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config>
+	<table_host value="172.22.11.2" /> <!-- 10.TE.AM.2 for static or roboRIO-TEAM-frc.local for DHCP/mDNS -->
+	
+	<comm_mode value="TCP" /> <!-- TCP or UDP (anything other than TCP means use UDP) -->
+	<dest_host value="10.10.224.93" />
+	<dest_port value="1000" />
+	
+	<generate_data value="false" />
+	
+	<message>
+	     <value name="Robot Conected" type="boolean" default="false" />
+	     <value name="Timer" type="double" default="0.0" />
+       <value name="Speed" type="double" default="0"/>
+       <value name="UltrasonicSensor" type="double" default="-1"/>
+       <value name="PowerLevel" type="double" default="-1"/>
+       <value name="TestPot" type="double" default="-1"/>
+       <value name="CloseSwitch" type="double" default="-1"/>
+       <value name="Scale" type="double" default="-1"/>
+       <value name="FarSwitch" type="double" default="-1"/>
+	</message>
+</config>
