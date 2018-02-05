@@ -18,11 +18,11 @@
   
 #include <Wire.h>
 #include <Adafruit_NeoPixel.h>
-#include <AStar32U4.h>
-#include <avr/wdt.h>
-
 #include "Common.h"
 #include "JORSUtils.h"
+#include <avr/wdt.h>
+#include <Adafruit_GFX.h>    // Core graphics library
+#include <Adafruit_ST7735.h> // Hardware-specific library
 
 //----------------------------------------------------------------------------
 //  Constants
@@ -51,7 +51,7 @@ class StopWatch
   void SetTime(int waitTime);
   bool IsExpired(void);
   void Reset(void);
-  long GetTimeLeft(void);
+        long GetTimeLeft(void);
 };
 
 
@@ -77,7 +77,6 @@ uint16 mCommCount = 0;
 // LED
 StopWatch mYellowLED(YELLOW_LED_BLINK); 
 bool mYellowLEDState = true;
-AStar32U4Buzzer mBuzzer;
 
 //----------------------------------------------------------------------------
 //  Purpose:
@@ -98,27 +97,9 @@ void setup()
   mStrip.begin();
   mStrip.show();
   IdlePatternSet();
-  mYellowLED.Reset();
+  mYellowLED.reset();
   
   Serial.print("Starting up");
-
-  for(int i=0;i<2;i++)
-  {
-    // Start playing a tone with frequency 440 Hz at maximum
-    // volume (15) for 200 milliseconds.
-    mBuzzer.playFrequency(NOTE_F(3), 200, 15);
-    // Delay to give the tone time to finish.
-    delay(500);
-    // Start playing note A in octave 4 at maximum volume
-    // volume (15) for 200 milliseconds.
-    mBuzzer.playNote(NOTE_A(4), 200, 15);
-    // Wait for 200 ms and stop playing note.
-    delay(200);
-  }
-  mBuzzer.stopPlaying();
-
-  // Start watch dog
-  wdt_enable(WDTO_1S);
 }
 
 //----------------------------------------------------------------------------
@@ -131,9 +112,6 @@ void setup()
 //----------------------------------------------------------------------------
 void loop() 
 {
-  // Pat the dog
-  wdt_reset();
-  
   // Handle comm with the Pi
   if(true == mGoodPacket)
   {
@@ -171,11 +149,11 @@ void loop()
     }
   }
 
-  if(true == mYellowLED.IsExpired())
+  if(true == mYellowLED.isExpired())
   {
     mYellowLEDState = !mYellowLEDState;
     digitalWrite(YELLOW_LED_PIN, mYellowLEDState);
-    mYellowLED.Reset();
+    mYellowLED.reset();
   }
 
   // Let things settle if need be
