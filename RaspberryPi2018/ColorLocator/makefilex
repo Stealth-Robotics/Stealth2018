@@ -1,0 +1,29 @@
+
+ROOT_DIR     = ../
+CC = g++
+
+CFLAGS   = -std=c++11 -Wformat=2 -Wall -Wextra -pedantic \
+	        -Wno-psabi -Wno-unused-parameter -fPIC -rdynamic \
+          -Wno-error=deprecated-declarations -pthread -Wignored-qualifiers -Wpedantic \
+     	    -std=gnu++14 \
+          -lopencv_objdetect \
+          -lopencv_features2d -lopencv_imgproc \
+          -lopencv_highgui -lopencv_core -lopencv_imgproc \
+          -lopencv_videoio -lpthread -lopencv_imgcodecs \
+          -L../ntcore-master/bins/ -lntcore 
+
+INC =   -I. \
+        -I$(ROOT_DIR)ntcore-master/wpiutil/include \
+        -I$(ROOT_DIR)ntcore-master/include
+
+default: ColorLocator
+
+TARGET = ColorLocator
+
+all: $(TARGET)
+
+$(TARGET): $(TARGET).cpp
+	$(CC) $(CFLAGS) -o $(TARGET) $(TARGET).cpp $(INC)
+
+clean:
+	$(RW) $(TARGET)

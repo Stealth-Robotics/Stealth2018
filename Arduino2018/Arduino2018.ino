@@ -19,7 +19,6 @@
 #include <Wire.h>
 #include <Adafruit_NeoPixel.h>
 #include <AStar32U4.h>
-#include <avr/wdt.h>
 
 #include "Common.h"
 #include "JORSUtils.h"
@@ -27,7 +26,8 @@
 //----------------------------------------------------------------------------
 //  Constants
 //----------------------------------------------------------------------------
-const long  MAX_TIME = 1000;       // Timeout for comm with the Raspberry Pi
+const long  MAX_TIME = 2000;       // Timeout for comm with the Raspberry Pi
+const long  SPIN_TIME = 40;       // Time for spining color
 const uint8 LED_PIN  =  7;         // LED is on the 6th digial pin
 const int   OUR_I2C_ADDR = 43;     // Out I2C address
 const int   COLOR_REDUCTION = 27;  // The amount of color to remove on each steop of the spin
@@ -43,7 +43,7 @@ class StopWatch
   long mLastTime;
   long mWaitTime;
 
-        long Now(void);
+  long Now(void);
 
   public:
   StopWatch();
@@ -66,6 +66,8 @@ byte mLocation = 1;
 byte mEnabled = 'D';
 byte mExtra = 1;
 long mLastTime = 0;
+StopWatch mRightLED(MAX_TIME); 
+StopWatch mSpinColorSW(SPIN_TIME);
 
 // Comm with Raspberry Pi vars
 uint8 mBuffer[MAX_PACKET];
@@ -116,9 +118,6 @@ void setup()
     delay(200);
   }
   mBuzzer.stopPlaying();
-
-  // Start watch dog
-  wdt_enable(WDTO_1S);
 }
 
 //----------------------------------------------------------------------------
@@ -130,17 +129,17 @@ void setup()
 //
 //----------------------------------------------------------------------------
 void loop() 
-{
-  // Pat the dog
-  wdt_reset();
-  
+{  
   // Handle comm with the Pi
   if(true == mGoodPacket)
   {
+    mRightLED.Reset();
+
+    mAlliance = mBuffer[LOC_LED_STATUS];
     int otherCommCount = getU16FrombyteArray(mBuffer, LOC_DATA_START);
     mCommCount++;
     putU16IntoU8Array(mSend,LOC_DATA_START,mCommCount);
-    Serial.print("got:");
+    Serial.print(" got:");
     Serial.println(otherCommCount);
     mAlliance = mBuffer[LOC_LED_STATUS];
     RemoveDataForNextMessage(MAX_RECEIVE, true);
@@ -148,7 +147,7 @@ void loop()
   }
 
   // Handle the LED ring
-  if((millis()-mLastTime)>MAX_TIME)
+  if(true == mRightLED.IsExpired())
   {
     ColorSet(COLOR_BRIGHT_GREEN);
   }
@@ -239,9 +238,12 @@ void SpinColor(int color)
       green-=COLOR_REDUCTION;
     }
   }
-  mStrip.show();
-  delay(25);
-  mSpinColor--;
+  if(true == mSpinColorSW.IsExpired())
+  {
+    mStrip.show();
+    mSpinColor--;
+    mSpinColorSW.Reset();
+  }
 }
 
 //****************************************************************************
