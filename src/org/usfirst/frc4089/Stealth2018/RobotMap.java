@@ -162,6 +162,10 @@ public class RobotMap {
         pickerPWMTalonSRRR.setInverted(false);
         pickerPWMSharpDistPickCube = new AnalogInput(1);
         LiveWindow.addSensor("PickerPWM", "SharpDistPickCube", pickerPWMSharpDistPickCube);
+        
+        pigeonIMU = new PigeonIMU(driveSRXDriveRR);
+        pigeonIMU.setFusedHeading(0.0, 10);
+        netTable = NetworkTable.getTable("FRCRobot");
     }
     
     

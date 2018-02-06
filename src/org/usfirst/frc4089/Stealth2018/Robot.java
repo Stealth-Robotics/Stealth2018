@@ -56,9 +56,9 @@ public class Robot extends TimedRobot {
         RobotMap.init();
         
         //start camera server
-        UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-        camera.setResolution(160,120);
-        camera.setFPS(24);
+     //   UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+     //   camera.setResolution(160,120);
+     //   camera.setFPS(24);
         
         
         //for Hololens Debug

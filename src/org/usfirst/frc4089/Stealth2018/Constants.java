@@ -13,10 +13,10 @@ public class Constants {
 	public static final double pickerRightSpeed = 1;
 	
 	// CAN assignments
-	public static final int CANTalonSRXDriveLR = 1;
-	public static final int CANTalonSRXDriveLF = 2;
-	public static final int CANTalonSRXDriveRR = 3;
-	public static final int CANTalonSRXDriveRF = 4;
+	public static final int CANTalonSRXDriveLR = 3;
+	public static final int CANTalonSRXDriveLF = 1;
+	public static final int CANTalonSRXDriveRR = 4;
+	public static final int CANTalonSRXDriveRF = 2;
 	public static final int CANTalonSRXElevator = 5;
 	public static final int CANTalonSRXPickerL = 6;
 	public static final int CANTalonSRXPickerR = 7;
