@@ -3,6 +3,7 @@ package org.usfirst.frc4089.Stealth2018;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Constants {
+  
 	//below are values for 2018
 	public static final double pickerLRSpeed = 1;
 	public static final double pickerLFSpeed = 1;
@@ -27,7 +28,28 @@ public class Constants {
 	public static final int CANPCM2 = 17;
 	public static final int CANPDP = 18;
 
+	// User Interface consts
+  public static final int kFastButton = 1;
+  public static final int kSlowButton = 2;
+  public static final int kForwardAxes = 1;
+  public static final int kMainTurnAxes = 4;
+  public static final int kBackupTurnAxes = 2;
+
+  // Drivers Speed
+  public static final double kNormalSpeed = 0.5;
+  public static final double kSlowSpeed = 0.15;
 	
+  // Gyro Constants
+  public static final int kGyroZ = 2;
+  public static final double kGyroDeadband = 0.1;
+  
+  // Motor setup constants
+  public static final int kPIDLoopIdx = 0;
+  public static final int kTimeoutMs = 10;
+  public static final int kBaseTrajPeriodMs = 0;
+  public static final double kNeutralDeadband  = 0.01;
+  
+  
 	//below are values for navigation
 	
 	public static final double drivekAngleSetpoint = 0.0;

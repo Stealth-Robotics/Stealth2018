@@ -12,11 +12,7 @@
 package org.usfirst.frc4089.Stealth2018.utilities;
 
 import org.usfirst.frc4089.Stealth2018.RobotMap;
-import org.usfirst.frc4089.Stealth2018.commands.*;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 
 /**
@@ -81,11 +77,11 @@ public class LogMech {
 			System.out.format("\n");
 		}
 		/* every loop, print our values */
-		System.out.format("%-9s\t", RobotMap.driveSRX1DriveLR.getActiveTrajectoryPosition());
-		System.out.format("%-9s\t", DriveMath.calcDist(RobotMap.driveSRX1DriveLR.getActiveTrajectoryPosition(), "IN"));
-		System.out.format("%-9s\t", DriveMath.calcTurns(RobotMap.driveSRX1DriveLR.getActiveTrajectoryPosition()));
-		System.out.format("%-9s\t", RobotMap.driveSRX1DriveLR.getActiveTrajectoryPosition());
-		System.out.format("%-9s\t", RobotMap.driveSRX1DriveLR.getActiveTrajectoryVelocity());
+		System.out.format("%-9s\t", RobotMap.driveSRXDriveLR.getActiveTrajectoryPosition());
+		System.out.format("%-9s\t", DriveMath.calcDist(RobotMap.driveSRXDriveLR.getActiveTrajectoryPosition(), "IN"));
+		System.out.format("%-9s\t", DriveMath.calcTurns(RobotMap.driveSRXDriveLR.getActiveTrajectoryPosition()));
+		System.out.format("%-9s\t", RobotMap.driveSRXDriveLR.getActiveTrajectoryPosition());
+		System.out.format("%-9s\t", RobotMap.driveSRXDriveLR.getActiveTrajectoryVelocity());
 		
 		//System.out.format("%-9s\t", RobotMap.digitalSPIGyro.getAngle());
 		//sSystem.out.format("%-9s\t", RobotMap.digitalSPIGyro.getRate());

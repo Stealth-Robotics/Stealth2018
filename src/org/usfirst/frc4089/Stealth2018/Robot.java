@@ -167,6 +167,10 @@ public class Robot extends TimedRobot {
         }
         //print out selected path finding string
         System.out.println("Using : " + selectedPath + " for Autonomus");
+        
+        
+        RobotMap.SetUpTalonsForAuto();
+        Robot.drive.SetAuto();
     }
 
     /**
@@ -185,6 +189,8 @@ public class Robot extends TimedRobot {
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
         System.out.println("tele init");
+        RobotMap.SetUpTalonsForTele();
+        Robot.drive.SetTele();
     }
 
     /**

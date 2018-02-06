@@ -48,7 +48,7 @@ public class UserDrive extends Command {
     	LogMech.logMe();
     	//Robot.drive.operatorDrive(Robot.oi.getDriveStick());
     	//Robot.drive.operatorXBOXTankDrive(Robot.oi.xboxController1.getY(Hand.kLeft), Robot.oi.xboxController1.getY(Hand.kRight));
-    	Robot.drive.Drive(Robot.oi.getJoystick1());
+    	Robot.drive.DriveRobot(Robot.oi.getJoystick1());
 
     }
 
