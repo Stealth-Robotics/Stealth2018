@@ -21,13 +21,13 @@ CPPTEST_OBJ    = $(patsubst $(APP_DIR)%.cpp, $(OBJ_DIR)/%.o, $(CPPTEST_SRC))
 
 .PHONY: direct 
 
-all : direct compiles
+all : colorlocator
 
 direct:
 	$(MKDIR_P) $(OBJ_DIR)/
 
 
-cpptest:	$(CPPTEST_OBJ)
+colorlocator:	$(CPPTEST_OBJ)
 	$(CC) -o ColorLocator $(CPPTEST_OBJ) $(CFLAGS) $(INC) -lpthread -L../ntcore-master/bins/ -lntcore -lwiringPi -lstdc++
 
 compiles:	$(C_OBJ) $(EXECUTABLE)

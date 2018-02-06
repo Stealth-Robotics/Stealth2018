@@ -118,6 +118,47 @@ int main(int argc, char** argv)
 
   fprintf(fp,"After prop\n");
 
+  webCam.set(CV_CAP_PROP_POS_MSEC, -1.000000);
+  webCam.set(CV_CAP_PROP_POS_FRAMES, -1.000000);
+  webCam.set(CV_CAP_PROP_POS_AVI_RATIO, -1.000000);
+  webCam.set(CV_CAP_PROP_FRAME_WIDTH, 640.000000);
+  webCam.set(CV_CAP_PROP_FRAME_HEIGHT, 480.000000);
+  webCam.set(CV_CAP_PROP_FPS, 0.000000);
+  webCam.set(CV_CAP_PROP_FOURCC, 844715353.000000);
+  webCam.set(CV_CAP_PROP_FRAME_COUNT, -1.000000);
+  webCam.set(CV_CAP_PROP_FORMAT, -1.000000);
+  webCam.set(CV_CAP_PROP_MODE, -1.000000);
+  webCam.set(CV_CAP_PROP_BRIGHTNESS, 143.000000);
+  webCam.set(CV_CAP_PROP_CONTRAST, 5.000000);
+  webCam.set(CV_CAP_PROP_SATURATION, 83.000000);
+  webCam.set(CV_CAP_PROP_HUE, 1781412864.000000);
+
+  webCam.set(CV_CAP_PROP_GAIN, 1781412896.000000);
+  webCam.set(CV_CAP_PROP_EXPOSURE, -6.000000);
+  webCam.set(CV_CAP_PROP_CONVERT_RGB, -1.000000);
+  webCam.set(CV_CAP_PROP_WHITE_BALANCE_BLUE_U, 4500.000000);
+  webCam.set(CV_CAP_PROP_RECTIFICATION, -1.000000);
+  webCam.set(CV_CAP_PROP_MONOCHROME, 1781413064.000000);
+  webCam.set(CV_CAP_PROP_SHARPNESS, 25.000000);
+  webCam.set(CV_CAP_PROP_AUTO_EXPOSURE, -1.000000);
+  webCam.set(CV_CAP_PROP_GAMMA, 1781413160.000000);
+  webCam.set(CV_CAP_PROP_TEMPERATURE, -1.000000);
+
+  webCam.set(CV_CAP_PROP_TRIGGER, -1.000000);
+  webCam.set(CV_CAP_PROP_TRIGGER_DELAY, -1.000000);
+  webCam.set(CV_CAP_PROP_WHITE_BALANCE_RED_V, -1.000000);
+  webCam.set(CV_CAP_PROP_ZOOM, 0.000000);
+  webCam.set(CV_CAP_PROP_FOCUS, 1781413360.000000);
+  webCam.set(CV_CAP_PROP_GUID, -1.000000);
+  webCam.set(CV_CAP_PROP_ISO_SPEED, -1.000000);
+  webCam.set(CV_CAP_PROP_MAX_DC1394, -1.000000);
+
+  webCam.set(CV_CAP_PROP_BACKLIGHT, 0.000000);
+  webCam.set(CV_CAP_PROP_PAN, 0.000000);
+  webCam.set(CV_CAP_PROP_TILT, 0.000000);
+  webCam.set(CV_CAP_PROP_ROLL, 1781413584.000000);
+  webCam.set(CV_CAP_PROP_IRIS, 1781413616.000000);
+
   //********************************************************
   //*
   //*  Set up the control window
@@ -153,6 +194,9 @@ int main(int argc, char** argv)
 
   fprintf(fp,"After First read\n");
 
+  webCam.set(CV_CAP_PROP_EXPOSURE, -11.0);
+//  webCam.set(CV_CAP_PROP_AUTO_EXPOSURE, 0.0);
+
   //********************************************************
   //*
   //*  Loop forever or until a socket error (the client socket closed)
@@ -165,7 +209,6 @@ int main(int argc, char** argv)
     //*  Read the image and turn it into a HSV image
     //*
     //********************************************************
-    webCam.set(CV_CAP_PROP_EXPOSURE, -0.1);
 
     bool bSuccess = webCam.read(gImgOriginal); // read a new frame from video
 
@@ -205,7 +248,6 @@ int main(int argc, char** argv)
       gLargestCont[i] = -1;
     }
 
-    printf("In LoopA\n");
     for (int i = 0; i < (int)gContours.size(); i++)
     {
       double area = contourArea(gContours.at(i));
@@ -214,19 +256,17 @@ int main(int argc, char** argv)
       {
         if (area > gLargestArea[j])
         {
-          for (int k = MAX_BLOBS - 2; k <= j; k--)
+          for (int k = MAX_BLOBS - 2; k >= j; k--)
           {
             gLargestArea[k + 1] = gLargestArea[k];
             gLargestCont[k + 1] = gLargestCont[k];
           }
           gLargestArea[j] = area;
           gLargestCont[j] = i;
-          printf("In LoopC\n");
           break;
         }
       }
     }
-    printf("In LoopB\n");
 
     for (int j = 0; j < MAX_BLOBS; j++)
     {
@@ -244,28 +284,28 @@ int main(int argc, char** argv)
         gHeight = boundingRectangle.height;
         gArea = (int)gLargestArea[j];
 
-        sprintf(stringBuffer, "fromPi/blob%d/area", j);
+        sprintf(stringBuffer, "/fromPi/blob%d/area", j);
         nt::SetEntryValue(stringBuffer, nt::Value::MakeDouble(gArea));
-        sprintf(stringBuffer, "fromPi/blob%d/x", j);
+        sprintf(stringBuffer, "/fromPi/blob%d/x", j);
         nt::SetEntryValue(stringBuffer, nt::Value::MakeDouble(gX));
-        sprintf(stringBuffer, "fromPi/blob%d/y", j);
+        sprintf(stringBuffer, "/fromPi/blob%d/y", j);
         nt::SetEntryValue(stringBuffer, nt::Value::MakeDouble(gY));
-        sprintf(stringBuffer, "fromPi/blob%d/height", j);
+        sprintf(stringBuffer, "/fromPi/blob%d/height", j);
         nt::SetEntryValue(stringBuffer, nt::Value::MakeDouble(gHeight));
-        sprintf(stringBuffer, "fromPi/blob%d/width", j);
+        sprintf(stringBuffer, "/fromPi/blob%d/width", j);
         nt::SetEntryValue(stringBuffer, nt::Value::MakeDouble(gWidth));
       }
       else
       {
-        sprintf(stringBuffer, "fromPi/blob%d/area", j);
+        sprintf(stringBuffer, "/fromPi/blob%d/area", j);
         nt::SetEntryValue(stringBuffer, nt::Value::MakeDouble(-1));
-        sprintf(stringBuffer, "fromPi/blob%d/x", j);
+        sprintf(stringBuffer, "/fromPi/blob%d/x", j);
         nt::SetEntryValue(stringBuffer, nt::Value::MakeDouble(-1));
-        sprintf(stringBuffer, "fromPi/blob%d/y", j);
+        sprintf(stringBuffer, "/fromPi/blob%d/y", j);
         nt::SetEntryValue(stringBuffer, nt::Value::MakeDouble(-1));
-        sprintf(stringBuffer, "fromPi/blob%d/height", j);
+        sprintf(stringBuffer, "/fromPi/blob%d/height", j);
         nt::SetEntryValue(stringBuffer, nt::Value::MakeDouble(-1));
-        sprintf(stringBuffer, "fromPi/blob%d/width", j);
+        sprintf(stringBuffer, "/fromPi/blob%d/width", j);
         nt::SetEntryValue(stringBuffer, nt::Value::MakeDouble(-1));
       }
     }
@@ -306,6 +346,7 @@ int main(int argc, char** argv)
         gCurFramesPerSeconds = gFramesPerSecond;
         gFramesPerSecond = 0;
     }
+
   }
   return 0;
 }
