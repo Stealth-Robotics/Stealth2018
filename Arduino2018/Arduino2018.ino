@@ -34,6 +34,8 @@ const int   COLOR_REDUCTION = 27;  // The amount of color to remove on each steo
 const int   BUZZER_PIN = 6;        // Buzzer
 const int   YELLOW_LED_PIN = 13;   // The Yellow LED
 const int   YELLOW_LED_BLINK = 1000;  // The Yellow LED blink rate
+const int   ANALOG_01_PIN = A0;
+const int   ANALOG_02_PIN = A1;
 
 //----------------------------------------------------------------------------
 //  Local Class
@@ -68,6 +70,9 @@ byte mExtra = 1;
 long mLastTime = 0;
 StopWatch mRightLED(MAX_TIME); 
 StopWatch mSpinColorSW(SPIN_TIME);
+uint8 mSensors[MAX_SENSORS];
+int mAnalog01;
+int mAnalog02;
 
 // Comm with Raspberry Pi vars
 uint8 mBuffer[MAX_PACKET];
@@ -135,16 +140,32 @@ void loop()
   {
     mRightLED.Reset();
 
-    mAlliance = mBuffer[LOC_LED_STATUS];
-    int otherCommCount = getU16FrombyteArray(mBuffer, LOC_DATA_START);
+    mAlliance = mBuffer[LOC_PI_LED_STATUS];
+    int otherCommCount = getU16FrombyteArray(mBuffer, LOC_PI_COUNT);
     mCommCount++;
-    putU16IntoU8Array(mSend,LOC_DATA_START,mCommCount);
+    putU16IntoU8Array(mSend,LOC_AR_COUNT,mCommCount);
     Serial.print(" got:");
+    Serial.print(mAnalog01);
+    Serial.print(" ");
+    Serial.print(mAnalog02);
+    Serial.print(" ");
     Serial.println(otherCommCount);
-    mAlliance = mBuffer[LOC_LED_STATUS];
     RemoveDataForNextMessage(MAX_RECEIVE, true);
     mGoodPacket = false;
   }
+
+  getProxSensors();
+
+  mAnalog01 = analogRead(ANALOG_01_PIN);
+  mAnalog02 = analogRead(ANALOG_02_PIN);
+
+  for(int i=0;i<MAX_SENSORS;i++)
+  {
+    mSend[i+LOC_AR_SENSOR_START] = mSensors[i];
+  }
+  putU16IntoU8Array(mSend,LOC_AR_ANALOG_1_START,mAnalog01);
+  putU16IntoU8Array(mSend,LOC_AR_ANALOG_2_START,mAnalog02);
+
 
   // Handle the LED ring
   if(true == mRightLED.IsExpired())
@@ -179,6 +200,31 @@ void loop()
 
   // Let things settle if need be
   delay(1);
+}
+
+//****************************************************************************
+//****************************************************************************
+//****************************************************************************
+//****************************************************************************
+//      
+//  Proximity Sensors
+//
+//****************************************************************************
+//****************************************************************************
+//****************************************************************************
+//****************************************************************************
+
+//----------------------------------------------------------------------------
+//  Purpose:
+//      Get all of the prox sensors and fill the global array
+//
+//  Notes:
+//      None
+//
+//----------------------------------------------------------------------------
+void getProxSensors()
+{
+  
 }
 
 //****************************************************************************
