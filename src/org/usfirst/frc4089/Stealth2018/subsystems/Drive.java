@@ -146,17 +146,9 @@ public class Drive extends Subsystem {
     //--------------------------------------------------------------------  
     public void DriveRobot(Joystick driveJoystick) {
       double  forward = driveJoystick.getRawAxis(Constants.kForwardAxes)*-1;
-      double  mainTurn = driveJoystick.getRawAxis(Constants.kMainTurnAxes)*-1;
-      double  otherTurn = driveJoystick.getRawAxis(Constants.kBackupTurnAxes)*-1;
+      double  turn = driveJoystick.getRawAxis(Constants.kMainTurnAxes)*-1;
       boolean slowButton = driveJoystick.getRawButton(Constants.kSlowButton);
-      boolean fastButton = driveJoystick.getRawButton(Constants.kFastButton);
-      double  actualTurn = mainTurn;  // the turn should be using the right button
-      
-      // if the either button is pushed then the turn is off of the left joystick
-      if((true == slowButton)||(true == fastButton))
-      {
-        actualTurn = otherTurn;
-      }
+      boolean fastButton = driveJoystick.getRawButton(Constants.kFastButton);      
       
       // Adjust for speed, check if the fast button is pushed
       if (true == fastButton) {
@@ -165,20 +157,39 @@ public class Drive extends Subsystem {
         // Is the slow button pushed
         if (true == slowButton) {
           forward *= Constants.kSlowSpeed;
-          actualTurn *= Constants.kSlowSpeed;
+          turn *= Constants.kSlowSpeed;
         } else {
           forward *= Constants.kNormalSpeed;
-          actualTurn *= Constants.kNormalSpeed;
+          turn *= Constants.kNormalSpeed;
         }
       }
       
       // If we are letting the user drive, let the user drive
       if(DriveControlState.OPEN_LOOP == mState)
       {
-        DriveRobot(forward, actualTurn);
+        DriveRobot(forward, turn);
       }
     }
-
+    
+    
+    //--------------------------------------------------------------------
+    // Purpose:
+    //     Drive the robot using throttle and turn 
+    //
+    // Notes:
+    //     Usually used in auto when we want to reset things
+    //--------------------------------------------------------------------  
+    public void DriveRobot(double speed, double turn) {      
+      // IF we are turning, turn off the gyro
+      if (Math.abs(turn) > 0.15) {
+        RawDriveRobot(speed/1.1, turn/1.1);
+        mTargetAngle = mCurrentAngle;
+      } else {
+        RawDriveRobot(speed,turn);
+        mTargetAngle = mCurrentAngle;
+      }
+    }
+    
     //--------------------------------------------------------------------
     // Purpose:
     //     Drive the robot using throttle and turnm it adds the gyro 
@@ -186,7 +197,7 @@ public class Drive extends Subsystem {
     // Notes:
     //     Usually used in auto when we want to reset things
     //--------------------------------------------------------------------  
-    public void DriveRobot(double speed, double turn) {
+    public void DriveRobotWithGyro(double speed, double turn) {
       PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
       double [] xyz_dps = new double [3];
       RobotMap.pigeonIMU.getRawGyro(xyz_dps);
