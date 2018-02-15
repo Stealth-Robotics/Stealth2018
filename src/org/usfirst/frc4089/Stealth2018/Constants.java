@@ -70,6 +70,22 @@ public class Constants {
 	public static final double rightDrivekI = 0.001; // propotional turning constant
     public static final double rightDrivekMaxAcum = 1000;
     
+    //below are values for PING)) PID control
+ // proportional speed constant
+ 	private static final double pingkP = 7.0;
+
+ 	// integral speed constant
+ 	private static final double pingkI = 0.018;
+
+ 	// derivative speed constant
+ 	private static final double pingkD = 1.5;
+ 	
+ 	// max distance in cm
+ 	private static final double pingMaxD = 100;
+ 	
+ 	// hold distance in cm
+ 	private static final double pingHoldD = 10;
+ 	
     
 	//TODO refactor for 2018
 	//below are values from 2017
