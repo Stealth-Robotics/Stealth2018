@@ -29,8 +29,10 @@ import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+
 import org.usfirst.frc4089.Stealth2018.utilities.*;
 
 
@@ -48,8 +50,8 @@ public class Drive extends Subsystem {
   //----------------------------------------------------------------------------
   //  Class Constants 
   //----------------------------------------------------------------------------
-  static final double kPgain = 0.03; /* percent throttle per degree of error */
-  static final double kDgain = 0.0004; /* percent throttle per angular velocity dps */
+  static final double kPgain = 0.003; /* percent throttle per degree of error */
+  static final double kDgain = 0.0002; /* percent throttle per angular velocity dps */
   static final double kMaxCorrectionRatio = 0.20; /* cap corrective turning throttle to 30 percent of forward throttle */
   static final double kSpeedGain = 0.05; // The ramp for the speed
   
@@ -109,7 +111,6 @@ public class Drive extends Subsystem {
   //     None.
   //--------------------------------------------------------------------   
     public void initDefaultCommand() {
-    	System.out.println("Drive init");
     	setDefaultCommand(new UserDrive());
     }
 
@@ -145,29 +146,29 @@ public class Drive extends Subsystem {
     //     none
     //--------------------------------------------------------------------  
     public void DriveRobot(Joystick driveJoystick) {
-      double  forward = driveJoystick.getRawAxis(Constants.kForwardAxes)*-1;
-      double  turn = driveJoystick.getRawAxis(Constants.kMainTurnAxes)*-1;
-      boolean slowButton = driveJoystick.getRawButton(Constants.kSlowButton);
-      boolean fastButton = driveJoystick.getRawButton(Constants.kFastButton);      
-      
+      double y = driveJoystick.getRawAxis(1);
+      double x = driveJoystick.getRawAxis(2);
+
+      x = DriveMath.DeadBand(x,0.25);
+      y = DriveMath.DeadBand(y,0.25);
+          
       // Adjust for speed, check if the fast button is pushed
-      if (true == fastButton) {
+      if (true == driveJoystick.getRawButton(Constants.kFastButton)) {
         // Do Nothing
       } else {
         // Is the slow button pushed
-        if (true == slowButton) {
-          forward *= Constants.kSlowSpeed;
-          turn *= Constants.kSlowSpeed;
+        if (true == driveJoystick.getRawButton(Constants.kSlowButton)) {
+          y *= Constants.kSlowSpeed;
+          x *= Constants.kSlowSpeed;
         } else {
-          forward *= Constants.kNormalSpeed;
-          turn *= Constants.kNormalSpeed;
+          y *= Constants.kNormalSpeed;
+          x *= Constants.kNormalSpeed;
         }
       }
       
-      // If we are letting the user drive, let the user drive
       if(DriveControlState.OPEN_LOOP == mState)
       {
-        DriveRobot(forward, turn);
+        DriveRobot(y, x);
       }
     }
     
@@ -180,13 +181,32 @@ public class Drive extends Subsystem {
     //     Usually used in auto when we want to reset things
     //--------------------------------------------------------------------  
     public void DriveRobot(double speed, double turn) {      
+      PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
+      double [] xyz_dps = new double [3];
+      RobotMap.pigeonIMU.getRawGyro(xyz_dps);
+      RobotMap.pigeonIMU.getFusedHeading(fusionStatus);
+      
+      mCurrentAngle = fusionStatus.heading;
+      double currentAngularRate = xyz_dps[2];
+      double turnThrottle = turn;
+      
       // IF we are turning, turn off the gyro
-      if (Math.abs(turn) > 0.15) {
-        RawDriveRobot(speed/1.1, turn/1.1);
+      if (Math.abs(turn) > 0.2) {
+        RawDriveRobot(speed*.5, turn*.5);
         mTargetAngle = mCurrentAngle;
       } else {
-        RawDriveRobot(speed,turn);
-        mTargetAngle = mCurrentAngle;
+        if (Math.abs(speed) > 0.1) {
+          double angleError = (mTargetAngle - mCurrentAngle);
+          turnThrottle = angleError * kPgain - (currentAngularRate) * kDgain;
+          double maxThrot = DriveMath.MaxCorrection(speed, kMaxCorrectionRatio);
+          turnThrottle =  -1*DriveMath.Cap(turnThrottle, maxThrot);
+          RawDriveRobot(speed,turnThrottle);
+        }
+        else
+        {
+          RawDriveRobot(0, 0);
+          mTargetAngle = mCurrentAngle;
+        }
       }
     }
     
@@ -245,7 +265,6 @@ public class Drive extends Subsystem {
     //     None
     //--------------------------------------------------------------------  
     protected void RawDriveRobot(double speed, double turn) {
-      
       // Ramp the speed
       if(mActualSpeed != speed)
       {
@@ -259,25 +278,23 @@ public class Drive extends Subsystem {
         }
       }
       
-      double targetSpeedL = (mActualSpeed - turn) * 3383.00;
-      double targetSpeedR = (mActualSpeed + turn) * 3019.71;
+      double targetSpeedL = (mActualSpeed + turn) * 4000;
+      double targetSpeedR = (mActualSpeed - turn) * 4000;
       RobotMap.driveSRXDriveLF.set(ControlMode.Velocity, targetSpeedL);
       RobotMap.driveSRXDriveRF.set(ControlMode.Velocity, targetSpeedR);
-
-      RobotMap.netTable.putNumber("lMotor", RobotMap.driveSRXDriveLF.getMotorOutputVoltage());
-      RobotMap.netTable.putNumber("rMotor", RobotMap.driveSRXDriveRF.getMotorOutputVoltage());
-      RobotMap.netTable.putNumber("lEncoder", RobotMap.driveSRXDriveLF.getSelectedSensorVelocity(0));
-      RobotMap.netTable.putNumber("rEncoder", RobotMap.driveSRXDriveLF.getSelectedSensorVelocity(0));
-
-      if(mDisplay.isExpired())
+/*
+      if(true == mDisplay.isExpired())
       {
         mDisplay.reset();
-        System.out.format("%6d %6d %6d %6d\n", 
+        double timestamp = Timer.getFPGATimestamp();    
+        System.out.format("%f %6.2f %6.2f %6d %6d %6d %6d\n",
+            timestamp,targetSpeedL,targetSpeedR,
           RobotMap.driveSRXDriveLF.getSelectedSensorPosition(0),
+          RobotMap.driveSRXDriveLF.getSelectedSensorVelocity(0),
           RobotMap.driveSRXDriveRF.getSelectedSensorPosition(0),
-          RobotMap.driveSRXDriveLR.getSelectedSensorVelocity(0),
-          RobotMap.driveSRXDriveRR.getSelectedSensorVelocity(0));
+          RobotMap.driveSRXDriveRF.getSelectedSensorVelocity(0));
       }
-   }
+      */
+    }
 }
 

@@ -52,15 +52,29 @@ public class RobotMap {
     public static WPI_TalonSRX driveSRXDriveLF;
     public static WPI_TalonSRX driveSRXDriveRR;
     public static WPI_TalonSRX driveSRXDriveRF;
-    public static Encoder elevatorQuadEncElevator;
-    public static WPI_TalonSRX elevatorSRX5Elevator;
-    public static PIDController elevatorPIDController1;
-    public static DigitalInput elevatorSwitch7ElevatorTop;
-    public static DigitalInput elevatorSwitch8ElevatorBottom;
-    public static WPI_TalonSRX pickerSRX6PickerL;
-    public static WPI_TalonSRX pickerSRX7PickerR;
-    public static DigitalInput pickerSwitch1Picker;
+    
+    public static WPI_TalonSRX pickerSRXPickerL;
+    public static WPI_TalonSRX pickerSRXPickerR;
+    
     public static DoubleSolenoid pickerDoubleSolenoid1Pick;
+    public static Compressor utilitiesPCMCompressor;
+    
+    // Elevator
+    public static Encoder elevatorEncoder;
+    public static DigitalInput elevatorSwitchTop;
+    public static DigitalInput elevatorSwitchBottom;
+    public static WPI_TalonSRX elevatorMotor;
+
+    // Picker
+    public static Encoder pickerElevatorEncoder;
+    public static DigitalInput pickerElevatorSwitchTop;
+    public static DigitalInput pickerElevatorSwitchBottom;
+    public static WPI_TalonSRX pickerElevatorMotor;
+    
+    
+    public static PIDController elevatorPIDController1;
+    public static DigitalInput pickerSwitchTop;
+    public static DigitalInput pickerSwitch1Picker;
     public static DoubleSolenoid pickerDSolenoidArticulationR;
     public static DoubleSolenoid pickerDoubleSolenoid1;
     public static WPI_TalonSRX climberSRR8Climb;
@@ -68,8 +82,7 @@ public class RobotMap {
     public static AnalogGyro navigationAnalogGyro1;
     public static Ultrasonic navigationUltrasonic1;
     public static DigitalInput navigationDigitalInput1NullZoneColor;
-    public static PowerDistributionPanel utilitiesPowerDistributionPanel1;
-    public static Compressor utilitiesPCMCompressor;
+//    public static PowerDistributionPanel utilitiesPowerDistributionPanel1;
     public static SpeedController pickerPWMTalonSRRF;
     public static SpeedController pickerPWMTalonSRLR;
     public static SpeedController pickerPWMTalonSRLF;
@@ -88,13 +101,30 @@ public class RobotMap {
         driveSRXDriveLF = new WPI_TalonSRX(Constants.CANTalonSRXDriveLF);
         driveSRXDriveRR = new WPI_TalonSRX(Constants.CANTalonSRXDriveRR);
         driveSRXDriveRF = new WPI_TalonSRX(Constants.CANTalonSRXDriveRF);
-/*        
+
+        pickerSRXPickerL = new WPI_TalonSRX(Constants.CANTalonSRXPickerL);
+        pickerSRXPickerR = new WPI_TalonSRX(Constants.CANTalonSRXPickerR);
+        
+        //pickerDoubleSolenoid1Pick = new DoubleSolenoid(0, 0, 1);
+//        utilitiesPowerDistributionPanel1 = new PowerDistributionPanel(18);
+        utilitiesPCMCompressor = new Compressor(16);
+        utilitiesPCMCompressor.setClosedLoopControl(true);
+        utilitiesPCMCompressor.setClosedLoopControl(false);
+
+        elevatorSwitchTop  = new DigitalInput(9);
+        elevatorSwitchBottom = new DigitalInput(8);
+        elevatorEncoder  = new Encoder(0, 1, false);
+        elevatorMotor = new WPI_TalonSRX(Constants.CANTalonSRXElevator);
+        
+        pickerElevatorSwitchTop = new DigitalInput(7);
+        pickerElevatorSwitchBottom = new DigitalInput(6);
+        pickerElevatorEncoder  = new Encoder(2, 3, false);
+        pickerElevatorMotor = new WPI_TalonSRX(Constants.CANTalonSRXElevator);
+     
+        
+        /*        
         elevatorSRX5Elevator = new WPI_TalonSRX(Constants.CANTalonSRXElevator);
         
-        pickerSRX6PickerL = new WPI_TalonSRX(Constants.CANTalonSRXPickerL);
-        
-        
-        pickerSRX7PickerR = new WPI_TalonSRX(Constants.CANTalonSRXPickerR);
         
         climberSRR8Climb = new WPI_TalonSRX(Constants.CANTalonSRXClimb);
                 
@@ -120,7 +150,6 @@ public class RobotMap {
         pickerSwitch1Picker = new DigitalInput(6);
 //        LiveWindow.addSensor("Picker", "Switch1Picker", pickerSwitch1Picker);
         
-        pickerDoubleSolenoid1Pick = new DoubleSolenoid(0, 0, 1);
 //        LiveWindow.addActuator("Picker", "Double Solenoid 1 Pick", pickerDoubleSolenoid1Pick);
         
         pickerDSolenoidArticulationR = new DoubleSolenoid(0, 4, 5);
@@ -142,10 +171,7 @@ public class RobotMap {
         navigationDigitalInput1NullZoneColor = new DigitalInput(11);
 //        LiveWindow.addSensor("Navigation", "Digital Input 1 Null Zone Color", navigationDigitalInput1NullZoneColor);
 */        
-        utilitiesPowerDistributionPanel1 = new PowerDistributionPanel(18);
-        LiveWindow.addSensor("Utilities", "PowerDistributionPanel 1", utilitiesPowerDistributionPanel1);
 /*        
-        utilitiesPCMCompressor = new Compressor(16);
 //        LiveWindow.addActuator("Utilities", "PCMCompressor", utilitiesPCMCompressor);
         
         pickerPWMTalonSRRF = new Talon(1);

@@ -81,6 +81,25 @@ public class DriveMath {
     // Notes:
     // None.
     // --------------------------------------------------------------------
+    static public double DeadBand(double axisVal, double value) {
+      if (axisVal < -value) {
+        return axisVal;
+      }
+
+      if (axisVal > value) {
+        return axisVal;
+      }
+
+      return 0;
+    }
+
+    // --------------------------------------------------------------------
+    // Purpose:
+    // Return the value with a dead band where it is zero
+    //
+    // Notes:
+    // None.
+    // --------------------------------------------------------------------
     static public double DeadBand(double axisVal) {
       if (axisVal < -0.10) {
         return axisVal;

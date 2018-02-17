@@ -45,7 +45,7 @@ public class UserDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	LogMech.logMe();
+    	//LogMech.logMe();
     	//Robot.drive.operatorDrive(Robot.oi.getDriveStick());
     	//Robot.drive.operatorXBOXTankDrive(Robot.oi.xboxController1.getY(Hand.kLeft), Robot.oi.xboxController1.getY(Hand.kRight));
     	Robot.drive.DriveRobot(Robot.oi.getJoystick1());

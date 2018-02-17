@@ -37,7 +37,7 @@ public class Constants {
 
   // Drivers Speed
   public static final double kNormalSpeed = 0.5;
-  public static final double kSlowSpeed = 0.15;
+  public static final double kSlowSpeed = 0.3;
 	
   // Gyro Constants
   public static final int kGyroZ = 2;

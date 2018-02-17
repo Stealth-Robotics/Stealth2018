@@ -168,7 +168,7 @@ public class Robot extends TimedRobot {
         //print out selected path finding string
         System.out.println("Using : " + selectedPath + " for Autonomus");
         
-        
+        RobotMap.utilitiesPCMCompressor.setClosedLoopControl(true);
         RobotMap.SetUpTalonsForAuto();
         Robot.drive.SetAuto();
     }
@@ -191,6 +191,7 @@ public class Robot extends TimedRobot {
         System.out.println("tele init");
         RobotMap.SetUpTalonsForTele();
         Robot.drive.SetTele();
+        RobotMap.utilitiesPCMCompressor.setClosedLoopControl(true);
     }
 
     /**
@@ -199,5 +200,27 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        //RobotMap.utilitiesPCMCompressor.setClosedLoopControl(true);
+        RobotMap.utilitiesPCMCompressor.enabled();
+        RobotMap.utilitiesPCMCompressor.start();
+        
+        Robot.drive.DriveRobot(oi.joystick1);
+        Robot.elevator.DriveElevator(oi.joystick2);
+        
+        boolean enabled = RobotMap.utilitiesPCMCompressor.enabled();
+        boolean pressureSwitch = RobotMap.utilitiesPCMCompressor.getPressureSwitchValue();
+        double current = RobotMap.utilitiesPCMCompressor.getCompressorCurrent();
+        
+        System.out.format("%s %s %f\n", enabled?"true":"false",
+            pressureSwitch?"true":"false",current);
     }
+    
+    
+    @Override
+    public void testPeriodic() {
+      System.out.format("%b %b %d\n", 
+          RobotMap.elevatorSwitchTop.get(),
+          RobotMap.pickerSwitchTop.get(),
+          RobotMap.elevatorEncoder.get());
+    }   
 }

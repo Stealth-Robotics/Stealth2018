@@ -42,7 +42,7 @@ public class LogMech {
         // setDefaultCommand(new MySpecialCommand());
     }
     
-    public static void logMe(){
+  public static void logMe(){
     	
     	//System.out.print("Left Encoder: ");
     	//System.out.print(-RobotMap.driveLeftMotor1.getEncPosition());
