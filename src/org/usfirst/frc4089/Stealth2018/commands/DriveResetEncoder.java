@@ -11,6 +11,7 @@
 
 package org.usfirst.frc4089.Stealth2018.commands;
 import org.usfirst.frc4089.Stealth2018.Robot;
+import org.usfirst.frc4089.Stealth2018.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -46,11 +47,14 @@ public class DriveResetEncoder extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true
-    protected void end() {
+    protected void end() 
+    {
+    	RobotMap.driveQuadEncLeftDrive.reset();
+    	RobotMap.driveQuadEncRightDrive.reset();
     }
 
     // Called when another command which requires one or more of the same

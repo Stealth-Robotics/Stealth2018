@@ -68,4 +68,6 @@ public class Constants {
 	public final static double autoFWSpdRight = 0.5;
 	public final static double autoFWSpdLeft = 0.5872;//0.671;
 
+	//other
+	public final static int BlockBufferSize = 25;
 }
