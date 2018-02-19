@@ -198,16 +198,14 @@ public class Robot extends TimedRobot {
         //Robot.drive.DriveRobot(oi.driveJoystick);
         Robot.elevator.DriveElevator(oi.mechJoystick);
         
-<<<<<<< HEAD
-        System.out.format("%s %s %f\n", enabled?"true":"false",
-            pressureSwitch?"true":"false",current);
+
+        //System.out.format("%s %s %f\n", enabled?"true":"false", pressureSwitch?"true":"false",current);
         
         Robot.elevator.MoveElevatorToTarget();
         Robot.elevator.MovePickerElevatorToTarget();
-=======
+
         RobotMap.pickerLeftMotor.set(oi.mechJoystick.getRawAxis(0));
         RobotMap.pickerRightMotor.set(oi.mechJoystick.getRawAxis(0));
->>>>>>> eccf779928d411c22695f19ec01b4abe575acfe5
     }
     
     
