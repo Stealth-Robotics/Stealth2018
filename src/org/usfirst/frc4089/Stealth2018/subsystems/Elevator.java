@@ -28,10 +28,6 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-
-/**
- *
- */
 public class Elevator extends Subsystem {
     public void initDefaultCommand() {
       setDefaultCommand(new UserElevator());
@@ -46,7 +42,19 @@ public class Elevator extends Subsystem {
     //--------------------------------------------------------------------  
     public void DriveElevator(Joystick driveJoystick) {
       HandleElevator(driveJoystick.getRawAxis(1));
-      HandlePickerElevator(driveJoystick.getRawAxis(3));
+      HandlePickerElevator(driveJoystick.getRawAxis(5));
+      
+      System.out.format("%b %b %b %b %f %f %d %d\n", 
+          RobotMap.elevatorSwitchTop.get(),
+          RobotMap.elevatorSwitchBottom.get(),
+          RobotMap.pickerElevatorSwitchTop.get(),
+          RobotMap.pickerElevatorSwitchBottom.get(),
+          driveJoystick.getRawAxis(1),
+          driveJoystick.getRawAxis(5),
+          RobotMap.elevatorEncoder.get(),
+          RobotMap.pickerElevatorEncoder.get()
+          );
+
     }
     
       //--------------------------------------------------------------------
@@ -60,7 +68,7 @@ public class Elevator extends Subsystem {
       boolean elevatorSwitchTop = RobotMap.elevatorSwitchTop.get();
       boolean elevatorSwitchBottom = RobotMap.elevatorSwitchBottom.get();
       int elevatorEncoderTicks = RobotMap.elevatorEncoder.get();
-      
+
       yElevator = DriveMath.DeadBand(yElevator,0.25);
 
       if(true == elevatorSwitchBottom)
@@ -83,6 +91,9 @@ public class Elevator extends Subsystem {
         }
       }
 
+      yElevator *= 0.7;
+      System.out.format("%f  ", yElevator);
+      
       RobotMap.elevatorMotor.set(yElevator);
       
     }
@@ -120,7 +131,7 @@ public class Elevator extends Subsystem {
         }
       }
 
-      RobotMap.pickerElevatorMotor.set(yElevator);
+      RobotMap.pickerElevatorMotor.set(yElevator*-1);
     }
 }
 
