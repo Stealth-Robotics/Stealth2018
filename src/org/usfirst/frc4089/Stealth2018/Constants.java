@@ -12,18 +12,18 @@ public class Constants {
 	public static final double pickerLeftSpeed = 1;
 	public static final double pickerRightSpeed = 1;
 	
-	// CAN assignments
+	// Drive Assignments
 	public static final int CANTalonSRXDriveLR = 3;
 	public static final int CANTalonSRXDriveLF = 1;
 	public static final int CANTalonSRXDriveRR = 4;
 	public static final int CANTalonSRXDriveRF = 2;
+	
+	// Elevator Picker Assignments 
 	public static final int CANTalonSRXElevator = 5;
 	public static final int CANTalonSRXPickerL = 6;
-	public static final int CANTalonSRXPickerR = 7;
-	public static final int CANTalonSRXClimb = 8;
+	public static final int CANTalonSRXPickerR = 8;
+	public static final int CANTalonSRXClimb = 7;
 	
-	   
-     
 	public static final int CANPCM1 = 16;
 	public static final int CANPCM2 = 17;
 	public static final int CANPDP = 18;

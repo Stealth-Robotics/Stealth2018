@@ -28,10 +28,6 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-
-/**
- *
- */
 public class Elevator extends Subsystem {
     private int elevatorTargetTick;
     private int pickerElevatorTargetTick;
@@ -53,6 +49,21 @@ public class Elevator extends Subsystem {
     public void DriveElevator(Joystick driveJoystick) {
       HandleElevator(driveJoystick.getRawAxis(1));
       HandlePickerElevator(driveJoystick.getRawAxis(5));
+<<<<<<< HEAD
+=======
+      
+      System.out.format("%b %b %b %b %f %f %d %d\n", 
+          RobotMap.elevatorSwitchTop.get(),
+          RobotMap.elevatorSwitchBottom.get(),
+          RobotMap.pickerElevatorSwitchTop.get(),
+          RobotMap.pickerElevatorSwitchBottom.get(),
+          driveJoystick.getRawAxis(1),
+          driveJoystick.getRawAxis(5),
+          RobotMap.elevatorEncoder.get(),
+          RobotMap.pickerElevatorEncoder.get()
+          );
+
+>>>>>>> eccf779928d411c22695f19ec01b4abe575acfe5
     }
     
       //--------------------------------------------------------------------
@@ -62,6 +73,7 @@ public class Elevator extends Subsystem {
       // Notes:
       //     none
       //--------------------------------------------------------------------  
+<<<<<<< HEAD
     public void HandleElevator(double yElevator) {
 	  boolean elevatorSwitchTop = RobotMap.elevatorSwitchTop.get();
 	  boolean elevatorSwitchBottom = RobotMap.elevatorSwitchBottom.get();
@@ -94,6 +106,42 @@ public class Elevator extends Subsystem {
    
     
 
+=======
+      public void HandleElevator(double yElevator) {
+      boolean elevatorSwitchTop = RobotMap.elevatorSwitchTop.get();
+      boolean elevatorSwitchBottom = RobotMap.elevatorSwitchBottom.get();
+      int elevatorEncoderTicks = RobotMap.elevatorEncoder.get();
+
+      yElevator = DriveMath.DeadBand(yElevator,0.25);
+
+      if(true == elevatorSwitchBottom)
+      {
+        // If the elevator is at the bottom and we want ot go down, don't
+        if(yElevator > 0)
+        {
+          yElevator = 0;
+        }
+        RobotMap.elevatorEncoder.reset();
+      }
+      else
+      {
+        if(true == elevatorSwitchTop)
+        {
+          if(yElevator < 0)
+          {
+            yElevator = 0;
+          }
+        }
+      }
+
+      yElevator *= 0.7;
+      System.out.format("%f  ", yElevator);
+      
+      RobotMap.elevatorMotor.set(yElevator);
+      
+    }
+ 
+>>>>>>> eccf779928d411c22695f19ec01b4abe575acfe5
       //--------------------------------------------------------------------
       // Purpose:
       //     Drive using the joystick 
@@ -125,9 +173,13 @@ public class Elevator extends Subsystem {
         }
       }
 
+<<<<<<< HEAD
 	  pickerElevatorTargetTick += yElevator * 10;
 
 	  SetPickerElevatorTarget(pickerElevatorTargetTick);
+=======
+      RobotMap.pickerElevatorMotor.set(yElevator*-1);
+>>>>>>> eccf779928d411c22695f19ec01b4abe575acfe5
     }
   
 
