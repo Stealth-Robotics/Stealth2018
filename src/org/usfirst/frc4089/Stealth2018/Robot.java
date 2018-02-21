@@ -54,9 +54,9 @@ public class Robot extends TimedRobot {
         RobotMap.init();
         
         //start camera server
-     //   UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-     //   camera.setResolution(160,120);
-     //   camera.setFPS(24);
+        UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+        camera.setResolution(160,120);
+        camera.setFPS(24);
         
         
         //for Hololens Debug
@@ -198,6 +198,12 @@ public class Robot extends TimedRobot {
         //Robot.drive.DriveRobot(oi.driveJoystick);
         Robot.elevator.DriveElevator(oi.mechJoystick);
         
+
+        //System.out.format("%s %s %f\n", enabled?"true":"false", pressureSwitch?"true":"false",current);
+        
+        Robot.elevator.MoveElevatorToTarget();
+        Robot.elevator.MovePickerElevatorToTarget();
+
         RobotMap.pickerLeftMotor.set(oi.mechJoystick.getRawAxis(0));
         RobotMap.pickerRightMotor.set(oi.mechJoystick.getRawAxis(0));
     }

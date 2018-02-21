@@ -29,6 +29,12 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Elevator extends Subsystem {
+    private int elevatorTargetTick;
+    private int pickerElevatorTargetTick;
+  	private int pidElevatorTarget;
+  	private int pidPickerElevatorTarget;
+
+	
     public void initDefaultCommand() {
       setDefaultCommand(new UserElevator());
     }
@@ -43,18 +49,6 @@ public class Elevator extends Subsystem {
     public void DriveElevator(Joystick driveJoystick) {
       HandleElevator(driveJoystick.getRawAxis(1));
       HandlePickerElevator(driveJoystick.getRawAxis(5));
-      
-      System.out.format("%b %b %b %b %f %f %d %d\n", 
-          RobotMap.elevatorSwitchTop.get(),
-          RobotMap.elevatorSwitchBottom.get(),
-          RobotMap.pickerElevatorSwitchTop.get(),
-          RobotMap.pickerElevatorSwitchBottom.get(),
-          driveJoystick.getRawAxis(1),
-          driveJoystick.getRawAxis(5),
-          RobotMap.elevatorEncoder.get(),
-          RobotMap.pickerElevatorEncoder.get()
-          );
-
     }
     
       //--------------------------------------------------------------------
@@ -64,39 +58,35 @@ public class Elevator extends Subsystem {
       // Notes:
       //     none
       //--------------------------------------------------------------------  
-      public void HandleElevator(double yElevator) {
-      boolean elevatorSwitchTop = RobotMap.elevatorSwitchTop.get();
-      boolean elevatorSwitchBottom = RobotMap.elevatorSwitchBottom.get();
-      int elevatorEncoderTicks = RobotMap.elevatorEncoder.get();
-
-      yElevator = DriveMath.DeadBand(yElevator,0.25);
-
-      if(true == elevatorSwitchBottom)
-      {
-        // If the elevator is at the bottom and we want ot go down, don't
-        if(yElevator > 0)
-        {
-          yElevator = 0;
-        }
-        RobotMap.elevatorEncoder.reset();
-      }
-      else
-      {
-        if(true == elevatorSwitchTop)
-        {
-          if(yElevator < 0)
-          {
-            yElevator = 0;
-          }
-        }
-      }
-
-      yElevator *= 0.7;
-      System.out.format("%f  ", yElevator);
-      
-      RobotMap.elevatorMotor.set(yElevator);
-      
-    }
+    public void HandleElevator(double yElevator) {
+	  boolean elevatorSwitchTop = RobotMap.elevatorSwitchTop.get();
+	  boolean elevatorSwitchBottom = RobotMap.elevatorSwitchBottom.get();
+		  
+	  yElevator = DriveMath.DeadBand(yElevator, 0.25);
+	
+	  if(true == elevatorSwitchBottom)
+	  {
+	    // If the elevator is at the bottom and we want to go down, don't
+	    if(yElevator > 0)
+	    {
+	      yElevator = 0;
+	    }
+	  }
+	  else
+	  {
+	    if(true == elevatorSwitchTop)
+	    {
+	      if(yElevator < 0)
+	      {
+	        yElevator = 0;
+	      }
+	    }
+	  }
+	  
+	  elevatorTargetTick += yElevator * 10;
+	  	 
+	  SetElevatorTarget(elevatorTargetTick);
+    }   
  
       //--------------------------------------------------------------------
       // Purpose:
@@ -105,20 +95,18 @@ public class Elevator extends Subsystem {
       // Notes:
       //     none
       //--------------------------------------------------------------------  
-      public void HandlePickerElevator(double yElevator) {
-      boolean elevatorSwitchTop = RobotMap.pickerElevatorSwitchTop.get();
-      boolean elevatorSwitchBottom = RobotMap.pickerElevatorSwitchBottom.get();
+    public void HandlePickerElevator(double yElevator) {
+    	boolean elevatorSwitchTop = RobotMap.pickerElevatorSwitchTop.get();
+        boolean elevatorSwitchBottom = RobotMap.pickerElevatorSwitchBottom.get();
       
       yElevator = DriveMath.DeadBand(yElevator,0.25);
 
       if(true == elevatorSwitchBottom)
       {
-        // If the elevator is at the bottom and we want ot go down, don't
         if(yElevator > 0)
         {
           yElevator = 0;
         }
-        RobotMap.pickerElevatorEncoder.reset();
       }
       else
       {
@@ -131,7 +119,128 @@ public class Elevator extends Subsystem {
         }
       }
 
-      RobotMap.pickerElevatorMotor.set(yElevator*-1);
+	  pickerElevatorTargetTick += yElevator * 10;
+
+	  SetPickerElevatorTarget(pickerElevatorTargetTick);
     }
+  
+
+  	public void SetElevatorTarget(int target) {
+		pidElevatorTarget = target;
+	}
+  
+  	
+  final double elevatorKPconst = 0.01;
+  public void MoveElevatorToTarget() {
+	  //get limit switches
+	  boolean elevatorSwitchTop = RobotMap.elevatorSwitchTop.get();
+      boolean elevatorSwitchBottom = RobotMap.elevatorSwitchBottom.get();
+      //reset encoder if at bottom switch
+	  if (elevatorSwitchBottom == true) {
+    	  RobotMap.elevatorEncoder.reset();
+      }
+	  //get current ticks
+	  int elevatorEncoderTicks = RobotMap.elevatorEncoder.get();
+	  //calculate error
+	  double error = pidElevatorTarget - elevatorEncoderTicks;
+	  //set the motor power
+	  double motorOutput = error * elevatorKPconst;
+	  //clamp the value between -1 and 1
+	  motorOutput = Math.max(-1, Math.min(1, motorOutput));
+	  //make sure it doesn't go past limit switches
+	  if (elevatorSwitchBottom == true && motorOutput < 0) {
+		  motorOutput = 0;
+	  }
+	  
+	  if (elevatorSwitchTop == true && motorOutput > 0) {
+		  motorOutput = 0;
+	  }
+	  //set the motor to the correct value
+	  RobotMap.elevatorMotor.set(motorOutput);
+	  //Debugin stuff
+	  System.out.println("elevatorEncoderTicks: " + elevatorEncoderTicks);
+	  System.out.println("elevatorMotorPower: " + RobotMap.elevatorMotor.get());
+ }
+ 
+ public void SetPickerElevatorTarget(int target) {
+ 	pidPickerElevatorTarget = target;
+ }
+
+ final double pickerElevatorKPconst = 0.01;
+ public void MovePickerElevatorToTarget() {
+	 //get limit switches
+	 boolean elevatorSwitchTop = RobotMap.pickerElevatorSwitchTop.get();
+     boolean elevatorSwitchBottom = RobotMap.pickerElevatorSwitchBottom.get();
+     //reset encoder if at bottom switch
+	  if (elevatorSwitchBottom == true) {
+   	  RobotMap.pickerElevatorEncoder.reset();
+     }
+	  //get current ticks
+	  int pickerElevatorEncoderTicks = RobotMap.pickerElevatorEncoder.get();
+	  //calculate error
+	  double error = pidPickerElevatorTarget - pickerElevatorEncoderTicks;
+	  //set the motor power
+	  double motorOutput = error * pickerElevatorKPconst;
+	  //clamp the value between -1 and 1
+	  motorOutput = Math.max(-1, Math.min(1, motorOutput));
+	  //make sure it doesn't go past limit switches
+	  if (elevatorSwitchBottom == true && motorOutput < 0) {
+		  motorOutput = 0;
+	  }
+	  
+	  if (elevatorSwitchTop == true && motorOutput > 0) {
+		  motorOutput = 0;
+	  }
+	  //set the motor to the correct value
+	  RobotMap.pickerElevatorMotor.set(motorOutput);
+	  //Debugin stuff
+	  System.out.println("pickerElevatorEncoderTicks: " + pickerElevatorEncoderTicks);
+	  System.out.println("pickerElevatorMotorPower: " + RobotMap.pickerElevatorMotor.get());
+	 
+	 /*boolean elevatorSwitchTop = RobotMap.pickerElevatorSwitchTop.get();
+     boolean elevatorSwitchBottom = RobotMap.pickerElevatorSwitchBottom.get();
+     
+     if (elevatorSwitchBottom == true) {
+    	 RobotMap.pickerElevatorEncoder.reset();
+     }
+	 
+	 // when -100000, lower until bottom limit 2 == true
+	 
+	  int pickerElevatorEncoderTicks = RobotMap.pickerElevatorEncoder.get();
+	  if(pidPickerElevatorTarget == pickerElevatorEncoderTicks)
+	  {
+		  RobotMap.pickerElevatorMotor.set(0);
+	  }
+	  if(pidPickerElevatorTarget < pickerElevatorEncoderTicks)
+	  {
+		  RobotMap.pickerElevatorMotor.set(1);
+	  }
+	  else if(pidPickerElevatorTarget > pickerElevatorEncoderTicks)
+	  {
+		  RobotMap.pickerElevatorMotor.set(-1);
+	  }
+	  
+	  System.out.println("pickerElevatorEncoderTicks: " + pickerElevatorEncoderTicks);*/
+ } 
+   
+ //TODO: Move to it's own command not under the elevator subsystem
+  public void EngageClimbHook() {
+	  //1. Lower elevator to bottom (limit switch 1 = true)
+	  SetElevatorTarget(0);
+	  SetPickerElevatorTarget(0);
+	  
+	  //2. Engage climb hook pneumatic 
+	  
+	  
+	  //3. Lower elevator to retract grabber
+	  SetPickerElevatorTarget(-100000); 
+	  
+	  //4. Engage pneumatic to lock grabber in upright position
+	  
+	  
+	  //5. Return to user drive mode
+	  
+	  
+  }
 }
 
