@@ -13,34 +13,20 @@ package org.usfirst.frc4089.Stealth2018.commands;
 import org.usfirst.frc4089.Stealth2018.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.Joystick;
 
 /**
  *
  */
 public class GrabBlock extends Command {
-  
     public GrabBlock() {
         requires(Robot.picker);
-        System.out.println("GrabBlock");
     }
 
     protected void initialize() {
-      System.out.println("Init");
     }
 
     protected void execute() {
     	Robot.picker.hugBlock();
-    	
-        if(true == Robot.oi.mechJoystick.getRawButton(3))
-        {
-          Robot.picker.lockPicker();
-        }
-        
-        if(true == Robot.oi.mechJoystick.getRawButton(4))
-        {
-          Robot.picker.unlockPciker();
-        }
     }
 
     protected boolean isFinished() {

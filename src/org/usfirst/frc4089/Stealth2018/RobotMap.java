@@ -70,7 +70,6 @@ public class RobotMap {
     public static Encoder pickerElevatorEncoder;
     public static DigitalInput pickerElevatorSwitchTop;
     public static DigitalInput pickerElevatorSwitchBottom;
-    public static DigitalInput pickerElevatorTotalBottom;
     public static WPI_TalonSRX pickerElevatorMotor;
     
     public static WPI_TalonSRX pickerLeftMotor;
@@ -94,9 +93,7 @@ public class RobotMap {
     public static AnalogInput pickerPWMSharpDistPickCube;
 
     public static Solenoid pickerArms;
-    public static Solenoid pickerLock;
     public static Solenoid climberGrabber;
-    
     
     public static PigeonIMU pigeonIMU;
 
@@ -122,22 +119,86 @@ public class RobotMap {
         elevatorSwitchBottom = new DigitalInput(8);
         elevatorEncoder  = new Encoder(0, 1, true);
         elevatorMotor = new WPI_TalonSRX(Constants.CANTalonSRXElevator);
-         
+        
         pickerElevatorSwitchTop = new DigitalInput(7);
-        pickerElevatorSwitchBottom = new DigitalInput(5);
-        pickerElevatorTotalBottom = new DigitalInput(6);
+        pickerElevatorSwitchBottom = new DigitalInput(6);
         pickerElevatorEncoder  = new Encoder(2, 3, false);
         pickerElevatorMotor = new WPI_TalonSRX(Constants.CANTalonSRXClimb);
-
-        
+     
         pickerLeftMotor = new WPI_TalonSRX(Constants.CANTalonSRXPickerL);
         pickerRightMotor = new WPI_TalonSRX(Constants.CANTalonSRXPickerR);
         
         pickerArms = new Solenoid(16,5);
-        pickerLock = new Solenoid(16,4);
-        climberGrabber = new Solenoid(16,6);
+        climberGrabber = new Solenoid(16,4);
 
-        pigeonIMU = new PigeonIMU(driveSRXDriveLR);
+        /*        
+        elevatorSRX5Elevator = new WPI_TalonSRX(Constants.CANTalonSRXElevator);
+        
+        
+        climberSRR8Climb = new WPI_TalonSRX(Constants.CANTalonSRXClimb);
+                
+        //driveQuadEncRightDrive.setPIDSourceType(PIDSourceType.kRate);
+        elevatorQuadEncElevator = new Encoder(4, 5, false, EncodingType.k4X);
+//        LiveWindow.addSensor("Elevator", "Quad Enc Elevator", elevatorQuadEncElevator);
+        elevatorQuadEncElevator.setDistancePerPulse(1.0);
+        //elevatorQuadEncElevator.setPIDSourceType(PIDSourceType.kRate);
+        
+       // elevatorPIDController1 = new PIDController(1.0, 0.0, 0.0, 0.0, elevatorQuadEncElevator, elevatorSRX5Elevator, 0.02);
+        //LiveWindow.addActuator("Elevator", "PID Controller 1", elevatorPIDController1);
+       // elevatorPIDController1.setContinuous(false);
+       // elevatorPIDController1.setAbsoluteTolerance(0.2);
+
+        //elevatorPIDController1.setOutputRange(-1.0, 1.0);
+        elevatorSwitch7ElevatorTop = new DigitalInput(7);
+//        LiveWindow.addSensor("Elevator", "Switch7ElevatorTop", elevatorSwitch7ElevatorTop);
+        
+        elevatorSwitch8ElevatorBottom = new DigitalInput(8);
+//        LiveWindow.addSensor("Elevator", "Switch8ElevatorBottom", elevatorSwitch8ElevatorBottom);
+                
+               
+        pickerSwitch1Picker = new DigitalInput(6);
+//        LiveWindow.addSensor("Picker", "Switch1Picker", pickerSwitch1Picker);
+        
+//        LiveWindow.addActuator("Picker", "Double Solenoid 1 Pick", pickerDoubleSolenoid1Pick);
+        
+        pickerDSolenoidArticulationR = new DoubleSolenoid(0, 4, 5);
+//        LiveWindow.addActuator("Picker", "DSolenoidArticulationR", pickerDSolenoidArticulationR);
+        
+        pickerDoubleSolenoid1 = new DoubleSolenoid(0, 6, 7);
+//        LiveWindow.addActuator("Picker", "Double Solenoid 1", pickerDoubleSolenoid1);
+               
+                
+        climberDoubleSolenoid2Climb = new DoubleSolenoid(0, 2, 3);
+//        LiveWindow.addActuator("Climber", "Double Solenoid 2 Climb", climberDoubleSolenoid2Climb);
+        
+        navigationAnalogGyro1 = new AnalogGyro(0);
+//        LiveWindow.addSensor("Navigation", "AnalogGyro 1", navigationAnalogGyro1);
+        navigationAnalogGyro1.setSensitivity(0.007);
+        navigationUltrasonic1 = new Ultrasonic(9, 10);
+//        LiveWindow.addSensor("Navigation", "Ultrasonic 1", navigationUltrasonic1);
+        
+        navigationDigitalInput1NullZoneColor = new DigitalInput(11);
+//        LiveWindow.addSensor("Navigation", "Digital Input 1 Null Zone Color", navigationDigitalInput1NullZoneColor);
+*/        
+/*        
+//        LiveWindow.addActuator("Utilities", "PCMCompressor", utilitiesPCMCompressor);
+        
+        pickerPWMTalonSRRF = new Talon(1);
+//        LiveWindow.addActuator("PickerPWM", "TalonSRRF", (Talon) pickerPWMTalonSRRF);
+        pickerPWMTalonSRRF.setInverted(false);
+        pickerPWMTalonSRLR = new Talon(2);
+//        LiveWindow.addActuator("PickerPWM", "TalonSRLR", (Talon) pickerPWMTalonSRLR);
+        pickerPWMTalonSRLR.setInverted(false);
+        pickerPWMTalonSRLF = new Talon(3);
+//        LiveWindow.addActuator("PickerPWM", "TalonSRLF", (Talon) pickerPWMTalonSRLF);
+        pickerPWMTalonSRLF.setInverted(false);
+        pickerPWMTalonSRRR = new Talon(0);
+//        LiveWindow.addActuator("PickerPWM", "TalonSRRR", (Talon) pickerPWMTalonSRRR);
+        pickerPWMTalonSRRR.setInverted(false);
+        pickerPWMSharpDistPickCube = new AnalogInput(1);
+//        LiveWindow.addSensor("PickerPWM", "SharpDistPickCube", pickerPWMSharpDistPickCube);
+*/        
+        pigeonIMU = new PigeonIMU(driveSRXDriveRR);
         pigeonIMU.setFusedHeading(0.0, 10);
         netTable = NetworkTable.getTable("FRCRobot");
     }
@@ -154,7 +215,7 @@ public class RobotMap {
       
     }
     
-    private static void SetUpTalonForTele(WPI_TalonSRX talon) {
+    static void SetUpTalonForTele(WPI_TalonSRX talon) {
       talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, Constants.kTimeoutMs);
       talon.setSensorPhase(true);
 
@@ -184,7 +245,7 @@ public class RobotMap {
       driveSRXDriveRR.setInverted(true);
     }
     
-    private static void SetUpTalonForAuto(WPI_TalonSRX talon) {
+    static void SetUpTalonForAuto(WPI_TalonSRX talon) {
       talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
       talon.setSensorPhase(true); /* keep sensor and motor in phase */
       talon.configNeutralDeadband(Constants.kNeutralDeadband, Constants.kTimeoutMs);

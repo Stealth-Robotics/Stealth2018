@@ -53,7 +53,7 @@ public class PickerWheelIn extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	//Robot.pickerPWM.stopPicker();
-    	//Robot.picker.stopPicker();
+    	Robot.picker.stopPicker();
     }
 
     // Called when another command which requires one or more of the same

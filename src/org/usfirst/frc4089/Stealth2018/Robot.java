@@ -20,7 +20,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import org.usfirst.frc4089.Stealth2018.commands.*;
 import org.usfirst.frc4089.Stealth2018.subsystems.*;
 
@@ -55,9 +54,9 @@ public class Robot extends TimedRobot {
         RobotMap.init();
         
         //start camera server
-        UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-        camera.setResolution(160,120);
-        camera.setFPS(24);
+     //   UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+     //   camera.setResolution(160,120);
+     //   camera.setFPS(24);
         
         
         //for Hololens Debug
@@ -86,8 +85,6 @@ public class Robot extends TimedRobot {
         // constructed yet. Thus, their requires() statements may grab null
         // pointers. Bad news. Don't move it.
         oi = new OI();
-        
-        picker.unlockPciker();
 
         // Add commands to Autonomous Sendable Chooser
 
@@ -96,13 +93,6 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto mode", chooser);
     }
 
-
-    @Override
-    public void robotPeriodic(){
-    }
-    
-    
-    
     /**
      * This function is called when the disabled button is hit.
      * You can use it to reset subsystems before shutting down.
@@ -115,33 +105,66 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
-        
-        System.out.format("%b %b %b %b %b %f %f %d %d\n", 
-            RobotMap.elevatorSwitchTop.get(),
-            RobotMap.elevatorSwitchBottom.get(),
-            RobotMap.pickerElevatorSwitchTop.get(),
-            RobotMap.pickerElevatorSwitchBottom.get(),
-            RobotMap.pickerElevatorTotalBottom.get(),
-            oi.mechJoystick.getRawAxis(1),
-            oi.mechJoystick.getRawAxis(5),
-            RobotMap.elevatorEncoder.get(),
-            RobotMap.pickerElevatorEncoder.get()
-            );
-        
-        
     }
 
-    Command mTestCommand;
-    
     @Override
     public void autonomousInit() {
-      RobotMap.SetUpTalonsForAuto();
-      drive.ClearCurrentAngle();
-//      mTestCommand = new ScoreInSwitch();
-      mTestCommand = new PositionThree();
-      Scheduler.getInstance().add(mTestCommand);
-      drive.SetAuto();
+    	 System.out.println("auto init");
+        autonomousCommand = chooser.getSelected();
+        // schedule the autonomous command (example)
+        if (autonomousCommand != null) autonomousCommand.start();
         
+        //Get Game Setup String as RRR or LLL or RLR ect. R = 0  L = 1 und = -1
+        String gameData;
+        gameData = DriverStation.getInstance().getGameSpecificMessage();
+        
+        String closeSwitchString = gameData.substring(0,1);
+        double closeSwitch = -1;
+        if (closeSwitchString.equals("R")) {
+        	closeSwitch = 0;
+        } else if (closeSwitchString.equals("L")){
+        	closeSwitch = 1;
+        }
+        //put in NT for Hololens to use
+        SmartDashboard.putNumber("CloseSwitch", closeSwitch);
+        
+        String scaleString = gameData.substring(1,2);
+        double scale = -1;
+        if (scaleString.equals("R")) {
+        	scale = 0;
+        } else if (scaleString.equals("L")){
+        	scale = 1;
+        }
+        //put in NT for hololens to use
+        SmartDashboard.putNumber("Scale", scale);
+        
+        String farSwitchString = gameData.substring(2,3);
+        double farSwitch = -1;
+        if (farSwitchString.equals("R")) {
+        	farSwitch = 0;
+        } else if (farSwitchString.equals("L")){
+        	farSwitch = 1;
+        }
+        //put in NT for hololens to use
+        SmartDashboard.putNumber("FarSwitch", farSwitch);
+        
+        //select correct string to pass to path finding algorithm
+        String selectedPath = "";
+        if (closeSwitch == 0 && scale == 0) {
+        	selectedPath = SmartDashboard.getString("AutoPath_RR", "");
+        } else if (closeSwitch == 0 && scale == 1) {
+        	selectedPath = SmartDashboard.getString("AutoPath_RL", "");
+        } else if (closeSwitch == 1 && scale == 0) {
+        	selectedPath = SmartDashboard.getString("AutoPath_LR", "");
+        } else if (closeSwitch == 1 && scale == 1) {
+        	selectedPath = SmartDashboard.getString("AutoPath_LL", "");
+        }
+        //print out selected path finding string
+        System.out.println("Using : " + selectedPath + " for Autonomus");
+        
+        RobotMap.utilitiesPCMCompressor.setClosedLoopControl(true);
+        RobotMap.SetUpTalonsForAuto();
+        Robot.drive.SetAuto();
     }
 
     /**
@@ -162,7 +185,6 @@ public class Robot extends TimedRobot {
         System.out.println("tele init");
         RobotMap.SetUpTalonsForTele();
         Robot.drive.SetTele();
-        Robot.picker.ungrabClimber();
         RobotMap.utilitiesPCMCompressor.setClosedLoopControl(true);
     }
 
@@ -173,30 +195,11 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         
-        Robot.drive.DriveRobot(oi.driveJoystick);
+        //Robot.drive.DriveRobot(oi.driveJoystick);
         Robot.elevator.DriveElevator(oi.mechJoystick);
         
-        if(oi.mechJoystick.getRawAxis(4)>0)
-        {
-          System.out.println(oi.mechJoystick.getRawAxis(4));
-          System.out.println("<<");
-          RobotMap.pickerLeftMotor.set(oi.mechJoystick.getRawAxis(4));
-          RobotMap.pickerRightMotor.set(oi.mechJoystick.getRawAxis(4)*-1);
-        }
-        else
-        {
-          if(oi.mechJoystick.getRawAxis(3)>0)
-          {
-            System.out.println("3");
-            RobotMap.pickerLeftMotor.set(oi.mechJoystick.getRawAxis(3)*-1);
-            RobotMap.pickerRightMotor.set(oi.mechJoystick.getRawAxis(3));
-          }
-          else
-          {
-            RobotMap.pickerLeftMotor.set(0.2);
-            RobotMap.pickerRightMotor.set(-0.2);
-          }
-        } 
+        RobotMap.pickerLeftMotor.set(oi.mechJoystick.getRawAxis(0));
+        RobotMap.pickerRightMotor.set(oi.mechJoystick.getRawAxis(0));
     }
     
     
