@@ -177,8 +177,7 @@ public class Robot extends TimedRobot {
         
         Robot.drive.DriveRobot(oi.driveJoystick);
         Robot.elevator.DriveElevator(oi.mechJoystick);
-        Robot.elevator.MoveElevatorToTarget();
-        Robot.elevator.MovePickerElevatorToTarget();
+        
         
         if(oi.mechJoystick.getRawAxis(3)>0)
         {
@@ -200,7 +199,10 @@ public class Robot extends TimedRobot {
             RobotMap.pickerLeftMotor.set(0.2);
             RobotMap.pickerRightMotor.set(-0.2);
           }
-        } 
+        }
+        
+        Robot.elevator.MoveElevatorToTarget();
+        Robot.elevator.MovePickerElevatorToTarget();
     }
     
     

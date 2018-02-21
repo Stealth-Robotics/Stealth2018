@@ -122,6 +122,7 @@ public class RobotMap {
         elevatorSwitchBottom = new DigitalInput(8);
         elevatorEncoder  = new Encoder(0, 1, true);
         elevatorMotor = new WPI_TalonSRX(Constants.CANTalonSRXElevator);
+        elevatorMotor.setInverted(true);
          
         pickerElevatorSwitchTop = new DigitalInput(7);
         pickerElevatorSwitchBottom = new DigitalInput(5);
