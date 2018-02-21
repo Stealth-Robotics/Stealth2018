@@ -178,6 +178,7 @@ public class Robot extends TimedRobot {
         Robot.drive.DriveRobot(oi.driveJoystick);
         Robot.elevator.DriveElevator(oi.mechJoystick);
         
+<<<<<<< HEAD
         
         if(oi.mechJoystick.getRawAxis(3)>0)
         {
@@ -203,6 +204,16 @@ public class Robot extends TimedRobot {
         
         Robot.elevator.MoveElevatorToTarget();
         Robot.elevator.MovePickerElevatorToTarget();
+=======
+
+        //System.out.format("%s %s %f\n", enabled?"true":"false", pressureSwitch?"true":"false",current);
+        
+        Robot.elevator.MoveElevatorToTarget();
+        Robot.elevator.MovePickerElevatorToTarget();
+
+        RobotMap.pickerLeftMotor.set(oi.mechJoystick.getRawAxis(0));
+        RobotMap.pickerRightMotor.set(oi.mechJoystick.getRawAxis(0));
+>>>>>>> 3273125b796a71d51cdfaf4a801bfa9b5e709152
     }
     
     
