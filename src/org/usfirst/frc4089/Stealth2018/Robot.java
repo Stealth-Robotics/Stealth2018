@@ -164,6 +164,8 @@ public class Robot extends TimedRobot {
         Robot.drive.SetTele();
         Robot.picker.ungrabClimber();
         RobotMap.utilitiesPCMCompressor.setClosedLoopControl(true);
+        Robot.elevator.SetElevatorTarget(0);
+        Robot.elevator.SetPickerElevatorTarget(0);
     }
 
     /**
@@ -175,21 +177,23 @@ public class Robot extends TimedRobot {
         
         Robot.drive.DriveRobot(oi.driveJoystick);
         Robot.elevator.DriveElevator(oi.mechJoystick);
+        Robot.elevator.MoveElevatorToTarget();
+        Robot.elevator.MovePickerElevatorToTarget();
         
-        if(oi.mechJoystick.getRawAxis(4)>0)
+        if(oi.mechJoystick.getRawAxis(3)>0)
         {
-          System.out.println(oi.mechJoystick.getRawAxis(4));
+          System.out.println(oi.mechJoystick.getRawAxis(3));
           System.out.println("<<");
-          RobotMap.pickerLeftMotor.set(oi.mechJoystick.getRawAxis(4));
-          RobotMap.pickerRightMotor.set(oi.mechJoystick.getRawAxis(4)*-1);
+          RobotMap.pickerLeftMotor.set(oi.mechJoystick.getRawAxis(3));
+          RobotMap.pickerRightMotor.set(oi.mechJoystick.getRawAxis(3)*-1);
         }
         else
         {
-          if(oi.mechJoystick.getRawAxis(3)>0)
+          if(oi.mechJoystick.getRawAxis(4)>0)
           {
-            System.out.println("3");
-            RobotMap.pickerLeftMotor.set(oi.mechJoystick.getRawAxis(3)*-1);
-            RobotMap.pickerRightMotor.set(oi.mechJoystick.getRawAxis(3));
+            System.out.println("4");
+            RobotMap.pickerLeftMotor.set(oi.mechJoystick.getRawAxis(4)*-1);
+            RobotMap.pickerRightMotor.set(oi.mechJoystick.getRawAxis(4));
           }
           else
           {
