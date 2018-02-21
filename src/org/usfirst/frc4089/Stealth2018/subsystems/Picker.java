@@ -45,7 +45,16 @@ public class Picker extends Subsystem {
       RobotMap.climberGrabber.set(true);
     }
 
-    public void stopPicker() {
+    public void ungrabClimber() {
+      RobotMap.climberGrabber.set(false);
+    }
+
+    public void lockPicker () {
+      RobotMap.pickerLock.set(true);
+    }
+
+    public void unlockPciker() {
+      RobotMap.pickerLock.set(false);
     }
 }
 
