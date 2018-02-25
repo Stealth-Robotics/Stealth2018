@@ -42,8 +42,6 @@ public class Elevator extends Subsystem {
       HandlePickerElevator(driveJoystick.getRawAxis(5));
     }
     
-<<<<<<< HEAD
-    
     public void HandleElevator(double yElevator) {
 		  
 	  yElevator = DriveMath.DeadBand(yElevator, 0.25);
@@ -78,6 +76,7 @@ public class Elevator extends Subsystem {
   double elevatorIntegral = 0;
   double elevatorLastEncoderTicks = 0;
   double elevatorEncoderCount = 0;
+  
   public void MoveElevatorToTarget() {
 	  //get limit switches
 	  boolean elevatorSwitchTop = RobotMap.elevatorSwitchTop.get();
@@ -157,6 +156,7 @@ public class Elevator extends Subsystem {
  double pickerElevatorIntegral = 0;
  double pickerElevatorLastEncoderTicks = 0;
  double pickerElevatorEncoderCount = 0;
+
  public void MovePickerElevatorToTarget() {
 	 //get limit switches
 	 boolean elevatorSwitchTop = RobotMap.pickerElevatorSwitchTop.get();
@@ -220,11 +220,12 @@ public class Elevator extends Subsystem {
 	  RobotMap.pickerElevatorMotor.set(motorOutput);
 	  
 	  RobotMap.netTable.putNumber("pickerElevatorMotorOutput", motorOutput);
-	  
+ }
 	  //Debugin stuff
 	  //System.out.println("pickerElevatorEncoderTicks: " + pickerElevatorEncoderTicks);
 	  //System.out.println("pickerElevatorMotorPower: " + RobotMap.pickerElevatorMotor.get());
-=======
+	  
+	  /*
       //--------------------------------------------------------------------
       // Purpose:
       //     Drive using the joystick 
@@ -261,7 +262,8 @@ public class Elevator extends Subsystem {
 	  	 
 	  SetElevatorTarget(elevatorTargetTick);
     }   
- 
+*/
+    /*
       //--------------------------------------------------------------------
       // Purpose:
       //     Drive using the joystick 
@@ -297,13 +299,13 @@ public class Elevator extends Subsystem {
 
 	  SetPickerElevatorTarget(pickerElevatorTargetTick);
     }
-  
-
+  */
+/*
   	public void SetElevatorTarget(int target) {
 		pidElevatorTarget = target;
 	}
-  
-  	
+  */
+  /*	
   final double elevatorKPconst = 0.01;
   public void MoveElevatorToTarget() {
 	  //get limit switches
@@ -335,11 +337,13 @@ public class Elevator extends Subsystem {
 	  System.out.println("elevatorEncoderTicks: " + elevatorEncoderTicks);
 	  System.out.println("elevatorMotorPower: " + RobotMap.elevatorMotor.get());
  }
- 
+  */
+ /*
  public void SetPickerElevatorTarget(int target) {
  	pidPickerElevatorTarget = target;
  }
-
+ */
+ /*
  final double pickerElevatorKPconst = 0.01;
  public void MovePickerElevatorToTarget() {
 	 //get limit switches
@@ -370,7 +374,6 @@ public class Elevator extends Subsystem {
 	  //Debugin stuff
 	  System.out.println("pickerElevatorEncoderTicks: " + pickerElevatorEncoderTicks);
 	  System.out.println("pickerElevatorMotorPower: " + RobotMap.pickerElevatorMotor.get());
->>>>>>> 3273125b796a71d51cdfaf4a801bfa9b5e709152
 	 
 	 /*boolean elevatorSwitchTop = RobotMap.pickerElevatorSwitchTop.get();
      boolean elevatorSwitchBottom = RobotMap.pickerElevatorSwitchBottom.get();
@@ -395,12 +398,9 @@ public class Elevator extends Subsystem {
 		  RobotMap.pickerElevatorMotor.set(-1);
 	  }
 	  
-	  System.out.println("pickerElevatorEncoderTicks: " + pickerElevatorEncoderTicks);*/
+	  System.out.println("pickerElevatorEncoderTicks: " + pickerElevatorEncoderTicks);
  } 
-   
-<<<<<<< HEAD
- 
-=======
+ */  
  //TODO: Move to it's own command not under the elevator subsystem
   public void EngageClimbHook() {
 	  //1. Lower elevator to bottom (limit switch 1 = true)
@@ -420,6 +420,5 @@ public class Elevator extends Subsystem {
 	  
 	  
   }
->>>>>>> 3273125b796a71d51cdfaf4a801bfa9b5e709152
 }
 
