@@ -41,10 +41,7 @@ public class Robot extends TimedRobot {
     public static Drive drive;
     public static Elevator elevator;
     public static Picker picker;
-    public static Climber climber;
-    public static Navigation navigation;
     public static Utilities utilities;
-    public static PickerPWM pickerPWM;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -59,26 +56,10 @@ public class Robot extends TimedRobot {
         camera.setResolution(160,120);
         camera.setFPS(24);
         
-        
-        //for Hololens Debug
-        SmartDashboard.putBoolean("Robot Conected", true);
-        
-        //put SmartDashboard Auto setup values in network tables
-        //set defaults here
-        SmartDashboard.putBoolean("RedAlience", false);
-        SmartDashboard.putString("StartingPos", "1");
-        SmartDashboard.putString("AutoPath_LL", "");
-        SmartDashboard.putString("AutoPath_LR", "");
-        SmartDashboard.putString("AutoPath_RR", "");
-        SmartDashboard.putString("AutoPath_RL", "");
-        
         drive = new Drive();
         elevator = new Elevator();
         picker = new Picker();
-        climber = new Climber();
-        navigation = new Navigation();
         utilities = new Utilities();
-        pickerPWM = new PickerPWM();
 
         System.out.println("robot init");
         // OI must be constructed after subsystems. If the OI creates Commands
@@ -91,8 +72,11 @@ public class Robot extends TimedRobot {
 
         // Add commands to Autonomous Sendable Chooser
 
-        chooser.addDefault("Autonomous Command", new AutonomousCommand());
-
+        chooser.addObject("1 Position One", new PositionOne());
+        chooser.addObject("2 Position Two", new PositionTwo());
+        chooser.addDefault("3 Position Three", new PositionThree());
+        chooser.addObject("4 Position Four", new PositionFour());
+        chooser.addObject("5 Position Five", new PositionFive());
         SmartDashboard.putData("Auto mode", chooser);
     }
 
@@ -101,21 +85,17 @@ public class Robot extends TimedRobot {
     public void robotPeriodic(){
     }
     
-    
-    
-    /**
-     * This function is called when the disabled button is hit.
-     * You can use it to reset subsystems before shutting down.
-     */
     @Override
     public void disabledInit(){
-
     }
 
     @Override
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
-        /*
+        
+        if(true == Robot.oi.mechJoystick.getRawButton(9))
+        {
+        
         System.out.format("%b %b %b %b %b %f %f %d %d\n", 
             RobotMap.elevatorSwitchTop.get(),
             RobotMap.elevatorSwitchBottom.get(),
@@ -127,8 +107,8 @@ public class Robot extends TimedRobot {
             RobotMap.elevatorEncoder.get(),
             RobotMap.pickerElevatorEncoder.get()
             );
-        */
         
+        }
     }
 
     Command mTestCommand;
@@ -138,9 +118,20 @@ public class Robot extends TimedRobot {
       RobotMap.SetUpTalonsForAuto();
       drive.ClearCurrentAngle();
 //      mTestCommand = new ScoreInSwitch();
-      mTestCommand = new PositionThree();
-      Scheduler.getInstance().add(mTestCommand);
+//      mTestCommand = new PositionThree();
+//      Scheduler.getInstance().add(mTestCommand);
       drive.SetAuto();
+      Robot.elevator.SetElevatorTarget(0);
+      Robot.elevator.SetPickerElevatorTarget(0);
+      
+      
+      autonomousCommand = chooser.getSelected();
+      // schedule the autonomous command (example)
+      if (autonomousCommand != null)
+      {
+        //autonomousCommand.start();
+        Scheduler.getInstance().add(autonomousCommand);
+      }
         
     }
 
@@ -164,8 +155,6 @@ public class Robot extends TimedRobot {
         Robot.drive.SetTele();
         Robot.picker.ungrabClimber();
         RobotMap.utilitiesPCMCompressor.setClosedLoopControl(true);
-        Robot.elevator.SetElevatorTarget(0);
-        Robot.elevator.SetPickerElevatorTarget(0);
     }
 
     /**
@@ -178,43 +167,11 @@ public class Robot extends TimedRobot {
         Robot.drive.DriveRobot(oi.driveJoystick);
         Robot.elevator.DriveElevator(oi.mechJoystick);
         
-//<<<<<<< HEAD
-/*        
-        if(oi.mechJoystick.getRawAxis(3)>0)
-        {
-          System.out.println(oi.mechJoystick.getRawAxis(3));
-          System.out.println("<<");
-          RobotMap.pickerLeftMotor.set(oi.mechJoystick.getRawAxis(3));
-          RobotMap.pickerRightMotor.set(oi.mechJoystick.getRawAxis(3)*-1);
-        }
-        else
-        {
-          if(oi.mechJoystick.getRawAxis(4)>0)
-          {
-            System.out.println("4");
-            RobotMap.pickerLeftMotor.set(oi.mechJoystick.getRawAxis(4)*-1);
-            RobotMap.pickerRightMotor.set(oi.mechJoystick.getRawAxis(4));
-          }
-          else
-          {
-            RobotMap.pickerLeftMotor.set(0.2);
-            RobotMap.pickerRightMotor.set(-0.2);
-          }
-        }
-        
-        Robot.elevator.MoveElevatorToTarget();
-        Robot.elevator.MovePickerElevatorToTarget();
-*/        
-//=======
-
-        //System.out.format("%s %s %f\n", enabled?"true":"false", pressureSwitch?"true":"false",current);
-        
         Robot.elevator.MoveElevatorToTarget();
         Robot.elevator.MovePickerElevatorToTarget();
 
         RobotMap.pickerLeftMotor.set(oi.mechJoystick.getRawAxis(0));
         RobotMap.pickerRightMotor.set(oi.mechJoystick.getRawAxis(0));
-//>>>>>>> 3273125b796a71d51cdfaf4a801bfa9b5e709152
     }
     
     

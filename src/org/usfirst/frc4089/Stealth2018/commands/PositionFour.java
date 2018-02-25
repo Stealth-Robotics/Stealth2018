@@ -17,39 +17,16 @@ import edu.wpi.first.wpilibj.*;
 /**
  *
  */
-public class PositionThree extends CommandGroup {
-  public PositionThree() {
+public class PositionFour extends CommandGroup {
+  public PositionFour() {
     addSequential(new RaisePickerForSwitch());
     addSequential(new WaitTime(50));
   }
 
   // Called just before this Command runs the first time
   @Override
-    protected void initialize() {
-    
-    String gameData = DriverStation.getInstance().getGameSpecificMessage();
-    boolean left = true;
-    
-    if(gameData.length()>1)
-    {
-      if('R'==gameData.charAt(0))
-      {
-        left = false;
-      }
-    }
-    
-    
-    if(true == left)
-    {
-      addSequential(new DrivePathAction(new Red31Path60InPerSec()));
-      System.out.println("Left");
-    }
-    else
-    {
-      addSequential(new DrivePathAction(new Red32Path60InPerSec()));
-      System.out.println("Right");
-    }
-      
+  protected void initialize() {
+    System.out.println("Position Four");
   }
 
   // Called repeatedly when this Command is scheduled to run

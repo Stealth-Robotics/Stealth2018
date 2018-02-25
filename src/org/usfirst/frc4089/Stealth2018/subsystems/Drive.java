@@ -157,17 +157,17 @@ public class Drive extends Subsystem {
     }
     
     
-    //--------------------------------------------------------------------
-    // Purpose:
-    //     Drive the robot in auto 
-    //
-    // Notes:
-    //    
-    //--------------------------------------------------------------------  
-    public void AutoDrive(double speedL, 
-        double speedR, 
-        double heading,
-        FileWriter logFile)
+  //--------------------------------------------------------------------
+  // Purpose:
+  //     Drive the robot in auto 
+  //
+  // Notes:
+  //    
+  //--------------------------------------------------------------------  
+  public void AutoDrive(double speedL, 
+      double speedR, 
+      double heading,
+      FileWriter logFile)
   {
     PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
     double [] xyz_dps = new double [3];
@@ -195,9 +195,9 @@ public class Drive extends Subsystem {
       System.out.format("j %6.2f %6.2f %6.2f %6.2f %6.2f %6.2f\n",
           speedL,speedR,targetSpeedL,targetSpeedR,heading, turn);
 
-      
-    RobotMap.driveSRXDriveLF.set(ControlMode.Velocity, targetSpeedR);
-    RobotMap.driveSRXDriveRF.set(ControlMode.Velocity, targetSpeedL);
+     System.out.println("Auto"); 
+//    RobotMap.driveSRXDriveLF.set(ControlMode.Velocity, targetSpeedR);
+//    RobotMap.driveSRXDriveRF.set(ControlMode.Velocity, targetSpeedL);
   
     try {
       logFile.write(
@@ -368,6 +368,7 @@ public class Drive extends Subsystem {
       
       double targetSpeedL = (mActualSpeed + turn) * 4000;
       double targetSpeedR = (mActualSpeed - turn) * 4000;
+      
       RobotMap.driveSRXDriveLF.set(ControlMode.Velocity, targetSpeedL);
       RobotMap.driveSRXDriveRF.set(ControlMode.Velocity, targetSpeedR);
 /*
