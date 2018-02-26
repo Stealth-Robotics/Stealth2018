@@ -39,7 +39,7 @@ public class GrabBlock extends Command {
         
         if(true == Robot.oi.mechJoystick.getRawButton(4))
         {
-          Robot.picker.unlockPciker();
+          Robot.picker.unlockPicker();
         }
     }
 

@@ -50,11 +50,11 @@ public class Picker extends Subsystem {
     }
 
     public void lockPicker () {
-      RobotMap.pickerLock.set(true);
+      RobotMap.pickerLock.set(false);
     }
 
-    public void unlockPciker() {
-      RobotMap.pickerLock.set(false);
+    public void unlockPicker() {
+      RobotMap.pickerLock.set(true);
     }
 }
 

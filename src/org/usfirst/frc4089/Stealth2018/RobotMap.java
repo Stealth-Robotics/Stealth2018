@@ -157,9 +157,9 @@ public class RobotMap {
       talon.config_kI(0, 0.0, Constants.kTimeoutMs);
       talon.config_kD(0,20.0, Constants.kTimeoutMs);
 
-      talon.configMotionProfileTrajectoryPeriod(20, Constants.kTimeoutMs); //Our profile uses 10 ms timing
+      //talon.configMotionProfileTrajectoryPeriod(20, Constants.kTimeoutMs); //Our profile uses 10 ms timing
       /* status 10 provides the trajectory target for motion profile AND motion magic */
-      talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 20, Constants.kTimeoutMs);
+      //talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 20, Constants.kTimeoutMs);
       
     }
    

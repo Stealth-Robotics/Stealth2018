@@ -15,7 +15,7 @@ import org.usfirst.frc4089.Stealth2018.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class RaisePickerForSwitch extends Command {
-    final int SWITCH_HEIGHT = 400;
+    final int SWITCH_HEIGHT = 800;
   
     public RaisePickerForSwitch() {
     }

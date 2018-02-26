@@ -95,18 +95,35 @@ public class Elevator extends Subsystem {
   private void HandleElevator(double yElevator) {
     yElevator = DriveMath.DeadBand(yElevator, 0.25);
     int change = (int)(-yElevator * 10);
-    
-    // Don't change the drive if the switches are set
-    if((false == RobotMap.elevatorSwitchTop.get())&&
-        (change<0))
-     {
-       AddElevatorTarget(change);
-     }
-    if((change>0)&&
-        (false == RobotMap.elevatorSwitchBottom.get()))
-     {
-       AddElevatorTarget(change);
-     }
+    boolean topSwitch = RobotMap.elevatorSwitchTop.get();
+    boolean bottomSwitch = RobotMap.elevatorSwitchBottom.get();
+
+    // only change things if the user wants to to advoid messing with auto
+    if(0 != change)
+    {
+      // if nothing is pressed move the elevator
+      if((false == topSwitch)&&
+          (false == bottomSwitch))
+      {
+        AddElevatorTarget(change);
+      }
+      else
+      {  
+        // Don't change the drive if the switches are set
+        if((true == bottomSwitch)&&
+            (change>0))
+         {
+           AddElevatorTarget(change);
+         }
+        else
+        {
+            if(change<0)
+           {
+             AddElevatorTarget(change);
+           }
+        }
+      }
+    }
   }   
  
   //--------------------------------------------------------------------
@@ -154,22 +171,21 @@ public class Elevator extends Subsystem {
     //get current ticks
     int elevatorEncoderTicks = RobotMap.elevatorEncoder.get();
 
-    /*
     //make sure it doesn't go past limit switches
     if (RobotMap.elevatorSwitchBottom.get() == true) {
       RobotMap.elevatorEncoder.reset();
-      SetElevatorTarget(0);
+      
+      SetElevatorTarget(50);
       elevatorIntegral = 0.0;
       elevatorPreviousError = 0.0;
     }
     
     if (RobotMap.elevatorSwitchTop.get() == true) {
       System.out.print("Top ");
-      SetElevatorTarget(elevatorEncoderTicks);
+      SetElevatorTarget(elevatorEncoderTicks-50);
       elevatorIntegral = 0.0;
       elevatorPreviousError = elevatorEncoderTicks;
     }
-    */
     
 	  //calculate error
 	  double error = pidElevatorTarget - elevatorEncoderTicks;

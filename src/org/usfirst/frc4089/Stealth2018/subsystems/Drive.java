@@ -195,9 +195,8 @@ public class Drive extends Subsystem {
       System.out.format("j %6.2f %6.2f %6.2f %6.2f %6.2f %6.2f\n",
           speedL,speedR,targetSpeedL,targetSpeedR,heading, turn);
 
-     System.out.println("Auto"); 
-//    RobotMap.driveSRXDriveLF.set(ControlMode.Velocity, targetSpeedR);
-//    RobotMap.driveSRXDriveRF.set(ControlMode.Velocity, targetSpeedL);
+    RobotMap.driveSRXDriveLF.set(ControlMode.Velocity, targetSpeedR);
+    RobotMap.driveSRXDriveRF.set(ControlMode.Velocity, targetSpeedL);
   
     try {
       logFile.write(

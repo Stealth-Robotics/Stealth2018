@@ -27,6 +27,36 @@ public class PositionFive extends CommandGroup {
   @Override
     protected void initialize() {
     System.out.println("Position Five");
+    
+    String gameData = DriverStation.getInstance().getGameSpecificMessage();
+    boolean left = true;
+    
+    if(gameData.length()>1)
+    {
+      if('R'==gameData.charAt(0))
+      {
+        left = false;
+      }
+    }
+    
+    
+    if(true == left)
+    {
+      addSequential(new DrivePathAction(new Move10Path60InPerSec()));
+      System.out.println("Left");
+    }
+    else
+    {
+      addSequential(new DrivePathAction(new Red51Path60InPerSec()));
+      System.out.println("Right");
+    }
+    
+    
+    addSequential(new UnlockPicker());
+    addSequential(new UnlockPicker());
+    addSequential(new UnlockPicker());
+    
+    
   }
 
   // Called repeatedly when this Command is scheduled to run

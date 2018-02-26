@@ -61,6 +61,11 @@ public class Robot extends TimedRobot {
         picker = new Picker();
         utilities = new Utilities();
 
+        Robot.elevator.SetElevatorTarget(0);
+        Robot.elevator.SetPickerElevatorTarget(0);
+        RobotMap.elevatorEncoder.reset();
+        RobotMap.pickerElevatorEncoder.reset();
+        
         System.out.println("robot init");
         // OI must be constructed after subsystems. If the OI creates Commands
         //(which it very likely will), subsystems are not guaranteed to be
@@ -68,15 +73,15 @@ public class Robot extends TimedRobot {
         // pointers. Bad news. Don't move it.
         oi = new OI();
         
-        picker.unlockPciker();
+        picker.lockPicker();
 
         // Add commands to Autonomous Sendable Chooser
 
         chooser.addObject("1 Position One", new PositionOne());
         chooser.addObject("2 Position Two", new PositionTwo());
-        chooser.addDefault("3 Position Three", new PositionThree());
+        chooser.addObject("3 Position Three", new PositionThree());
         chooser.addObject("4 Position Four", new PositionFour());
-        chooser.addObject("5 Position Five", new PositionFive());
+        chooser.addDefault("5 Position Five", new PositionFive());
         SmartDashboard.putData("Auto mode", chooser);
     }
 
@@ -87,27 +92,30 @@ public class Robot extends TimedRobot {
     
     @Override
     public void disabledInit(){
+      picker.lockPicker();
     }
 
+    private void DisplaySensors()
+    {
+      System.out.format("%b %b %b %b %b %d %d\n", 
+          RobotMap.elevatorSwitchTop.get(),
+          RobotMap.elevatorSwitchBottom.get(),
+          RobotMap.pickerElevatorSwitchTop.get(),
+          RobotMap.pickerElevatorSwitchBottom.get(),
+          RobotMap.pickerElevatorTotalBottom.get(),
+          RobotMap.elevatorEncoder.get(),
+          RobotMap.pickerElevatorEncoder.get()
+          );
+
+    }
+    
     @Override
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
         
         if(true == Robot.oi.mechJoystick.getRawButton(9))
         {
-        
-        System.out.format("%b %b %b %b %b %f %f %d %d\n", 
-            RobotMap.elevatorSwitchTop.get(),
-            RobotMap.elevatorSwitchBottom.get(),
-            RobotMap.pickerElevatorSwitchTop.get(),
-            RobotMap.pickerElevatorSwitchBottom.get(),
-            RobotMap.pickerElevatorTotalBottom.get(),
-            oi.mechJoystick.getRawAxis(1),
-            oi.mechJoystick.getRawAxis(5),
-            RobotMap.elevatorEncoder.get(),
-            RobotMap.pickerElevatorEncoder.get()
-            );
-        
+          DisplaySensors();
         }
     }
 
@@ -120,11 +128,12 @@ public class Robot extends TimedRobot {
 //      mTestCommand = new ScoreInSwitch();
 //      mTestCommand = new PositionThree();
 //      Scheduler.getInstance().add(mTestCommand);
+
       drive.SetAuto();
       Robot.elevator.SetElevatorTarget(0);
       Robot.elevator.SetPickerElevatorTarget(0);
-      
-      
+      RobotMap.elevatorEncoder.reset();
+/*      
       autonomousCommand = chooser.getSelected();
       // schedule the autonomous command (example)
       if (autonomousCommand != null)
@@ -132,7 +141,10 @@ public class Robot extends TimedRobot {
         //autonomousCommand.start();
         Scheduler.getInstance().add(autonomousCommand);
       }
-        
+*/
+    mTestCommand = new PositionThree();
+    Scheduler.getInstance().add(mTestCommand);
+      
     }
 
     /**
@@ -140,7 +152,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousPeriodic() {
-        Scheduler.getInstance().run();
+       Scheduler.getInstance().run();
     }
 
     @Override
@@ -149,12 +161,14 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
+        picker.unlockPicker();
         if (autonomousCommand != null) autonomousCommand.cancel();
         System.out.println("tele init");
         RobotMap.SetUpTalonsForTele();
         Robot.drive.SetTele();
         Robot.picker.ungrabClimber();
         RobotMap.utilitiesPCMCompressor.setClosedLoopControl(true);
+        Robot.elevator.SetElevatorTarget(Robot.elevator.GetElevatorPosition());
     }
 
     /**
@@ -164,18 +178,26 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         
+        //DisplaySensors();
+        
         Robot.drive.DriveRobot(oi.driveJoystick);
         Robot.elevator.DriveElevator(oi.mechJoystick);
         
         Robot.elevator.MoveElevatorToTarget();
         Robot.elevator.MovePickerElevatorToTarget();
 
-        RobotMap.pickerLeftMotor.set(oi.mechJoystick.getRawAxis(0));
-        RobotMap.pickerRightMotor.set(oi.mechJoystick.getRawAxis(0));
+        RobotMap.pickerLeftMotor.set(oi.mechJoystick.getRawAxis(2));
+        RobotMap.pickerRightMotor.set(oi.mechJoystick.getRawAxis(2));
     }
     
     
     @Override
+    public void testInit() {
+      picker.lockPicker();
+    }   
+
+    @Override
     public void testPeriodic() {
+      picker.lockPicker();
     }   
 }

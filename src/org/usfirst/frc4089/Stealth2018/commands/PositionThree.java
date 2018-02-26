@@ -49,6 +49,16 @@ public class PositionThree extends CommandGroup {
       addSequential(new DrivePathAction(new Red32Path60InPerSec()));
       System.out.println("Right");
     }
+    addSequential(new UnlockPicker());
+    addSequential(new UnlockPicker());
+    addSequential(new UnlockPicker());
+    addSequential(new UnlockPicker());
+    addSequential(new UnlockPicker());
+    addSequential(new UnlockPicker());
+    addSequential(new UnlockPicker());
+    addSequential(new UnlockPicker());
+    addSequential(new UnlockPicker());
+
       
   }
 
