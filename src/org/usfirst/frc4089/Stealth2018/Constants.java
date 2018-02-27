@@ -73,20 +73,18 @@ public class Constants {
     //below are values for PING)) PID control
  // proportional speed constant
  	private static final double pingkP = 7.0;
-
  	// integral speed constant
  	private static final double pingkI = 0.018;
-
  	// derivative speed constant
  	private static final double pingkD = 1.5;
- 	
  	// max distance in cm
  	private static final double pingMaxD = 100;
- 	
  	// hold distance in cm
  	private static final double pingHoldD = 10;
+ 	private static final boolean pingContinuous = false;
+ 	private static final double absoluteTolerance = 0.2;
  	
-    
+ 	
 	//TODO refactor for 2018
 	//below are values from 2017
 	//assorted variables

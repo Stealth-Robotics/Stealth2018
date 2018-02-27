@@ -81,6 +81,7 @@ public class RobotMap {
 
     public static NetworkTable netTable;
     
+    public static PIDController pidPING;
     
     public static void init() {
         System.out.println("CAN mapping init in robotmap");
