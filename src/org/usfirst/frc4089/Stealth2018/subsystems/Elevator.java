@@ -44,8 +44,12 @@ public class Elevator extends Subsystem {
   // Notes:
   //     none
   //--------------------------------------------------------------------  
-  public void initDefaultCommand() {
+	public int lastElevatorEncoderValue = 0;
+	public int elevatorEncoderValue = 0;
+	
+	public void initDefaultCommand() {
     setDefaultCommand(new UserElevator());
+    
   }
     
   //--------------------------------------------------------------------
@@ -155,10 +159,24 @@ public class Elevator extends Subsystem {
   //     Get Elevator Current Posiotn 
   //
   // Notes:
-  //     none
+  //     need to check for null/ bad encoder values prior to returning a result
   //--------------------------------------------------------------------  
   public int GetElevatorPosition() {
-    return RobotMap.elevatorEncoder.get();
+	
+	int currentElevatorEncoderValue = RobotMap.elevatorEncoder.get();
+	
+	if (currentElevatorEncoderValue == 0) {
+		System.out.println("Elevator Encoder has Zero Value");
+	} else if (currentElevatorEncoderValue == lastElevatorEncoderValue) {
+		System.out.println("Encoder Value has not changes since last update");
+	} else {
+		elevatorEncoderValue = currentElevatorEncoderValue;
+	}
+	
+	lastElevatorEncoderValue = currentElevatorEncoderValue;
+	
+    return elevatorEncoderValue;
+    
    }
   //--------------------------------------------------------------------
   // Purpose:
@@ -169,8 +187,9 @@ public class Elevator extends Subsystem {
   //--------------------------------------------------------------------  
   public void MoveElevatorToTarget() {
     //get current ticks
-    int elevatorEncoderTicks = RobotMap.elevatorEncoder.get();
-
+    //int elevatorEncoderTicks = RobotMap.elevatorEncoder.get();
+	int elevatorEncoderTicks = GetElevatorPosition();
+	
     //make sure it doesn't go past limit switches
     if (RobotMap.elevatorSwitchBottom.get() == true) {
       RobotMap.elevatorEncoder.reset();
