@@ -79,9 +79,9 @@ public class Robot extends TimedRobot {
 
         chooser.addObject("1 Position One", new PositionOne());
         chooser.addObject("2 Position Two", new PositionTwo());
-        chooser.addObject("3 Position Three", new PositionThree());
+        chooser.addDefault("3 Position Three", new PositionThree());
         chooser.addObject("4 Position Four", new PositionFour());
-        chooser.addDefault("5 Position Five", new PositionFive());
+        chooser.addObject("5 Position Five", new PositionFive());
         SmartDashboard.putData("Auto mode", chooser);
     }
 
@@ -125,26 +125,52 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
       RobotMap.SetUpTalonsForAuto();
       drive.ClearCurrentAngle();
-//      mTestCommand = new ScoreInSwitch();
-//      mTestCommand = new PositionThree();
-//      Scheduler.getInstance().add(mTestCommand);
 
       drive.SetAuto();
       Robot.elevator.SetElevatorTarget(0);
       Robot.elevator.SetPickerElevatorTarget(0);
       RobotMap.elevatorEncoder.reset();
-/*      
+
+      // When we used the auto stuff for this the autonomous we running twice.
+      // So we are doing this the long way.  We need to research why it was running twice.
+      if(true == chooser.getSelected().getName().equals("PositionOne"))
+      {
+        mTestCommand = new PositionOne();
+        Scheduler.getInstance().add(mTestCommand);
+      }
+      
+      if(true == chooser.getSelected().getName().equals("PositionTwo"))
+      {
+        mTestCommand = new PositionTwo();
+        Scheduler.getInstance().add(mTestCommand);
+      }
+      
+      if(true == chooser.getSelected().getName().equals("PositionThree"))
+      {
+        mTestCommand = new PositionThree();
+        Scheduler.getInstance().add(mTestCommand);
+      }
+      
+      if(true == chooser.getSelected().getName().equals("PositionFour"))
+      {
+        mTestCommand = new PositionFour();
+        Scheduler.getInstance().add(mTestCommand);
+      }
+      
+      if(true == chooser.getSelected().getName().equals("PositionFive"))
+      {
+        mTestCommand = new PositionFive();
+        Scheduler.getInstance().add(mTestCommand);
+      }
+      
+      /* Should be that
       autonomousCommand = chooser.getSelected();
       // schedule the autonomous command (example)
       if (autonomousCommand != null)
       {
-        //autonomousCommand.start();
-        Scheduler.getInstance().add(autonomousCommand);
+        autonomousCommand.start();
       }
-*/
-    mTestCommand = new PositionThree();
-    Scheduler.getInstance().add(mTestCommand);
-      
+      */
     }
 
     /**

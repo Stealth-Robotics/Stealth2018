@@ -1,5 +1,6 @@
 package org.usfirst.frc4089.Stealth2018.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 import java.io.FileWriter;
@@ -53,6 +54,11 @@ public class DrivePathAction extends Command {
       try {
         mLogFile = new FileWriter("/home/lvuser/drivePath.csv", true);
         mLogFile.write("\n");
+        mLogFile.write("\n");
+        mLogFile.write("Event:"+DriverStation.getInstance().getEventName()+"\n");
+        mLogFile.write("Match Number:"+DriverStation.getInstance().getMatchNumber()+"\n");
+        mLogFile.write("Replay Number:"+DriverStation.getInstance().getReplayNumber()+"\n");
+        mLogFile.write("Game Data:"+DriverStation.getInstance().getGameSpecificMessage()+"\n");        
         mLogFile.write("\n");
       }
       catch(IOException e) {
