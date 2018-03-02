@@ -181,7 +181,6 @@ public class Elevator extends Subsystem {
     }
     
     if (RobotMap.elevatorSwitchTop.get() == true) {
-      System.out.print("Top ");
       SetElevatorTarget(elevatorEncoderTicks-50);
       elevatorIntegral = 0.0;
       elevatorPreviousError = elevatorEncoderTicks;

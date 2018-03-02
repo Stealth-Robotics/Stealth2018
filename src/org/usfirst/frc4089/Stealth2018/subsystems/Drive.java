@@ -184,17 +184,13 @@ public class Drive extends Subsystem {
     double targetSpeedL = speedL*-25.5;
     double targetSpeedR = speedR*-25.5;
    
-      double angle_difference = heading - mCurrentAngle;    // Make sure to bound this from -180 to 180, otherwise you will get super large values
+    double angle_difference = heading - mCurrentAngle;    // Make sure to bound this from -180 to 180, otherwise you will get super large values
   
-//    double turn = 0.0*angle_difference;
     double turn = 3.0*angle_difference;
   
       targetSpeedL += turn;
       targetSpeedR -= turn;
     
-      System.out.format("j %6.2f %6.2f %6.2f %6.2f %6.2f %6.2f\n",
-          speedL,speedR,targetSpeedL,targetSpeedR,heading, turn);
-
     RobotMap.driveSRXDriveLF.set(ControlMode.Velocity, targetSpeedR);
     RobotMap.driveSRXDriveRF.set(ControlMode.Velocity, targetSpeedL);
   
@@ -204,6 +200,7 @@ public class Drive extends Subsystem {
           speedL + ", " +
           speedR + ", " +
           heading + ", " +
+          turn + ", " +
           targetSpeedL + ", " +
           targetSpeedR + ", " +
           RobotMap.driveSRXDriveLF.getSelectedSensorVelocity(0) + ", " +

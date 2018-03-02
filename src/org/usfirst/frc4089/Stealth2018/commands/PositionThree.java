@@ -26,7 +26,8 @@ public class PositionThree extends CommandGroup {
   // Called just before this Command runs the first time
   @Override
     protected void initialize() {
-    
+
+    System.out.println("Position three");
     String gameData = DriverStation.getInstance().getGameSpecificMessage();
     boolean left = true;
     
