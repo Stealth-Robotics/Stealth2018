@@ -337,7 +337,7 @@ public class Elevator extends Subsystem {
 	  pickerElevatorLastEncoderTicks = pickerElevatorEncoderTicks;
 	  
 	  //set the motor to the correct value
-	  MoveElevator(motorOutput);
+	  MovePickerElevator(motorOutput);
 	  
 	  RobotMap.netTable.putNumber("pickerElevatorMotorOutput", motorOutput);
     RobotMap.netTable.putNumber("pickerError", error);
@@ -388,6 +388,10 @@ public class Elevator extends Subsystem {
 	  RobotMap.elevatorMotor.set(motorOutput);
   }
   
+  public void MovePickerElevator (double motorOutput) {
+	  RobotMap.pickerElevatorMotor.set(motorOutput);
+  }
+  
   public boolean GetElevatorTopSwitch() {
 	  return RobotMap.elevatorSwitchTop.get();
 	   
@@ -395,5 +399,7 @@ public class Elevator extends Subsystem {
   public boolean GetElevatorBottomSwitch() {
 	  return RobotMap.elevatorSwitchBottom.get();
   }
+  
+
 }
 

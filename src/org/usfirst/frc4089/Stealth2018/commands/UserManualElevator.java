@@ -2,7 +2,7 @@ package org.usfirst.frc4089.Stealth2018.commands;
 
 import org.usfirst.frc4089.Stealth2018.Constants;
 import org.usfirst.frc4089.Stealth2018.Robot;
-
+import org.usfirst.frc4089.Stealth2018.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -28,13 +28,19 @@ public class UserManualElevator extends Command {
     protected void execute() {
     	
     	//Robot.elevator.DriveElevator( driveJoystick);
-    	
+    	if (Robot.oi.mechJoystick.getRawAxis(1) > 0) {
+    		Robot.elevator.MoveElevator(1);
+    	} else if (Robot.oi.mechJoystick.getRawAxis(1) < 0) {
+    		Robot.elevator.MoveElevator(-1);
+    	} else {
+    		Robot.elevator.MoveElevator(0);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	
-    	return false;
+    	return RobotMap.elevatorSwitchTop.get() || RobotMap.elevatorSwitchBottom.get();
     }
 
     // Called once after isFinished returns true
