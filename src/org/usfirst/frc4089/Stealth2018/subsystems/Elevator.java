@@ -17,6 +17,7 @@
 //----------------------------------------------------------------------------
 package org.usfirst.frc4089.Stealth2018.subsystems;
 
+import org.usfirst.frc4089.Stealth2018.Constants;
 import org.usfirst.frc4089.Stealth2018.RobotMap;
 import org.usfirst.frc4089.Stealth2018.commands.*;
 import org.usfirst.frc4089.Stealth2018.utilities.DriveMath;
@@ -74,10 +75,8 @@ public class Elevator extends Subsystem {
   // --------------------------------------------------------------------
   // Constants:
   // --------------------------------------------------------------------
-  final double elevatorKp = 0.035;
-  final double elevatorKi = 0.00069;
-  final double elevatorKd = 0;
-
+  
+// --> Moved to Constants.java
   
   // --------------------------------------------------------------------
   // Attributes:
@@ -96,7 +95,7 @@ public class Elevator extends Subsystem {
   // Notes:
   //     none
   //--------------------------------------------------------------------  
-  private void HandleElevator(double yElevator) {
+  public void HandleElevator(double yElevator) {
     yElevator = DriveMath.DeadBand(yElevator, 0.25);
     int change = (int)(-yElevator * 10);
     boolean topSwitch = RobotMap.elevatorSwitchTop.get();
@@ -192,7 +191,7 @@ public class Elevator extends Subsystem {
 	
     //make sure it doesn't go past limit switches
     if (RobotMap.elevatorSwitchBottom.get() == true) {
-      RobotMap.elevatorEncoder.reset();
+    	ResetElevatorEncoder();
       
       SetElevatorTarget(50);
       elevatorIntegral = 0.0;
@@ -211,7 +210,7 @@ public class Elevator extends Subsystem {
 	  elevatorIntegral = elevatorIntegral + error;
 	  elevatorIntegral = Math.max(0, Math.min(1440, elevatorIntegral));
 	  double derivative = (error - elevatorPreviousError);
-	  double motorOutput = elevatorKp*error + elevatorKi*elevatorIntegral + elevatorKd*derivative;
+	  double motorOutput = Constants.elevatorKp*error + Constants.elevatorKi*elevatorIntegral + Constants.elevatorKd*derivative;
 	  elevatorPreviousError = error;
 	  //clamp the value between -1 and 1
 	  motorOutput = Math.max(-1, Math.min(1, motorOutput));
@@ -239,9 +238,8 @@ public class Elevator extends Subsystem {
   // --------------------------------------------------------------------
   // Constants:
   // --------------------------------------------------------------------
-  final double pickerElevatorKp = 0.03;
-  final double pickerElevatorKi = 0;
-  final double pickerElevatorKd = 0;
+
+  	// --> Moved to Constants.java
 
   // --------------------------------------------------------------------
   // Attributes:
@@ -259,7 +257,7 @@ public class Elevator extends Subsystem {
   // Notes:
   //     none
   //--------------------------------------------------------------------  
-  private void HandlePickerElevator(double yElevator) {
+  public void HandlePickerElevator(double yElevator) {
     yElevator = DriveMath.DeadBand(yElevator,0.25);
     int change = (int)(-yElevator * 10);
 
@@ -331,7 +329,7 @@ public class Elevator extends Subsystem {
 	  pickerElevatorIntegral = pickerElevatorIntegral + error;
 	  pickerElevatorIntegral = Math.max(0, Math.min(1440, pickerElevatorIntegral));
 	  double derivative = (error - pickerElevatorPreviousError);
-	  double motorOutput = pickerElevatorKp*error + pickerElevatorKi*pickerElevatorIntegral + pickerElevatorKd*derivative;
+	  double motorOutput = Constants.pickerElevatorKp*error + Constants.pickerElevatorKi*pickerElevatorIntegral + Constants.pickerElevatorKd*derivative;
 	  pickerElevatorPreviousError = error;
 	  //clamp the value between -1 and 1
 	  motorOutput = Math.max(-1, Math.min(1, motorOutput));
@@ -339,7 +337,7 @@ public class Elevator extends Subsystem {
 	  pickerElevatorLastEncoderTicks = pickerElevatorEncoderTicks;
 	  
 	  //set the motor to the correct value
-	  RobotMap.pickerElevatorMotor.set(motorOutput);
+	  MoveElevator(motorOutput);
 	  
 	  RobotMap.netTable.putNumber("pickerElevatorMotorOutput", motorOutput);
     RobotMap.netTable.putNumber("pickerError", error);
@@ -373,6 +371,29 @@ public class Elevator extends Subsystem {
 	  //5. Return to user drive mode
 	  
 	  
+  }
+  /**
+   * @param none
+   * Resets the elevator encoder
+   */
+  public void ResetElevatorEncoder() {
+	  RobotMap.elevatorEncoder.reset();
+  }
+  
+  /**
+   * Actuates the Elevator given the following parameter
+   * @param motorOutput
+   */
+  public void MoveElevator (double motorOutput) {
+	  RobotMap.elevatorMotor.set(motorOutput);
+  }
+  
+  public boolean GetElevatorTopSwitch() {
+	  return RobotMap.elevatorSwitchTop.get();
+	   
+  }
+  public boolean GetElevatorBottomSwitch() {
+	  return RobotMap.elevatorSwitchBottom.get();
   }
 }
 

@@ -49,12 +49,15 @@ public class UserElevator extends PIDCommand {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-      Robot.elevator.MoveElevatorToTarget();
+      //Robot.elevator.MoveElevatorToTarget();
+    	Robot.elevator.HandleElevator(Robot.oi.driveJoystick.getRawAxis(1));
+        Robot.elevator.HandlePickerElevator(Robot.oi.driveJoystick.getRawAxis(5));
+        
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return RobotMap.elevatorSwitchBottom.get() || RobotMap.elevatorSwitchTop.get();
     }
 
     // Called once after isFinished returns true
