@@ -28,10 +28,10 @@ public class UserManualElevator extends Command {
     protected void execute() {
     	
     	//Robot.elevator.DriveElevator( driveJoystick);
-    	if (Robot.oi.mechJoystick.getRawAxis(1) > 0) {
-    		Robot.elevator.MoveElevator(1);
-    	} else if (Robot.oi.mechJoystick.getRawAxis(1) < 0) {
+    	if (Robot.oi.drivebaseJoystick.getRawButton(15) == true ) {
     		Robot.elevator.MoveElevator(-1);
+    	} else if (Robot.oi.drivebaseJoystick.getRawButton(16) == true) {
+    		Robot.elevator.MoveElevator(1);
     	} else {
     		Robot.elevator.MoveElevator(0);
     	}

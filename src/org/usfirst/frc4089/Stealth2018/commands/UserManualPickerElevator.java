@@ -34,12 +34,12 @@ public class UserManualPickerElevator extends Command {
       //Robot.elevator.MoveElevatorToTarget();
     	//Robot.elevator.DriveElevator(Robot.oi.driveJoystick);
     	
-    	if (Robot.oi.mechJoystick.getRawAxis(1) > 0) {
-    		Robot.elevator.MovePickerElevator(1);
-    	} else if (Robot.oi.mechJoystick.getRawAxis(1) < 0) {
-    		Robot.elevator.MovePickerElevator(-1);
+    	if (Robot.oi.drivebaseJoystick.getRawButton(15) == true ) {
+    		Robot.elevator.MoveElevator(-1);
+    	} else if (Robot.oi.drivebaseJoystick.getRawButton(16) == true) {
+    		Robot.elevator.MoveElevator(1);
     	} else {
-    		Robot.elevator.MovePickerElevator(0);
+    		Robot.elevator.MoveElevator(0);
     	}
     	
     	

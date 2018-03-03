@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class AutoGear extends CommandGroup {
+public class AutoGroupMoveElevators extends CommandGroup {
 	    
-	    public  AutoGear() {
-	    	System.out.println("AutoLift");
+	    public  AutoGroupMoveElevators() {
+	    	System.out.println("AutoGroup Elevator - Start");
 	        // Add Commands here:
 	        // e.g. addSequential(new Command1());
 	        //      addSequential(new Command2());
@@ -30,13 +30,10 @@ public class AutoGear extends CommandGroup {
 	    	
 	    	
 	    	
-	    	//addSequential(new GoForwardFiveFeet());
-	    	//addSequential(new AutoDriveDistance(Constants.AutoGearDistS1, Constants.AutoGearDistS1));
-	    	//System.out.println("AutoGear - drive FW Complete");
-	    	//addSequential(new AutoTurn(Constants.AutoGearAngS2,Constants.AutoGearAngRadS2));
-	    	//System.out.println("AutoGear - Turn Complete");
-	    	//addSequential(new AutoDriveDistance(Constants.AutoGearDistS3, Constants.AutoGearDistS3));
-	    	System.out.println("AutoGear - Complete");
+	    	addParallel(new UserManualElevator());
+	    	addParallel(new UserManualPickerElevator());
+	    	
+	    	System.out.println("AutoGroup Elevator - Complete");
 	    }
 }
 
