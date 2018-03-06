@@ -57,6 +57,7 @@ public class OI {
     public JoystickButton jB2B;
     public JoystickButton grabBlockButton;
     public JoystickButton grabClimberButton;
+<<<<<<< HEAD
     public JoystickButton lowerPicker;
     public JoystickButton raisePicker;
     public JoystickButton grabClimber;
@@ -67,14 +68,19 @@ public class OI {
     public Joystick driveJoystick;
     public Joystick mechJoystick;
     public Joystick dsJoystick;
+=======
+    
+    public Joystick driveJoystick;
+    public Joystick mechJoystick;
+>>>>>>> parent of ec557f8... Merge branch 'master' of https://github.com/Stealth-Robotics/Stealth2018
 
     public OI() {
       mechJoystick = new Joystick(1);
       driveJoystick = new Joystick(0);
-      dsJoystick = new Joystick(2);
                 
       grabBlockButton = new JoystickButton(mechJoystick, 5);
       grabBlockButton.whileHeld(new GrabBlock());
+<<<<<<< HEAD
       
       grabClimber = new JoystickButton(dsJoystick, 4);
       grabClimber.whenPressed(new GrabClimber());
@@ -90,6 +96,11 @@ public class OI {
       
       raisePicker = new JoystickButton(mechJoystick, 2);
       raisePicker.whenPressed(new RaisePicker());
+=======
+
+        grabClimberButton = new JoystickButton(mechJoystick, 6);
+        grabClimberButton.whileHeld(new GrabClimber());
+>>>>>>> parent of ec557f8... Merge branch 'master' of https://github.com/Stealth-Robotics/Stealth2018
 
     }
 }

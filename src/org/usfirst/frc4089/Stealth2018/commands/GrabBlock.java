@@ -13,22 +13,16 @@ package org.usfirst.frc4089.Stealth2018.commands;
 import org.usfirst.frc4089.Stealth2018.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.Joystick;
 
 /**
  *
  */
-
-//used for teleop grabber stuff
 public class GrabBlock extends Command {
-  
     public GrabBlock() {
         requires(Robot.picker);
-        System.out.println("Grab Block");
     }
 
     protected void initialize() {
-      System.out.println("Grab Block");
     }
 
     protected void execute() {

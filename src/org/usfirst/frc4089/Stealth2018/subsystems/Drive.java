@@ -18,10 +18,6 @@
 package org.usfirst.frc4089.Stealth2018.subsystems;
 
 import org.usfirst.frc4089.Stealth2018.RobotMap;
-
-import java.io.FileWriter;
-import java.io.IOException;
-
 import org.usfirst.frc4089.Stealth2018.Constants;
 import org.usfirst.frc4089.Stealth2018.commands.*;
 
@@ -142,83 +138,6 @@ public class Drive extends Subsystem {
       mTargetAngle = targetAngle;
     }
     
-    
-    //--------------------------------------------------------------------
-    // Purpose:
-    //     Clear the angle 
-    //
-    // Notes:
-    //     Usually used in auto when we want to reset things
-    //--------------------------------------------------------------------  
-    public void ClearCurrentAngle()
-    {
-      mCurrentAngle = 0.0;
-      RobotMap.pigeonIMU.setFusedHeading(0, 20);
-    }
-    
-    
-  //--------------------------------------------------------------------
-  // Purpose:
-  //     Drive the robot in auto 
-  //
-  // Notes:
-  //    
-  //--------------------------------------------------------------------  
-  public void AutoDrive(double speedL, 
-      double speedR, 
-      double heading,
-      FileWriter logFile)
-  {
-    PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
-    double [] xyz_dps = new double [3];
-    RobotMap.pigeonIMU.getRawGyro(xyz_dps);
-    RobotMap.pigeonIMU.getFusedHeading(fusionStatus);
-    
-    mCurrentAngle = fusionStatus.heading;
-  
-    if(heading>180)
-    {
-      heading -= 360.0;
-    }
-    
-    double targetSpeedL = speedL*-25.5;
-    double targetSpeedR = speedR*-25.5;
-   
-    double angle_difference = heading - mCurrentAngle;    // Make sure to bound this from -180 to 180, otherwise you will get super large values
-  
-    double turn = 3.0*angle_difference;
-  
-      targetSpeedL += turn;
-      targetSpeedR -= turn;
-    
-    RobotMap.driveSRXDriveLF.set(ControlMode.Velocity, targetSpeedR);
-    RobotMap.driveSRXDriveRF.set(ControlMode.Velocity, targetSpeedL);
-  
-    try {
-      logFile.write(
-          Timer.getFPGATimestamp() + ", " +
-          speedL + ", " +
-          speedR + ", " +
-          heading + ", " +
-          turn + ", " +
-          targetSpeedL + ", " +
-          targetSpeedR + ", " +
-          RobotMap.driveSRXDriveLF.getSelectedSensorVelocity(0) + ", " +
-          RobotMap.driveSRXDriveRF.getSelectedSensorVelocity(0) + ", " +
-          RobotMap.driveSRXDriveLF.getMotorOutputVoltage() + ", " +
-          RobotMap.driveSRXDriveRF.getMotorOutputVoltage() +", " +
-          angle_difference + "\n"
-      );
-    }
-    catch(IOException e) {
-        e.printStackTrace();
-    }
-  
-  
-}
-
-    
-    
     //--------------------------------------------------------------------
     // Purpose:
     //     Drive using the joystick 
@@ -270,9 +189,6 @@ public class Drive extends Subsystem {
       mCurrentAngle = fusionStatus.heading;
       double currentAngularRate = xyz_dps[2];
       double turnThrottle = turn;
-    
-      //System.out.format("%f\n", mCurrentAngle);
-      
       
       // IF we are turning, turn off the gyro
       if (Math.abs(turn) > 0.2) {
@@ -364,7 +280,6 @@ public class Drive extends Subsystem {
       
       double targetSpeedL = (mActualSpeed + turn) * 4000;
       double targetSpeedR = (mActualSpeed - turn) * 4000;
-      
       RobotMap.driveSRXDriveLF.set(ControlMode.Velocity, targetSpeedL);
       RobotMap.driveSRXDriveRF.set(ControlMode.Velocity, targetSpeedR);
 /*

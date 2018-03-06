@@ -19,7 +19,7 @@ public class Constants {
 	public static final int CANTalonSRXDriveRF = 2;
 	
 	// Elevator Picker Assignments 
-  public static final int CANTalonSRXElevator = 5;
+	public static final int CANTalonSRXElevator = 5;
 	public static final int CANTalonSRXPickerL = 6;
 	public static final int CANTalonSRXPickerR = 8;
 	public static final int CANTalonSRXClimb = 7;

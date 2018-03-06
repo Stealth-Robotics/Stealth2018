@@ -35,25 +35,17 @@ public class Picker extends Subsystem {
     
     public void hugBlock () {
       RobotMap.pickerArms.set(true);
-      System.out.println("Open Arms Source: Picker.hugBlock()");
 
     }
     public void rejectBlock () {
       RobotMap.pickerArms.set(false);
-      
-      System.out.println("Close Arms Source: Picker.hugBlock()");
     }
 
     public void grabClimber () {
       RobotMap.climberGrabber.set(true);
     }
 
-    public void ungrabClimber() {
-      RobotMap.climberGrabber.set(false);
-    }
-    
-    public void setRaisePickerMotor(double value) {
-      RobotMap.pickerRaiseMotor.set(value);
+    public void stopPicker() {
     }
 }
 
