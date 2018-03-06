@@ -64,9 +64,18 @@ public class OI {
     public JoystickButton climb;
 
     
+    public JoystickButton drivebaseJoystickB16;
+    public JoystickButton drivebaseJoystickB15;
+    public JoystickButton drivebaseJoystickB14;
+    public JoystickButton drivebaseJoystickB13;
+    
     public Joystick driveJoystick;
     public Joystick mechJoystick;
+<<<<<<< HEAD
     public Joystick dsJoystick;
+=======
+    public Joystick drivebaseJoystick;
+>>>>>>> 5b0aa3df882ea89bafbd866bc5385eaa834fb2cf
 
     public OI() {
       mechJoystick = new Joystick(1);
@@ -91,6 +100,14 @@ public class OI {
       raisePicker = new JoystickButton(mechJoystick, 2);
       raisePicker.whenPressed(new RaisePicker());
 
+      drivebaseJoystickB15 = new JoystickButton(drivebaseJoystick, 15);
+      drivebaseJoystickB15.whileHeld(new AutoGroupMoveElevators());
+      
+      drivebaseJoystickB14 = new JoystickButton(drivebaseJoystick, 14);
+      drivebaseJoystickB14.whileHeld(new AutoGroupMoveElevators());
+  
+      
+      
     }
 }
 
