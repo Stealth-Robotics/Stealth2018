@@ -17,6 +17,7 @@
 //----------------------------------------------------------------------------
 package org.usfirst.frc4089.Stealth2018.subsystems;
 
+import org.usfirst.frc4089.Stealth2018.Robot;
 import org.usfirst.frc4089.Stealth2018.RobotMap;
 import org.usfirst.frc4089.Stealth2018.commands.*;
 import org.usfirst.frc4089.Stealth2018.utilities.DriveMath;
@@ -56,6 +57,14 @@ public class Elevator extends Subsystem {
   //     none
   //--------------------------------------------------------------------  
   public void DriveElevator(Joystick driveJoystick) {
+    
+    if (driveJoystick.getRawButton(9) || Robot.oi.dsJoystick.getRawButton(5)) {
+      RobotMap.overrideElevator = true;
+    }
+    if (driveJoystick.getRawButton(10) || Robot.oi.dsJoystick.getRawButton(1)) {
+      RobotMap.overridePickerElevator = true;
+    }
+    
     HandleElevator(driveJoystick.getRawAxis(1));
     HandlePickerElevator(driveJoystick.getRawAxis(5));
   }
@@ -93,34 +102,51 @@ public class Elevator extends Subsystem {
   //     none
   //--------------------------------------------------------------------  
   private void HandleElevator(double yElevator) {
-    yElevator = DriveMath.DeadBand(yElevator, 0.25);
+    yElevator = DriveMath.DeadBand(yElevator, 0.20);
     int change = (int)(-yElevator * 10);
     boolean topSwitch = RobotMap.elevatorSwitchTop.get();
     boolean bottomSwitch = RobotMap.elevatorSwitchBottom.get();
-
-    // only change things if the user wants to to advoid messing with auto
-    if(0 != change)
-    {
-      // if nothing is pressed move the elevator
-      if((false == topSwitch)&&
-          (false == bottomSwitch))
-      {
-        AddElevatorTarget(change);
+    
+    if (RobotMap.overrideElevator) {
+      
+      if(topSwitch) {
+        if(-yElevator > 0) {
+          yElevator = 0;
+        }
       }
-      else
-      {  
-        // Don't change the drive if the switches are set
-        if((true == bottomSwitch)&&
-            (change>0))
-         {
-           AddElevatorTarget(change);
-         }
-        else
+      
+      if (bottomSwitch) {
+        if (-yElevator < 0) {
+          yElevator = 0;
+        }
+      }
+      
+      RobotMap.elevatorMotor.set(-yElevator);
+    } else {
+      // only change things if the user wants to to advoid messing with auto
+      if(0 != change)
+      {
+        // if nothing is pressed move the elevator
+        if((false == topSwitch)&&
+            (false == bottomSwitch))
         {
-            if(change<0)
+          AddElevatorTarget(change);
+        }
+        else
+        {  
+          // Don't change the drive if the switches are set
+          if((true == bottomSwitch)&&
+              (change>0))
            {
              AddElevatorTarget(change);
            }
+          else
+          {
+              if(change<0)
+             {
+               AddElevatorTarget(change);
+             }
+          }
         }
       }
     }
@@ -175,13 +201,13 @@ public class Elevator extends Subsystem {
     if (RobotMap.elevatorSwitchBottom.get() == true) {
       RobotMap.elevatorEncoder.reset();
       
-      SetElevatorTarget(50);
+      SetElevatorTarget(25);
       elevatorIntegral = 0.0;
       elevatorPreviousError = 0.0;
     }
     
     if (RobotMap.elevatorSwitchTop.get() == true) {
-      SetElevatorTarget(elevatorEncoderTicks-50);
+      SetElevatorTarget(elevatorEncoderTicks-25);
       elevatorIntegral = 0.0;
       elevatorPreviousError = elevatorEncoderTicks;
     }
@@ -243,18 +269,52 @@ public class Elevator extends Subsystem {
   private void HandlePickerElevator(double yElevator) {
     yElevator = DriveMath.DeadBand(yElevator,0.25);
     int change = (int)(-yElevator * 10);
-
-    // Don't change the drive if the switches are set
-    if((change<0)&&
-        (false == RobotMap.pickerElevatorSwitchBottom.get()))
-     {
-       AddPickerElevatorTarget(change);
-     }
-    if((change>0)&&
-        (false == RobotMap.pickerElevatorSwitchBottom.get()))
-     {
-       AddPickerElevatorTarget((int)(-yElevator * 10));
-     }
+    boolean topSwitch = RobotMap.pickerElevatorSwitchTop.get();
+    boolean bottomSwitch = RobotMap.pickerElevatorSwitchBottom.get();
+    
+    if (RobotMap.overridePickerElevator) {
+      
+      if(topSwitch) {
+        if(-yElevator > 0) {
+          yElevator = 0;
+        }
+      }
+      
+      if (bottomSwitch) {
+        if (-yElevator < 0) {
+          yElevator = 0;
+        }
+      }
+      
+      RobotMap.pickerElevatorMotor.set(-yElevator);
+    } else {
+      // only change things if the user wants to to advoid messing with auto
+      if(0 != change)
+      {
+        // if nothing is pressed move the elevator
+        if((false == topSwitch)&&
+            (false == bottomSwitch))
+        {
+          AddPickerElevatorTarget(change);
+        }
+        else
+        {  
+          // Don't change the drive if the switches are set
+          if((true == bottomSwitch)&&
+              (change>0))
+           {
+             AddPickerElevatorTarget(change);
+           }
+          else
+          {
+              if(change<0)
+             {
+               AddPickerElevatorTarget(change);
+             }
+          }
+        }
+      }
+    }
   }
  
   //--------------------------------------------------------------------
@@ -286,8 +346,8 @@ public class Elevator extends Subsystem {
   // Notes:
   //     none
   //--------------------------------------------------------------------  
- public void MovePickerElevatorToTarget() {
-   //get current ticks
+  public void MovePickerElevatorToTarget() {
+        //get current ticks
    int pickerElevatorEncoderTicks = RobotMap.pickerElevatorEncoder.get();
    boolean pickerElevatorSwitchTotalBottom = RobotMap.pickerElevatorTotalBottom.get();
 

@@ -10,7 +10,10 @@
 
 package org.usfirst.frc4089.Stealth2018.commands;
 
+import org.usfirst.frc4089.Stealth2018.Robot;
 import org.usfirst.frc4089.Stealth2018.MPPaths.*;
+import org.usfirst.frc4089.Stealth2018.subsystems.Picker;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.*;
 
@@ -19,16 +22,36 @@ import edu.wpi.first.wpilibj.*;
  */
 public class PositionThree extends CommandGroup {
   public PositionThree() {
-    addSequential(new RaisePickerForSwitch());
-    addSequential(new WaitTime(50));
+    
   }
 
   // Called just before this Command runs the first time
   @Override
     protected void initialize() {
+    
+    
+    //hug block
+    addSequential(new RejectBlock());
+    //lower picker
+    addSequential(new LowerPicker());
+    //wait for a bit to do stuff
+    addSequential(new WaitTime(500));
+    //grab block
+    addSequential(new RejectBlock());
+    //raise block to top
+    addSequential(new RaisePickerForSwitch());
+    //wait just a bit more
+    addSequential(new WaitTime(50));
 
     System.out.println("Position three");
+    //get game data
     String gameData = DriverStation.getInstance().getGameSpecificMessage();
+    int counter = 0;
+    while ((gameData == "" || gameData == null || gameData.length() != 3) && counter < 250) {
+      gameData = DriverStation.getInstance().getGameSpecificMessage();
+      counter ++;
+    }
+    //figure out where to go
     boolean left = true;
     
     if(gameData.length()>1)
@@ -40,25 +63,23 @@ public class PositionThree extends CommandGroup {
     }
     
     
-    if(true == left)
+    if(left)
     {
+      //go to where we need to go
       addSequential(new DrivePathAction(new Red31Path60InPerSec()));
       System.out.println("Left");
+      //let go of block
+      addSequential(new HugBlock());
     }
     else
     {
+      //go to where we need to go
       addSequential(new DrivePathAction(new Red32Path60InPerSec()));
       System.out.println("Right");
+      //let go of block
+      addSequential(new HugBlock());
     }
-    addSequential(new UnlockPicker());
-    addSequential(new UnlockPicker());
-    addSequential(new UnlockPicker());
-    addSequential(new UnlockPicker());
-    addSequential(new UnlockPicker());
-    addSequential(new UnlockPicker());
-    addSequential(new UnlockPicker());
-    addSequential(new UnlockPicker());
-    addSequential(new UnlockPicker());
+    
 
       
   }

@@ -18,29 +18,21 @@ import edu.wpi.first.wpilibj.Joystick;
 /**
  *
  */
+
+//used for teleop grabber stuff
 public class GrabBlock extends Command {
   
     public GrabBlock() {
         requires(Robot.picker);
-        System.out.println("GrabBlock");
+        System.out.println("Grab Block");
     }
 
     protected void initialize() {
-      System.out.println("Init");
+      System.out.println("Grab Block");
     }
 
     protected void execute() {
     	Robot.picker.hugBlock();
-    	
-        if(true == Robot.oi.mechJoystick.getRawButton(3))
-        {
-          Robot.picker.lockPicker();
-        }
-        
-        if(true == Robot.oi.mechJoystick.getRawButton(4))
-        {
-          Robot.picker.unlockPicker();
-        }
     }
 
     protected boolean isFinished() {

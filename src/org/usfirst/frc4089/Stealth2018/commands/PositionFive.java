@@ -19,16 +19,36 @@ import edu.wpi.first.wpilibj.*;
  */
 public class PositionFive extends CommandGroup {
   public PositionFive() {
-    addSequential(new RaisePickerForSwitch());
-    addSequential(new WaitTime(50));
+    
   }
 
   // Called just before this Command runs the first time
   @Override
     protected void initialize() {
+    
+    //hug block
+    addSequential(new RejectBlock());
+    //lower picker
+    addSequential(new LowerPicker());
+    //wait for a bit to do stuff
+    addSequential(new WaitTime(500));
+    //grab block
+    addSequential(new RejectBlock());
+    //raise block to top
+    addSequential(new RaisePickerForSwitch());
+    //wait just a bit more
+    addSequential(new WaitTime(50));
+    
     System.out.println("Position Five");
     
+    //get game data
     String gameData = DriverStation.getInstance().getGameSpecificMessage();
+    int counter = 0;
+    while ((gameData == "" || gameData == null || gameData.length() != 3) && counter < 250) {
+      gameData = DriverStation.getInstance().getGameSpecificMessage();
+      counter ++;
+    }
+    
     boolean left = true;
     
     if(gameData.length()>1)
@@ -40,21 +60,21 @@ public class PositionFive extends CommandGroup {
     }
     
     
-    if(true == left)
+    
+    if(left)
     {
       addSequential(new DrivePathAction(new Move10Path60InPerSec()));
       System.out.println("Left");
+      addSequential(new HugBlock());
     }
     else
     {
       addSequential(new DrivePathAction(new Red51Path60InPerSec()));
       System.out.println("Right");
+      addSequential(new HugBlock());
     }
     
     
-    addSequential(new UnlockPicker());
-    addSequential(new UnlockPicker());
-    addSequential(new UnlockPicker());
     
     
   }

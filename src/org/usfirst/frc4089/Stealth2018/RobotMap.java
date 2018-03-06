@@ -55,17 +55,24 @@ public class RobotMap {
     public static DigitalInput pickerElevatorSwitchBottom;
     public static DigitalInput pickerElevatorTotalBottom;
     public static WPI_TalonSRX pickerElevatorMotor;
+    public static WPI_TalonSRX pickerRaiseMotor;
     
     public static WPI_TalonSRX pickerLeftMotor;
     public static WPI_TalonSRX pickerRightMotor;
     
     public static Solenoid pickerArms;
-    public static Solenoid pickerLock;
     public static Solenoid climberGrabber;
     
     public static PigeonIMU pigeonIMU;
 
     public static NetworkTable netTable;
+    
+    public static boolean overrideElevator;
+    public static boolean overridePickerElevator;
+    
+    
+    public static WPI_TalonSRX climbMotor;
+    
     
     public static void init() {
       driveSRXDriveLR = new WPI_TalonSRX(Constants.CANTalonSRXDriveLR);
@@ -93,16 +100,22 @@ public class RobotMap {
       pickerElevatorEncoder  = new Encoder(2, 3, false);
       pickerElevatorMotor = new WPI_TalonSRX(Constants.CANTalonSRXClimb);
       
+      pickerRaiseMotor = new WPI_TalonSRX(9);
+      
       pickerLeftMotor = new WPI_TalonSRX(Constants.CANTalonSRXPickerL);
       pickerRightMotor = new WPI_TalonSRX(Constants.CANTalonSRXPickerR);
       
       pickerArms = new Solenoid(16,5);
-      pickerLock = new Solenoid(16,4);
-      climberGrabber = new Solenoid(16,6);
+      climberGrabber = new Solenoid(16,7);
 
       pigeonIMU = new PigeonIMU(driveSRXDriveLR);
       pigeonIMU.setFusedHeading(0.0, 10);
       netTable = NetworkTable.getTable("FRCRobot");
+      
+      overrideElevator = true;
+      overridePickerElevator = true;
+      
+      climbMotor = new WPI_TalonSRX(Constants.CANTalonSRXClimb);
     }
     
     

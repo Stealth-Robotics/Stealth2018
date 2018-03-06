@@ -57,22 +57,39 @@ public class OI {
     public JoystickButton jB2B;
     public JoystickButton grabBlockButton;
     public JoystickButton grabClimberButton;
+    public JoystickButton lowerPicker;
+    public JoystickButton raisePicker;
+    public JoystickButton grabClimber;
+    public JoystickButton ungrabClimber;
+    public JoystickButton climb;
+
     
     public Joystick driveJoystick;
     public Joystick mechJoystick;
+    public Joystick dsJoystick;
 
     public OI() {
       mechJoystick = new Joystick(1);
       driveJoystick = new Joystick(0);
+      dsJoystick = new Joystick(2);
                 
       grabBlockButton = new JoystickButton(mechJoystick, 5);
       grabBlockButton.whileHeld(new GrabBlock());
-
-      grabClimberButton = new JoystickButton(mechJoystick, 3);
-      grabClimberButton.whenPressed(new LockPicker());
-
-      grabClimberButton = new JoystickButton(mechJoystick, 4);
-      grabClimberButton.whenPressed(new UnlockPicker());
+      
+      grabClimber = new JoystickButton(dsJoystick, 4);
+      grabClimber.whenPressed(new GrabClimber());
+      
+      ungrabClimber = new JoystickButton(dsJoystick, 8);
+      ungrabClimber.whenPressed(new UnGrabClimber());
+      
+      climb = new JoystickButton(dsJoystick, 7);
+      climb.whileHeld(new RotateClimberMotor());
+      
+      lowerPicker = new JoystickButton(mechJoystick, 1);
+      lowerPicker.whenPressed(new LowerPicker());
+      
+      raisePicker = new JoystickButton(mechJoystick, 2);
+      raisePicker.whenPressed(new RaisePicker());
 
     }
 }

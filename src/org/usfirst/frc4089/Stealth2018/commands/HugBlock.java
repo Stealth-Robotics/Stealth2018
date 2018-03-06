@@ -11,43 +11,40 @@
 
 package org.usfirst.frc4089.Stealth2018.commands;
 import org.usfirst.frc4089.Stealth2018.Robot;
-import org.usfirst.frc4089.Stealth2018.RobotMap;
+import org.usfirst.frc4089.Stealth2018.utilities.StopWatch;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.Joystick;
 
 /**
  *
  */
-public class GrabClimber extends Command {
-
-    
-    public GrabClimber() {
-
-    
+public class HugBlock extends Command {
+  
+    public HugBlock() {
         requires(Robot.picker);
-
-    
+        //System.out.println("Grab Block");
     }
 
-    // Called just before this Command runs the first time
     protected void initialize() {
+      //System.out.println("Grab Block");
     }
 
-    // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-      Robot.picker.grabClimber();
+      System.out.println("open picker");
+    	Robot.picker.hugBlock();
     }
 
     protected boolean isFinished() {
         return true;
     }
 
-    // Called once after isFinished returns true
     protected void end() {
-    	//Robot.picker.stopPicker();
+    	
     }
 
     protected void interrupted() {
-   //   Robot.picker.stopPicker();
+      
+      end();
     }
 }

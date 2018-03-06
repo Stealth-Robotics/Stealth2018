@@ -32,8 +32,7 @@ import org.usfirst.frc4089.Stealth2018.subsystems.*;
  * the project.
  */
 public class Robot extends TimedRobot {
-
-    Command autonomousCommand;
+    
     SendableChooser<Command> chooser = new SendableChooser<>();
 
     public static OI oi;
@@ -53,8 +52,8 @@ public class Robot extends TimedRobot {
         
         //start camera server
         UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-        camera.setResolution(160,120);
-        camera.setFPS(24);
+        camera.setResolution(320,240);
+        camera.setFPS(30);
         
         drive = new Drive();
         elevator = new Elevator();
@@ -73,16 +72,16 @@ public class Robot extends TimedRobot {
         // pointers. Bad news. Don't move it.
         oi = new OI();
         
-        picker.lockPicker();
-
+        
         // Add commands to Autonomous Sendable Chooser
 
         chooser.addObject("1 Position One", new PositionOne());
-        chooser.addObject("2 Position Two", new PositionTwo());
+        //chooser.addObject("2 Position Two", new PositionTwo());
         chooser.addDefault("3 Position Three", new PositionThree());
-        chooser.addObject("4 Position Four", new PositionFour());
+        //chooser.addObject("4 Position Four", new PositionFour());
         chooser.addObject("5 Position Five", new PositionFive());
         SmartDashboard.putData("Auto mode", chooser);
+        
     }
 
 
@@ -92,7 +91,9 @@ public class Robot extends TimedRobot {
     
     @Override
     public void disabledInit(){
-      picker.lockPicker();
+      if (mTestCommand != null) mTestCommand.cancel();
+      //picker.hugBlock();
+      //RobotMap.utilitiesPCMCompressor.setClosedLoopControl(true);
     }
 
     private void DisplaySensors()
@@ -123,13 +124,18 @@ public class Robot extends TimedRobot {
     
     @Override
     public void autonomousInit() {
+      if (mTestCommand != null) mTestCommand.cancel();
+      Robot.picker.ungrabClimber();
+      
       RobotMap.SetUpTalonsForAuto();
       drive.ClearCurrentAngle();
 
       drive.SetAuto();
       Robot.elevator.SetElevatorTarget(0);
       Robot.elevator.SetPickerElevatorTarget(0);
-      RobotMap.elevatorEncoder.reset();
+      
+      
+      
 
       // When we used the auto stuff for this the autonomous we running twice.
       // So we are doing this the long way.  We need to research why it was running twice.
@@ -187,14 +193,15 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        picker.unlockPicker();
-        if (autonomousCommand != null) autonomousCommand.cancel();
+        if (mTestCommand != null) mTestCommand.cancel();
         System.out.println("tele init");
         RobotMap.SetUpTalonsForTele();
         Robot.drive.SetTele();
         Robot.picker.ungrabClimber();
         RobotMap.utilitiesPCMCompressor.setClosedLoopControl(true);
         Robot.elevator.SetElevatorTarget(Robot.elevator.GetElevatorPosition());
+        
+        
     }
 
     /**
@@ -209,21 +216,34 @@ public class Robot extends TimedRobot {
         Robot.drive.DriveRobot(oi.driveJoystick);
         Robot.elevator.DriveElevator(oi.mechJoystick);
         
-        Robot.elevator.MoveElevatorToTarget();
-        Robot.elevator.MovePickerElevatorToTarget();
-
-        RobotMap.pickerLeftMotor.set(oi.mechJoystick.getRawAxis(2));
-        RobotMap.pickerRightMotor.set(oi.mechJoystick.getRawAxis(2));
+        if(!RobotMap.overrideElevator) {
+          Robot.elevator.MoveElevatorToTarget();
+        }
+        if(!RobotMap.overridePickerElevator) {
+          Robot.elevator.MovePickerElevatorToTarget();
+        }
+        //Refactor to Robot.OI
+        if (oi.mechJoystick.getRawAxis(3) > 0) {
+          RobotMap.pickerLeftMotor.set(-oi.mechJoystick.getRawAxis(3));
+          RobotMap.pickerRightMotor.set(oi.mechJoystick.getRawAxis(3));
+        } else if (oi.mechJoystick.getRawAxis(2) > 0) {
+          RobotMap.pickerLeftMotor.set(oi.mechJoystick.getRawAxis(2));
+          RobotMap.pickerRightMotor.set(-oi.mechJoystick.getRawAxis(2));
+        } else {
+          RobotMap.pickerRightMotor.set(0);
+          RobotMap.pickerLeftMotor.set(0);
+        }
+        
     }
     
     
     @Override
     public void testInit() {
-      picker.lockPicker();
+      
     }   
 
     @Override
     public void testPeriodic() {
-      picker.lockPicker();
+      
     }   
 }
