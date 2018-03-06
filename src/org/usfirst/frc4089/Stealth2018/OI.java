@@ -57,20 +57,57 @@ public class OI {
     public JoystickButton jB2B;
     public JoystickButton grabBlockButton;
     public JoystickButton grabClimberButton;
+    public JoystickButton lowerPicker;
+    public JoystickButton raisePicker;
+    public JoystickButton grabClimber;
+    public JoystickButton ungrabClimber;
+    public JoystickButton climb;
+
+    
+    public JoystickButton drivebaseJoystickB16;
+    public JoystickButton drivebaseJoystickB15;
+    public JoystickButton drivebaseJoystickB14;
+    public JoystickButton drivebaseJoystickB13;
     
     public Joystick driveJoystick;
     public Joystick mechJoystick;
+<<<<<<< HEAD
+    public Joystick dsJoystick;
+=======
+    public Joystick drivebaseJoystick;
+>>>>>>> 5b0aa3df882ea89bafbd866bc5385eaa834fb2cf
 
     public OI() {
       mechJoystick = new Joystick(1);
       driveJoystick = new Joystick(0);
+      dsJoystick = new Joystick(2);
                 
       grabBlockButton = new JoystickButton(mechJoystick, 5);
       grabBlockButton.whileHeld(new GrabBlock());
+      
+      grabClimber = new JoystickButton(dsJoystick, 4);
+      grabClimber.whenPressed(new GrabClimber());
+      
+      ungrabClimber = new JoystickButton(dsJoystick, 8);
+      ungrabClimber.whenPressed(new UnGrabClimber());
+      
+      climb = new JoystickButton(dsJoystick, 7);
+      climb.whileHeld(new RotateClimberMotor());
+      
+      lowerPicker = new JoystickButton(mechJoystick, 1);
+      lowerPicker.whenPressed(new LowerPicker());
+      
+      raisePicker = new JoystickButton(mechJoystick, 2);
+      raisePicker.whenPressed(new RaisePicker());
 
-        grabClimberButton = new JoystickButton(mechJoystick, 6);
-        grabClimberButton.whileHeld(new GrabClimber());
-
+      drivebaseJoystickB15 = new JoystickButton(drivebaseJoystick, 15);
+      drivebaseJoystickB15.whileHeld(new AutoGroupMoveElevators());
+      
+      drivebaseJoystickB14 = new JoystickButton(drivebaseJoystick, 14);
+      drivebaseJoystickB14.whileHeld(new AutoGroupMoveElevators());
+  
+      
+      
     }
 }
 

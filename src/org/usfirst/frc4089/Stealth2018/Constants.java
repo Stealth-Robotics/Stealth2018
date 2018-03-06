@@ -19,7 +19,7 @@ public class Constants {
 	public static final int CANTalonSRXDriveRF = 2;
 	
 	// Elevator Picker Assignments 
-	public static final int CANTalonSRXElevator = 5;
+  public static final int CANTalonSRXElevator = 5;
 	public static final int CANTalonSRXPickerL = 6;
 	public static final int CANTalonSRXPickerR = 8;
 	public static final int CANTalonSRXClimb = 7;
@@ -27,6 +27,14 @@ public class Constants {
 	public static final int CANPCM1 = 16;
 	public static final int CANPCM2 = 17;
 	public static final int CANPDP = 18;
+	public static final double elevatorKp = 0.035;
+	public static final double elevatorKi = 0.00069;
+	public static final double elevatorKd = 0;
+	
+	public static final double pickerElevatorKp = 0.03;
+	public static final double pickerElevatorKi = 0;
+	public static final double pickerElevatorKd = 0;
+	  
 
 	// User Interface consts
   public static final int kFastButton = 1;

@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc4089.Stealth2018.commands.*;
 import org.usfirst.frc4089.Stealth2018.subsystems.*;
 
@@ -31,8 +32,7 @@ import org.usfirst.frc4089.Stealth2018.subsystems.*;
  * the project.
  */
 public class Robot extends TimedRobot {
-
-    Command autonomousCommand;
+    
     SendableChooser<Command> chooser = new SendableChooser<>();
 
     public static OI oi;
@@ -40,10 +40,7 @@ public class Robot extends TimedRobot {
     public static Drive drive;
     public static Elevator elevator;
     public static Picker picker;
-    public static Climber climber;
-    public static Navigation navigation;
     public static Utilities utilities;
-    public static PickerPWM pickerPWM;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -55,116 +52,131 @@ public class Robot extends TimedRobot {
         
         //start camera server
         UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-        camera.setResolution(160,120);
-        camera.setFPS(24);
-        
-        
-        //for Hololens Debug
-        SmartDashboard.putBoolean("Robot Conected", true);
-        
-        //put SmartDashboard Auto setup values in network tables
-        //set defaults here
-        SmartDashboard.putBoolean("RedAlience", false);
-        SmartDashboard.putString("StartingPos", "1");
-        SmartDashboard.putString("AutoPath_LL", "");
-        SmartDashboard.putString("AutoPath_LR", "");
-        SmartDashboard.putString("AutoPath_RR", "");
-        SmartDashboard.putString("AutoPath_RL", "");
+        camera.setResolution(320,240);
+        camera.setFPS(30);
         
         drive = new Drive();
         elevator = new Elevator();
         picker = new Picker();
-        climber = new Climber();
-        navigation = new Navigation();
         utilities = new Utilities();
-        pickerPWM = new PickerPWM();
 
+        Robot.elevator.SetElevatorTarget(0);
+        Robot.elevator.SetPickerElevatorTarget(0);
+        RobotMap.elevatorEncoder.reset();
+        RobotMap.pickerElevatorEncoder.reset();
+        
         System.out.println("robot init");
         // OI must be constructed after subsystems. If the OI creates Commands
         //(which it very likely will), subsystems are not guaranteed to be
         // constructed yet. Thus, their requires() statements may grab null
         // pointers. Bad news. Don't move it.
         oi = new OI();
-
+        
+        
         // Add commands to Autonomous Sendable Chooser
 
-        chooser.addDefault("Autonomous Command", new AutonomousCommand());
-
+        chooser.addObject("1 Position One", new PositionOne());
+        //chooser.addObject("2 Position Two", new PositionTwo());
+        chooser.addDefault("3 Position Three", new PositionThree());
+        //chooser.addObject("4 Position Four", new PositionFour());
+        chooser.addObject("5 Position Five", new PositionFive());
         SmartDashboard.putData("Auto mode", chooser);
+        
     }
 
-    /**
-     * This function is called when the disabled button is hit.
-     * You can use it to reset subsystems before shutting down.
-     */
+
+    @Override
+    public void robotPeriodic(){
+    }
+    
     @Override
     public void disabledInit(){
-
+      if (mTestCommand != null) mTestCommand.cancel();
+      //picker.hugBlock();
+      //RobotMap.utilitiesPCMCompressor.setClosedLoopControl(true);
     }
 
+    private void DisplaySensors()
+    {
+      System.out.format("%b %b %b %b %b %d %d\n", 
+          RobotMap.elevatorSwitchTop.get(),
+          RobotMap.elevatorSwitchBottom.get(),
+          RobotMap.pickerElevatorSwitchTop.get(),
+          RobotMap.pickerElevatorSwitchBottom.get(),
+          RobotMap.pickerElevatorTotalBottom.get(),
+          RobotMap.elevatorEncoder.get(),
+          RobotMap.pickerElevatorEncoder.get()
+          );
+
+    }
+    
     @Override
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
+        
+        if(true == Robot.oi.mechJoystick.getRawButton(9))
+        {
+          DisplaySensors();
+        }
     }
 
+    Command mTestCommand;
+    
     @Override
     public void autonomousInit() {
-    	 System.out.println("auto init");
-        autonomousCommand = chooser.getSelected();
-        // schedule the autonomous command (example)
-        if (autonomousCommand != null) autonomousCommand.start();
-        
-        //Get Game Setup String as RRR or LLL or RLR ect. R = 0  L = 1 und = -1
-        String gameData;
-        gameData = DriverStation.getInstance().getGameSpecificMessage();
-        
-        String closeSwitchString = gameData.substring(0,1);
-        double closeSwitch = -1;
-        if (closeSwitchString.equals("R")) {
-        	closeSwitch = 0;
-        } else if (closeSwitchString.equals("L")){
-        	closeSwitch = 1;
-        }
-        //put in NT for Hololens to use
-        SmartDashboard.putNumber("CloseSwitch", closeSwitch);
-        
-        String scaleString = gameData.substring(1,2);
-        double scale = -1;
-        if (scaleString.equals("R")) {
-        	scale = 0;
-        } else if (scaleString.equals("L")){
-        	scale = 1;
-        }
-        //put in NT for hololens to use
-        SmartDashboard.putNumber("Scale", scale);
-        
-        String farSwitchString = gameData.substring(2,3);
-        double farSwitch = -1;
-        if (farSwitchString.equals("R")) {
-        	farSwitch = 0;
-        } else if (farSwitchString.equals("L")){
-        	farSwitch = 1;
-        }
-        //put in NT for hololens to use
-        SmartDashboard.putNumber("FarSwitch", farSwitch);
-        
-        //select correct string to pass to path finding algorithm
-        String selectedPath = "";
-        if (closeSwitch == 0 && scale == 0) {
-        	selectedPath = SmartDashboard.getString("AutoPath_RR", "");
-        } else if (closeSwitch == 0 && scale == 1) {
-        	selectedPath = SmartDashboard.getString("AutoPath_RL", "");
-        } else if (closeSwitch == 1 && scale == 0) {
-        	selectedPath = SmartDashboard.getString("AutoPath_LR", "");
-        } else if (closeSwitch == 1 && scale == 1) {
-        	selectedPath = SmartDashboard.getString("AutoPath_LL", "");
-        }
-        //print out selected path finding string
-        System.out.println("Using : " + selectedPath + " for Autonomus");
-        
-        RobotMap.utilitiesPCMCompressor.setClosedLoopControl(true);
-        RobotMap.SetUpTalonsForAuto();
-        Robot.drive.SetAuto();
+      if (mTestCommand != null) mTestCommand.cancel();
+      Robot.picker.ungrabClimber();
+      
+      RobotMap.SetUpTalonsForAuto();
+      drive.ClearCurrentAngle();
+
+      drive.SetAuto();
+      Robot.elevator.SetElevatorTarget(0);
+      Robot.elevator.SetPickerElevatorTarget(0);
+      
+      
+      
+
+      // When we used the auto stuff for this the autonomous we running twice.
+      // So we are doing this the long way.  We need to research why it was running twice.
+      if(true == chooser.getSelected().getName().equals("PositionOne"))
+      {
+        mTestCommand = new PositionOne();
+        Scheduler.getInstance().add(mTestCommand);
+      }
+      
+      if(true == chooser.getSelected().getName().equals("PositionTwo"))
+      {
+        mTestCommand = new PositionTwo();
+        Scheduler.getInstance().add(mTestCommand);
+      }
+      
+      if(true == chooser.getSelected().getName().equals("PositionThree"))
+      {
+        mTestCommand = new PositionThree();
+        Scheduler.getInstance().add(mTestCommand);
+      }
+      
+      if(true == chooser.getSelected().getName().equals("PositionFour"))
+      {
+        mTestCommand = new PositionFour();
+        Scheduler.getInstance().add(mTestCommand);
+      }
+      
+      if(true == chooser.getSelected().getName().equals("PositionFive"))
+      {
+        mTestCommand = new PositionFive();
+        Scheduler.getInstance().add(mTestCommand);
+      }
+      
+      /* Should be that
+      autonomousCommand = chooser.getSelected();
+      // schedule the autonomous command (example)
+      if (autonomousCommand != null)
+      {
+        autonomousCommand.start();
+      }
+      */
     }
 
     /**
@@ -172,7 +184,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousPeriodic() {
-        Scheduler.getInstance().run();
+       Scheduler.getInstance().run();
     }
 
     @Override
@@ -181,11 +193,15 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        if (autonomousCommand != null) autonomousCommand.cancel();
+        if (mTestCommand != null) mTestCommand.cancel();
         System.out.println("tele init");
         RobotMap.SetUpTalonsForTele();
         Robot.drive.SetTele();
+        Robot.picker.ungrabClimber();
         RobotMap.utilitiesPCMCompressor.setClosedLoopControl(true);
+        Robot.elevator.SetElevatorTarget(Robot.elevator.GetElevatorPosition());
+        
+        
     }
 
     /**
@@ -195,21 +211,39 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         
-        //Robot.drive.DriveRobot(oi.driveJoystick);
+        //DisplaySensors();
+        
+        Robot.drive.DriveRobot(oi.driveJoystick);
         Robot.elevator.DriveElevator(oi.mechJoystick);
         
-
-        //System.out.format("%s %s %f\n", enabled?"true":"false", pressureSwitch?"true":"false",current);
+        if(!RobotMap.overrideElevator) {
+          Robot.elevator.MoveElevatorToTarget();
+        }
+        if(!RobotMap.overridePickerElevator) {
+          Robot.elevator.MovePickerElevatorToTarget();
+        }
+        //Refactor to Robot.OI
+        if (oi.mechJoystick.getRawAxis(3) > 0) {
+          RobotMap.pickerLeftMotor.set(-oi.mechJoystick.getRawAxis(3));
+          RobotMap.pickerRightMotor.set(oi.mechJoystick.getRawAxis(3));
+        } else if (oi.mechJoystick.getRawAxis(2) > 0) {
+          RobotMap.pickerLeftMotor.set(oi.mechJoystick.getRawAxis(2));
+          RobotMap.pickerRightMotor.set(-oi.mechJoystick.getRawAxis(2));
+        } else {
+          RobotMap.pickerRightMotor.set(0);
+          RobotMap.pickerLeftMotor.set(0);
+        }
         
-        Robot.elevator.MoveElevatorToTarget();
-        Robot.elevator.MovePickerElevatorToTarget();
-
-        RobotMap.pickerLeftMotor.set(oi.mechJoystick.getRawAxis(0));
-        RobotMap.pickerRightMotor.set(oi.mechJoystick.getRawAxis(0));
     }
     
     
     @Override
+    public void testInit() {
+      
+    }   
+
+    @Override
     public void testPeriodic() {
+      
     }   
 }
