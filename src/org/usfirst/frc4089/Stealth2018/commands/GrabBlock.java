@@ -32,7 +32,7 @@ public class GrabBlock extends Command {
     }
 
     protected void execute() {
-    	Robot.picker.hugBlock();
+    	Robot.picker.rejectBlock();
     }
 
     protected boolean isFinished() {
@@ -40,10 +40,10 @@ public class GrabBlock extends Command {
     }
 
     protected void end() {
-    	Robot.picker.rejectBlock();
+    	Robot.picker.hugBlock();
     }
 
     protected void interrupted() {
-      Robot.picker.rejectBlock();
+      Robot.picker.hugBlock();
     }
 }

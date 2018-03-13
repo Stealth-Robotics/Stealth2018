@@ -84,7 +84,7 @@ public class RobotMap {
       pickerSRXPickerR = new WPI_TalonSRX(Constants.CANTalonSRXPickerR);
       
       //pickerDoubleSolenoid1Pick = new DoubleSolenoid(0, 0, 1);
-//        utilitiesPowerDistributionPanel1 = new PowerDistributionPanel(18);
+      //utilitiesPowerDistributionPanel1 = new PowerDistributionPanel(18);
       utilitiesPCMCompressor = new Compressor(16);
       utilitiesPCMCompressor.setClosedLoopControl(true);
 
@@ -98,9 +98,9 @@ public class RobotMap {
       pickerElevatorSwitchBottom = new DigitalInput(5);
       pickerElevatorTotalBottom = new DigitalInput(6);
       pickerElevatorEncoder  = new Encoder(2, 3, false);
-      pickerElevatorMotor = new WPI_TalonSRX(Constants.CANTalonSRXClimb);
+      pickerElevatorMotor = new WPI_TalonSRX(Constants.CANTalonSRXPickerElevator);
       
-      pickerRaiseMotor = new WPI_TalonSRX(9);
+      pickerRaiseMotor = new WPI_TalonSRX(Constants.CANTalonSRXPickerRaise);
       
       pickerLeftMotor = new WPI_TalonSRX(Constants.CANTalonSRXPickerL);
       pickerRightMotor = new WPI_TalonSRX(Constants.CANTalonSRXPickerR);

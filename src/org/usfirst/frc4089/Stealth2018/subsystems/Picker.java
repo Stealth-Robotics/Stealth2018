@@ -33,12 +33,12 @@ public class Picker extends Subsystem {
     public void initDefaultCommand() {
        }
     
-    public void hugBlock () {
+    public void rejectBlock () {
       RobotMap.pickerArms.set(true);
       System.out.println("Open Arms Source: Picker.hugBlock()");
 
     }
-    public void rejectBlock () {
+    public void hugBlock () {
       RobotMap.pickerArms.set(false);
       
       System.out.println("Close Arms Source: Picker.hugBlock()");

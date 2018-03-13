@@ -1,6 +1,6 @@
 package org.usfirst.frc4089.Stealth2018;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+//import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Constants {
   
@@ -21,35 +21,37 @@ public class Constants {
 	public static final int CANTalonSRXDriveRF = 2;
 	
 	// Elevator Picker Assignments 
-  public static final int CANTalonSRXElevator = 5;
+    public static final int CANTalonSRXElevator = 5;
+    public static final int CANTalonSRXPickerElevator = 7;
+    public static final int CANTalonSRXPickerRaise = 10;
 	public static final int CANTalonSRXPickerL = 6;
 	public static final int CANTalonSRXPickerR = 8;
-	public static final int CANTalonSRXClimb = 7;
+	public static final int CANTalonSRXClimb = 9;
 	
 	public static final int CANPCM1 = 16;
 	public static final int CANPCM2 = 17;
 	public static final int CANPDP = 18;
 
 	// User Interface consts
-  public static final int kFastButton = 1;
-  public static final int kSlowButton = 2;
-  public static final int kForwardAxes = 1;
-  public static final int kMainTurnAxes = 4;
-  public static final int kBackupTurnAxes = 2;
-
-  // Drivers Speed
-  public static final double kNormalSpeed = 0.5;
-  public static final double kSlowSpeed = 0.3;
+	public static final int kFastButton = 1;
+	public static final int kSlowButton = 2;
+	public static final int kForwardAxes = 1;
+	public static final int kMainTurnAxes = 4;
+	public static final int kBackupTurnAxes = 2;
 	
-  // Gyro Constants
-  public static final int kGyroZ = 2;
-  public static final double kGyroDeadband = 0.1;
-  
-  // Motor setup constants
-  public static final int kPIDLoopIdx = 0;
-  public static final int kTimeoutMs = 10;
-  public static final int kBaseTrajPeriodMs = 0;
-  public static final double kNeutralDeadband  = 0.01;
+	// Drivers Speed
+	public static final double kNormalSpeed = 0.5;
+	public static final double kSlowSpeed = 0.3;
+		
+	// Gyro Constants
+	public static final int kGyroZ = 2;
+	public static final double kGyroDeadband = 0.1;
+	  
+	// Motor setup constants
+	public static final int kPIDLoopIdx = 0;
+	public static final int kTimeoutMs = 10;
+	public static final int kBaseTrajPeriodMs = 0;
+	public static final double kNeutralDeadband  = 0.01;
   
   
 	//below are values for navigation

@@ -28,16 +28,14 @@ public class PositionThree extends CommandGroup {
   // Called just before this Command runs the first time
   @Override
     protected void initialize() {
-    
-    
     //hug block
-    addSequential(new RejectBlock());
+    addSequential(new HugBlock());
     //lower picker
     addSequential(new LowerPicker());
     //wait for a bit to do stuff
     addSequential(new WaitTime(500));
     //grab block
-    addSequential(new RejectBlock());
+    addSequential(new HugBlock());
     //raise block to top
     addSequential(new RaisePickerForSwitch());
     //wait just a bit more
@@ -69,7 +67,7 @@ public class PositionThree extends CommandGroup {
       addSequential(new DrivePathAction(new Red31Path60InPerSec()));
       System.out.println("Left");
       //let go of block
-      addSequential(new HugBlock());
+      addSequential(new RejectBlock());
     }
     else
     {
@@ -77,7 +75,7 @@ public class PositionThree extends CommandGroup {
       addSequential(new DrivePathAction(new Red32Path60InPerSec()));
       System.out.println("Right");
       //let go of block
-      addSequential(new HugBlock());
+      addSequential(new RejectBlock());
     }
     
 

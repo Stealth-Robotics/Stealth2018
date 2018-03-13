@@ -62,6 +62,7 @@ public class OI {
     public JoystickButton grabClimber;
     public JoystickButton ungrabClimber;
     public JoystickButton climb;
+    public JoystickButton autoFindCube;
 
     
     public Joystick driveJoystick;
@@ -90,6 +91,9 @@ public class OI {
       
       raisePicker = new JoystickButton(mechJoystick, 2);
       raisePicker.whenPressed(new RaisePicker());
+      
+      autoFindCube = new JoystickButton(driveJoystick, 4);
+      autoFindCube.whenReleased(new AutoFindCube());
 
     }
 }

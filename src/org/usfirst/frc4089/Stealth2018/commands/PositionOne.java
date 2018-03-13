@@ -27,13 +27,13 @@ public class PositionOne extends CommandGroup {
     protected void initialize() {
     
   //hug block
-    addSequential(new RejectBlock());
+    addSequential(new HugBlock());
     //lower picker
     addSequential(new LowerPicker());
     //wait for a bit to do stuff
     addSequential(new WaitTime(500));
     //grab block
-    addSequential(new RejectBlock());
+    addSequential(new HugBlock());
     //raise block to top
     addSequential(new RaisePickerForSwitch());
     //wait just a bit more

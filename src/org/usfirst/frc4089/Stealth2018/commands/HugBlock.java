@@ -11,7 +11,6 @@
 
 package org.usfirst.frc4089.Stealth2018.commands;
 import org.usfirst.frc4089.Stealth2018.Robot;
-import org.usfirst.frc4089.Stealth2018.utilities.StopWatch;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Joystick;
@@ -23,15 +22,15 @@ public class HugBlock extends Command {
   
     public HugBlock() {
         requires(Robot.picker);
-        //System.out.println("Grab Block");
+        //System.out.println("RejectBlock");
     }
 
     protected void initialize() {
-      //System.out.println("Grab Block");
+      //System.out.println("Init");
     }
 
     protected void execute() {
-      System.out.println("open picker");
+      System.out.println("Close picker");
     	Robot.picker.hugBlock();
     }
 
@@ -44,7 +43,6 @@ public class HugBlock extends Command {
     }
 
     protected void interrupted() {
-      
       end();
     }
 }
