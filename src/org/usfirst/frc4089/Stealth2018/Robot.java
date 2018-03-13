@@ -186,6 +186,13 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousPeriodic() {
        Scheduler.getInstance().run();
+       
+       if(!RobotMap.overrideElevator) {
+           Robot.elevator.MoveElevatorToTarget();
+         }
+         if(!RobotMap.overridePickerElevator) {
+           Robot.elevator.MovePickerElevatorToTarget();
+         }
     }
 
     @Override
