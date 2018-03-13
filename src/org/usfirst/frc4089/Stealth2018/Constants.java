@@ -4,6 +4,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Constants {
   
+	public static final boolean UseCamera = true;
+	
 	//below are values for 2018
 	public static final double pickerLRSpeed = 1;
 	public static final double pickerLFSpeed = 1;

@@ -50,10 +50,14 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         RobotMap.init();
         
-        //start camera server
-        UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-        camera.setResolution(320,240);
-        camera.setFPS(30);
+        if(Constants.UseCamera) {
+	        //start camera server
+	        UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+	        camera.setResolution(320,240);
+	        camera.setFPS(30);
+        }
+        
+        
         
         drive = new Drive();
         elevator = new Elevator();
