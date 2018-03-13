@@ -57,8 +57,6 @@ public class Robot extends TimedRobot {
 	        camera.setFPS(30);
         }
         
-        
-        
         drive = new Drive();
         elevator = new Elevator();
         picker = new Picker();
@@ -135,10 +133,9 @@ public class Robot extends TimedRobot {
       drive.ClearCurrentAngle();
 
       drive.SetAuto();
+      
       Robot.elevator.SetElevatorTarget(0);
       Robot.elevator.SetPickerElevatorTarget(0);
-      
-      
       
 
       // When we used the auto stuff for this the autonomous we running twice.
@@ -219,6 +216,7 @@ public class Robot extends TimedRobot {
         
         Robot.drive.DriveRobot(oi.driveJoystick);
         Robot.elevator.DriveElevator(oi.mechJoystick);
+        Robot.picker.DrivePickerWheels(oi.mechJoystick);
         
         if(!RobotMap.overrideElevator) {
           Robot.elevator.MoveElevatorToTarget();
@@ -226,18 +224,6 @@ public class Robot extends TimedRobot {
         if(!RobotMap.overridePickerElevator) {
           Robot.elevator.MovePickerElevatorToTarget();
         }
-        //Refactor to Robot.OI
-        if (oi.mechJoystick.getRawAxis(3) > 0) {
-          RobotMap.pickerLeftMotor.set(-oi.mechJoystick.getRawAxis(3));
-          RobotMap.pickerRightMotor.set(oi.mechJoystick.getRawAxis(3));
-        } else if (oi.mechJoystick.getRawAxis(2) > 0) {
-          RobotMap.pickerLeftMotor.set(oi.mechJoystick.getRawAxis(2));
-          RobotMap.pickerRightMotor.set(-oi.mechJoystick.getRawAxis(2));
-        } else {
-          RobotMap.pickerRightMotor.set(0);
-          RobotMap.pickerLeftMotor.set(0);
-        }
-        
     }
     
     

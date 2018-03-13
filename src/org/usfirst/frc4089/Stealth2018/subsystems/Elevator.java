@@ -46,7 +46,7 @@ public class Elevator extends Subsystem {
   //     none
   //--------------------------------------------------------------------  
   public void initDefaultCommand() {
-    setDefaultCommand(new UserElevator());
+    //setDefaultCommand(new UserElevator());
   }
     
   //--------------------------------------------------------------------

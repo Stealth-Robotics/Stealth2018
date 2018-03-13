@@ -48,7 +48,6 @@ public class RotateClimberMotor extends Command {
     }
 
     protected void interrupted() {
-      RobotMap.climbMotor.set(0);
       end();
     }
 }

@@ -21,15 +21,11 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class RaisePicker extends Command {
   
-  StopWatch mWaitTime = new StopWatch(1000);
+	StopWatch mWaitTime = new StopWatch(1000);
 
     
     public RaisePicker() {
-
-    
         requires(Robot.picker);
-
-    
     }
 
     // Called just before this Command runs the first time
@@ -39,8 +35,8 @@ public class RaisePicker extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-      RobotMap.pickerRaiseMotor.set(-1);
-      System.out.println("Time Left: " + mWaitTime.timeLeft());
+    	Robot.picker.setRaisePickerMotor(-1);
+    	//System.out.println("Time Left: " + mWaitTime.timeLeft());
     }
 
     protected boolean isFinished() {
@@ -50,11 +46,10 @@ public class RaisePicker extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-      RobotMap.pickerRaiseMotor.set(0);
+    	Robot.picker.stopPickerMotors();
     }
 
     protected void interrupted() {
-      RobotMap.pickerRaiseMotor.set(0);
       end();
     }
 }

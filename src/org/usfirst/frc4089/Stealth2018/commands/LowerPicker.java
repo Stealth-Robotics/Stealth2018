@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class LowerPicker extends Command {
   
-  StopWatch mWaitTime = new StopWatch(1300);
+    StopWatch mWaitTime = new StopWatch(1300);
 
     
     public LowerPicker() {
@@ -49,11 +49,10 @@ public class LowerPicker extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	
-      Robot.picker.setRaisePickerMotor(0);
+      Robot.picker.stopPickerMotors();
     }
 
     protected void interrupted() {
-      Robot.picker.setRaisePickerMotor(0);
       end();
     }
 }

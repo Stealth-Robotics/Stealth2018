@@ -23,16 +23,15 @@ public class RejectBlock extends Command {
   
     public RejectBlock() {
         requires(Robot.picker);
-        //System.out.println("Grab Block");
     }
 
     protected void initialize() {
-      //System.out.println("Grab Block");
+      
     }
 
     protected void execute() {
-      System.out.println("open picker");
-    	Robot.picker.rejectBlock();
+      System.out.println("open picker Source: RejectBlock.execute()");
+      Robot.picker.rejectBlock();
     }
 
     protected boolean isFinished() {
@@ -44,7 +43,6 @@ public class RejectBlock extends Command {
     }
 
     protected void interrupted() {
-      
       end();
     }
 }

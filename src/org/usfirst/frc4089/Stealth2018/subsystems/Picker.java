@@ -18,7 +18,7 @@ import org.usfirst.frc4089.Stealth2018.commands.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 
@@ -31,13 +31,13 @@ public class Picker extends Subsystem {
     // here. Call these from Commands.
 
     public void initDefaultCommand() {
-       }
+    }
     
     public void rejectBlock () {
       RobotMap.pickerArms.set(true);
-      System.out.println("Open Arms Source: Picker.hugBlock()");
-
+      System.out.println("Open Arms Source: Picker.rejectBlock()");
     }
+    
     public void hugBlock () {
       RobotMap.pickerArms.set(false);
       
@@ -46,14 +46,45 @@ public class Picker extends Subsystem {
 
     public void grabClimber () {
       RobotMap.climberGrabber.set(true);
+      
+      System.out.println("Grab Climber Source: Picker.grabClimber()");
     }
 
     public void ungrabClimber() {
       RobotMap.climberGrabber.set(false);
+      
+      System.out.println("Ungrab Climber Source: Picker.ungrabClimber()");
     }
     
     public void setRaisePickerMotor(double value) {
       RobotMap.pickerRaiseMotor.set(value);
+      
+      System.out.println("Set Picker Raise Motor " + value + " Source: Picker.setRaisePickerMotor()");
+    }
+    
+    public void setPickerMotors(double value) {
+    	//pickerLeftMotor is negative because it is the inverse of pickerRightMotor
+    	RobotMap.pickerLeftMotor.set(-value);
+    	RobotMap.pickerRightMotor.set(value);
+    	
+    	System.out.println("Set Picker Motors " + value + " Source: Picker.setPickerMotors()");
+    }
+    
+    public void stopPickerMotors() {
+    	RobotMap.pickerLeftMotor.set(0);
+    	RobotMap.pickerRightMotor.set(0);
+    	
+    	System.out.println("Stop Picker Motors Source: Picker.stopPickerMotors()");
+    }
+    
+    public void DrivePickerWheels(Joystick mechJoystick) {
+    	if (mechJoystick.getRawAxis(3) > 0) {
+    		setPickerMotors(mechJoystick.getRawAxis(3));
+          } else if (mechJoystick.getRawAxis(2) > 0) {
+        	  setPickerMotors(-mechJoystick.getRawAxis(2));
+          } else {
+            stopPickerMotors();
+          }
     }
 }
 
