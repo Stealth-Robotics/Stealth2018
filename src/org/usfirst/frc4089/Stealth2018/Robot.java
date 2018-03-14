@@ -151,7 +151,7 @@ public class Robot extends TimedRobot {
         mTestCommand = new PositionThree();
         Scheduler.getInstance().add(mTestCommand);
       }
-      
+        
       if(true == chooser.getSelected().getName().equals("PositionFive"))
       {
         mTestCommand = new PositionFive();
