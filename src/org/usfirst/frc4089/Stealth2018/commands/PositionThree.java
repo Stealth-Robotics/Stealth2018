@@ -97,5 +97,6 @@ public class PositionThree extends CommandGroup {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+	  end();
   }
 }

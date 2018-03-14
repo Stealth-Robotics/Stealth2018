@@ -44,10 +44,9 @@ public class GrabClimber extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	//Robot.picker.stopPicker();
     }
 
     protected void interrupted() {
-   //   Robot.picker.stopPicker();
+    	end();
     }
 }
