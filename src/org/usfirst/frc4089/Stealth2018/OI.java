@@ -74,8 +74,8 @@ public class OI {
       driveJoystick = new Joystick(0);
       dsJoystick = new Joystick(2);
                 
-      grabBlockButton = new JoystickButton(mechJoystick, 5);
-      grabBlockButton.whileHeld(new GrabBlock());
+//      grabBlockButton = new JoystickButton(mechJoystick, 5);
+//      grabBlockButton.whileHeld(new GrabBlock());
       
       grabClimber = new JoystickButton(dsJoystick, 4);
       grabClimber.whenPressed(new GrabClimber());
@@ -92,8 +92,8 @@ public class OI {
       raisePicker = new JoystickButton(mechJoystick, 2);
       raisePicker.whenPressed(new RaisePicker());
       
-      autoFindCube = new JoystickButton(driveJoystick, 4);
-      autoFindCube.whenReleased(new AutoFindCube());
+//      autoFindCube = new JoystickButton(driveJoystick, 4);
+//      autoFindCube.whenReleased(new AutoFindCube());
 
     }
 }
