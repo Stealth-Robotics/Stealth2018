@@ -11,6 +11,7 @@
 package org.usfirst.frc4089.Stealth2018.commands;
 
 import org.usfirst.frc4089.Stealth2018.Robot;
+import org.usfirst.frc4089.Stealth2018.RobotMap;
 import org.usfirst.frc4089.Stealth2018.MPPaths.*;
 import org.usfirst.frc4089.Stealth2018.subsystems.Picker;
 
@@ -28,20 +29,15 @@ public class PositionThree extends CommandGroup {
   // Called just before this Command runs the first time
   @Override
     protected void initialize() {
+	  System.out.println("Position three Source: Commands.PositionThree");
     //hug block
     addSequential(new HugBlock());
     //lower picker
     addSequential(new LowerPicker());
-    //wait for a bit to do stuff
-    addSequential(new WaitTime(500));
-    //grab block
-    addSequential(new HugBlock());
     //raise block to top
-    addSequential(new RaisePickerForSwitch());
-    //wait just a bit more
-    addSequential(new WaitTime(50));
+    addParallel(new  RaisePickerForSwitch());
 
-    System.out.println("Position three");
+    
     //get game data
     String gameData = DriverStation.getInstance().getGameSpecificMessage();
     int counter = 0;
@@ -78,8 +74,7 @@ public class PositionThree extends CommandGroup {
       addSequential(new RejectBlock());
     }
     
-
-      
+    addSequential(new SetAutoFinished());
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -90,7 +85,7 @@ public class PositionThree extends CommandGroup {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return RobotMap.isAutoFinished;
   }
 
   // Called once after isFinished returns true

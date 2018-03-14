@@ -70,6 +70,8 @@ public class RobotMap {
     public static boolean overrideElevator;
     public static boolean overridePickerElevator;
     
+    public static boolean isAutoFinished;
+    
     
     public static WPI_TalonSRX climbMotor;
     
@@ -114,6 +116,8 @@ public class RobotMap {
       
       overrideElevator = true;
       overridePickerElevator = true;
+      
+      isAutoFinished = false;
       
       climbMotor = new WPI_TalonSRX(Constants.CANTalonSRXClimb);
     }

@@ -10,6 +10,7 @@
 
 package org.usfirst.frc4089.Stealth2018.commands;
 
+import org.usfirst.frc4089.Stealth2018.RobotMap;
 import org.usfirst.frc4089.Stealth2018.MPPaths.*;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.*;
@@ -25,21 +26,15 @@ public class PositionOne extends CommandGroup {
   // Called just before this Command runs the first time
   @Override
     protected void initialize() {
-    
-  //hug block
+	  System.out.println("Position One Source: Commands.PositionOne");
+    //hug block
     addSequential(new HugBlock());
     //lower picker
     addSequential(new LowerPicker());
-    //wait for a bit to do stuff
-    addSequential(new WaitTime(500));
-    //grab block
-    addSequential(new HugBlock());
     //raise block to top
-    addSequential(new RaisePickerForSwitch());
-    //wait just a bit more
-    addSequential(new WaitTime(50));
+    addParallel(new RaisePickerForSwitch());
     
-    System.out.println("Position One");
+    
     String gameData = DriverStation.getInstance().getGameSpecificMessage();
     int counter = 0;
     while ((gameData == "" || gameData == null || gameData.length() != 3) && counter < 250) {
@@ -63,16 +58,16 @@ public class PositionOne extends CommandGroup {
     {
       addSequential(new DrivePathAction(new Red11Path60InPerSec()));
       System.out.println("Left");
-      //addSequential(new HugBlock());
+      addSequential(new RejectBlock());
     }
     else
     {
       addSequential(new DrivePathAction(new Move10Path60InPerSec()));
       System.out.println("Right");
-      //addSequential(new HugBlock());
+      addSequential(new RejectBlock());
     }
     
-    
+    addSequential(new SetAutoFinished());
     
     
   }
@@ -85,7 +80,7 @@ public class PositionOne extends CommandGroup {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return RobotMap.isAutoFinished;
   }
 
   // Called once after isFinished returns true
