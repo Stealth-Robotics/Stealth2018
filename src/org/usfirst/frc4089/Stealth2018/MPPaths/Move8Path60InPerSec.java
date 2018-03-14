@@ -29,7 +29,7 @@ package org.usfirst.frc4089.Stealth2018.MPPaths;
 
 public class Move8Path60InPerSec extends Path {
     public Move8Path60InPerSec() {
-       kNumPoints = 116;
+       kNumPoints = 116; 
        kPoints = new double[][]{
   {0.400000, 0.400000, 0.000000, 0.003040, 7.000000, 0.003040, -7.000000},
   {0.800000, 0.800000, 0.000000, 0.019040, 7.000000, 0.019040, -7.000000},
