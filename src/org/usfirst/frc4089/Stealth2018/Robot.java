@@ -34,6 +34,7 @@ import org.usfirst.frc4089.Stealth2018.subsystems.*;
 public class Robot extends TimedRobot {
     
     SendableChooser<Command> chooser = new SendableChooser<>();
+    
 
     public static OI oi;
 
@@ -75,13 +76,19 @@ public class Robot extends TimedRobot {
         oi = new OI();
         
         
+        
+        
         // Add commands to Autonomous Sendable Chooser
 
-        chooser.addObject("1 Position One", new Position1());
+<<<<<<< HEAD
+        chooser.addObject("1 Position One", new Position1Path1());
+=======
+        chooser.addObject("1 Position One", new PositionOne());
+>>>>>>> parent of 91a1106... Added commands for auto paths
         //chooser.addObject("2 Position Two", new PositionTwo());
-        chooser.addDefault("3 Position Three", new Position3Path1());
+        chooser.addDefault("3 Position Three", new PositionThree());
         //chooser.addObject("4 Position Four", new PositionFour());
-        chooser.addObject("5 Position Five", new Position5Path1());
+        chooser.addObject("5 Position Five", new PositionFive());
         SmartDashboard.putData("Auto mode", chooser);
         
     }
@@ -142,19 +149,23 @@ public class Robot extends TimedRobot {
       // So we are doing this the long way.  We need to research why it was running twice.
       if(true == chooser.getSelected().getName().equals("PositionOne"))
       {
-        mTestCommand = new Position1();
+<<<<<<< HEAD
+        mTestCommand = new Position1Path1();
+=======
+        mTestCommand = new PositionOne();
+>>>>>>> parent of 91a1106... Added commands for auto paths
         Scheduler.getInstance().add(mTestCommand);
       }
       
       if(true == chooser.getSelected().getName().equals("PositionThree"))
       {
-        mTestCommand = new Position3Path1();
+        mTestCommand = new PositionThree();
         Scheduler.getInstance().add(mTestCommand);
       }
       
       if(true == chooser.getSelected().getName().equals("PositionFive"))
       {
-        mTestCommand = new Position5Path1();
+        mTestCommand = new PositionFive();
         Scheduler.getInstance().add(mTestCommand);
       }
       

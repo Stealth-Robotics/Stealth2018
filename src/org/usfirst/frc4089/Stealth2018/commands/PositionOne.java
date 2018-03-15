@@ -10,42 +10,37 @@
 
 package org.usfirst.frc4089.Stealth2018.commands;
 
-import org.usfirst.frc4089.Stealth2018.Robot;
 import org.usfirst.frc4089.Stealth2018.RobotMap;
 import org.usfirst.frc4089.Stealth2018.MPPaths.*;
-import org.usfirst.frc4089.Stealth2018.subsystems.Picker;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.*;
 
 /**
  *
  */
-public class Position3Path1 extends CommandGroup {
-  public Position3Path1() {
+public class PositionOne extends CommandGroup {
+  public PositionOne() {
     
   }
 
   // Called just before this Command runs the first time
   @Override
     protected void initialize() {
-	  System.out.println("Position three Source: Commands.PositionThree");
+	  System.out.println("Position One Source: Commands.PositionOne");
     //hug block
     addSequential(new HugBlock());
     //lower picker
     addSequential(new LowerPicker());
     //raise block to top
-    addParallel(new  RaisePickerForSwitch());
-
+    addParallel(new RaisePickerForSwitch());
     
-    //get game data
+    
     String gameData = DriverStation.getInstance().getGameSpecificMessage();
     int counter = 0;
     while ((gameData == "" || gameData == null || gameData.length() != 3) && counter < 250) {
       gameData = DriverStation.getInstance().getGameSpecificMessage();
       counter ++;
     }
-    //figure out where to go
     boolean left = true;
     
     if(gameData.length()>1)
@@ -57,24 +52,24 @@ public class Position3Path1 extends CommandGroup {
     }
     
     
+    
+    
     if(left)
     {
-      //go to where we need to go
-      addSequential(new DrivePathAction(new Red31Path60InPerSec()));
+      addSequential(new DrivePathAction(new Red11Path60InPerSec()));
       System.out.println("Left");
-      //let go of block
       addSequential(new RejectBlock());
     }
     else
     {
-      //go to where we need to go
-      addSequential(new DrivePathAction(new Red32Path60InPerSec()));
+      addSequential(new DrivePathAction(new Move10Path60InPerSec()));
       System.out.println("Right");
-      //let go of block
       addSequential(new RejectBlock());
     }
     
     addSequential(new SetAutoFinished());
+    
+    
   }
 
   // Called repeatedly when this Command is scheduled to run
