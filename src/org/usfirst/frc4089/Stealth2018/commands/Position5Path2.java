@@ -18,34 +18,33 @@ import edu.wpi.first.wpilibj.*;
 /**
  *
  */
-public class PositionOne extends CommandGroup {
-  public PositionOne() {
+public class Position5Path2 extends CommandGroup {
+  public Position5Path2() {
     
   }
 
   // Called just before this Command runs the first time
   @Override
     protected void initialize() {
-	  System.out.println("Position One Source: Commands.PositionOne");
+	  System.out.println("Position Five Source: Commands.PositionFive");
     //hug block
     addSequential(new HugBlock());
     //lower picker
-    addSequential(new LowerPicker());
-    //raise block to top
-    addParallel(new RaisePickerForSwitch());
+
     
-    
+    //get game data
     String gameData = DriverStation.getInstance().getGameSpecificMessage();
     int counter = 0;
     while ((gameData == "" || gameData == null || gameData.length() != 3) && counter < 250) {
       gameData = DriverStation.getInstance().getGameSpecificMessage();
       counter ++;
     }
+    
     boolean left = true;
     
     if(gameData.length()>1)
     {
-      if('R'==gameData.charAt(0))
+      if('R'==gameData.charAt(1))
       {
         left = false;
       }
@@ -53,18 +52,24 @@ public class PositionOne extends CommandGroup {
     
     
     
-    
     if(left)
     {
-      addSequential(new DrivePathAction(new Red11Path60InPerSec()));
-      System.out.println("Left");
-      addSequential(new RejectBlock());
+    	addSequential(new DrivePathAction(new Move10Path60InPerSec()));
+        System.out.println("Right");
+        //lower picker
+        addSequential(new LowerPicker());
     }
     else
     {
-      addSequential(new DrivePathAction(new Move10Path60InPerSec()));
-      System.out.println("Right");
-      addSequential(new RejectBlock());
+    	addSequential(new DrivePathAction(new Red52Path60InPerSec()));
+        System.out.println("Left");
+        //lower picker
+        addParallel(new LowerPicker());
+        //raise block to top
+        addParallel(new RaisePickerToTop());
+        addParallel(new RaiseMainToTop());
+        //drop it like it is hot
+        addSequential(new RejectBlock());
     }
     
     addSequential(new SetAutoFinished());

@@ -10,29 +10,33 @@
 
 package org.usfirst.frc4089.Stealth2018.commands;
 
+import org.usfirst.frc4089.Stealth2018.Robot;
 import org.usfirst.frc4089.Stealth2018.RobotMap;
 import org.usfirst.frc4089.Stealth2018.MPPaths.*;
+import org.usfirst.frc4089.Stealth2018.subsystems.Picker;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.*;
 
 /**
  *
  */
-public class PositionFive extends CommandGroup {
-  public PositionFive() {
+public class Position3Path1 extends CommandGroup {
+  public Position3Path1() {
     
   }
 
   // Called just before this Command runs the first time
   @Override
     protected void initialize() {
-	  System.out.println("Position Five Source: Commands.PositionFive");
+	  System.out.println("Position three Source: Commands.PositionThree");
     //hug block
     addSequential(new HugBlock());
     //lower picker
     addSequential(new LowerPicker());
     //raise block to top
-    addParallel(new RaisePickerForSwitch());
+    addParallel(new  RaiseMainToTop());
+
     
     //get game data
     String gameData = DriverStation.getInstance().getGameSpecificMessage();
@@ -41,7 +45,7 @@ public class PositionFive extends CommandGroup {
       gameData = DriverStation.getInstance().getGameSpecificMessage();
       counter ++;
     }
-    
+    //figure out where to go
     boolean left = true;
     
     if(gameData.length()>1)
@@ -53,23 +57,24 @@ public class PositionFive extends CommandGroup {
     }
     
     
-    
     if(left)
     {
-      addSequential(new DrivePathAction(new Move10Path60InPerSec()));
+      //go to where we need to go
+      addSequential(new DrivePathAction(new Red31Path60InPerSec()));
       System.out.println("Left");
+      //let go of block
       addSequential(new RejectBlock());
     }
     else
     {
-      addSequential(new DrivePathAction(new Red51Path60InPerSec()));
+      //go to where we need to go
+      addSequential(new DrivePathAction(new Red32Path60InPerSec()));
       System.out.println("Right");
+      //let go of block
       addSequential(new RejectBlock());
     }
     
     addSequential(new SetAutoFinished());
-    
-    
   }
 
   // Called repeatedly when this Command is scheduled to run
