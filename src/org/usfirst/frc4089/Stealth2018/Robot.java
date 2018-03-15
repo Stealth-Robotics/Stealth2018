@@ -77,11 +77,11 @@ public class Robot extends TimedRobot {
         
         // Add commands to Autonomous Sendable Chooser
 
-        chooser.addObject("1 Position One", new Position1());
+        chooser.addObject("1 Position One", new PositionOne());
         //chooser.addObject("2 Position Two", new PositionTwo());
-        chooser.addDefault("3 Position Three", new Position3Path1());
+        chooser.addDefault("3 Position Three", new PositionThree());
         //chooser.addObject("4 Position Four", new PositionFour());
-        chooser.addObject("5 Position Five", new Position5Path1());
+        chooser.addObject("5 Position Five", new PositionFive());
         SmartDashboard.putData("Auto mode", chooser);
         
     }
@@ -142,19 +142,19 @@ public class Robot extends TimedRobot {
       // So we are doing this the long way.  We need to research why it was running twice.
       if(true == chooser.getSelected().getName().equals("PositionOne"))
       {
-        mTestCommand = new Position1();
+        mTestCommand = new PositionOne();
         Scheduler.getInstance().add(mTestCommand);
       }
       
       if(true == chooser.getSelected().getName().equals("PositionThree"))
       {
-        mTestCommand = new Position3Path1();
+        mTestCommand = new PositionThree();
         Scheduler.getInstance().add(mTestCommand);
       }
       
       if(true == chooser.getSelected().getName().equals("PositionFive"))
       {
-        mTestCommand = new Position5Path1();
+        mTestCommand = new PositionFive();
         Scheduler.getInstance().add(mTestCommand);
       }
       

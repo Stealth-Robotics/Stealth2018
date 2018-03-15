@@ -10,26 +10,32 @@
 
 package org.usfirst.frc4089.Stealth2018.commands;
 
+import org.usfirst.frc4089.Stealth2018.Robot;
 import org.usfirst.frc4089.Stealth2018.RobotMap;
 import org.usfirst.frc4089.Stealth2018.MPPaths.*;
+import org.usfirst.frc4089.Stealth2018.subsystems.Picker;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.*;
 
 /**
  *
  */
-public class Position5Path2 extends CommandGroup {
-  public Position5Path2() {
+public class PositionThree extends CommandGroup {
+  public PositionThree() {
     
   }
 
   // Called just before this Command runs the first time
   @Override
     protected void initialize() {
-	  System.out.println("Position Five Source: Commands.PositionFive");
+	  System.out.println("Position three Source: Commands.PositionThree");
     //hug block
     addSequential(new HugBlock());
     //lower picker
+    addSequential(new LowerPicker());
+    //raise block to top
+    addParallel(new  RaisePickerForSwitch());
 
     
     //get game data
@@ -39,42 +45,36 @@ public class Position5Path2 extends CommandGroup {
       gameData = DriverStation.getInstance().getGameSpecificMessage();
       counter ++;
     }
-    
+    //figure out where to go
     boolean left = true;
     
     if(gameData.length()>1)
     {
-      if('R'==gameData.charAt(1))
+      if('R'==gameData.charAt(0))
       {
         left = false;
       }
     }
     
     
-    
     if(left)
     {
-      addSequential(new DrivePathAction(new Red54Path60InPerSec()));
+      //go to where we need to go
+      addSequential(new DrivePathAction(new Red31Path60InPerSec()));
       System.out.println("Left");
-      //addSequential(new RejectBlock());
+      //let go of block
+      addSequential(new RejectBlock());
     }
     else
     {
-      addSequential(new DrivePathAction(new Red52Path60InPerSec()));
+      //go to where we need to go
+      addSequential(new DrivePathAction(new Red32Path60InPerSec()));
       System.out.println("Right");
+      //let go of block
+      addSequential(new RejectBlock());
     }
     
-    addParallel(new LowerPicker());
-    //raise block to top
-    addParallel(new RaisePickerToTop());
-    
-    addParallel(new RaiseMainToTop());
-    
-    addSequential(new RejectBlock());
-    
     addSequential(new SetAutoFinished());
-    
-    
   }
 
   // Called repeatedly when this Command is scheduled to run
