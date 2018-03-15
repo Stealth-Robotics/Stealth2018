@@ -18,8 +18,8 @@ import edu.wpi.first.wpilibj.*;
 /**
  *
  */
-public class PositionFive extends CommandGroup {
-  public PositionFive() {
+public class Position5Path1 extends CommandGroup {
+  public Position5Path1() {
     
   }
 
@@ -29,10 +29,6 @@ public class PositionFive extends CommandGroup {
 	  System.out.println("Position Five Source: Commands.PositionFive");
     //hug block
     addSequential(new HugBlock());
-    //lower picker
-    addSequential(new LowerPicker());
-    //raise block to top
-    addParallel(new RaisePickerForSwitch());
     
     //get game data
     String gameData = DriverStation.getInstance().getGameSpecificMessage();
@@ -58,13 +54,20 @@ public class PositionFive extends CommandGroup {
     {
       addSequential(new DrivePathAction(new Move10Path60InPerSec()));
       System.out.println("Left");
-      addSequential(new RejectBlock());
+      //addSequential(new RejectBlock());
+      //lower picker
+      addSequential(new LowerPicker());
     }
     else
     {
       addSequential(new DrivePathAction(new Red51Path60InPerSec()));
       System.out.println("Right");
+      //lower picker
+      addParallel(new LowerPicker());
+      //raise block to top
+      addParallel(new RaisePickerToTop());
       addSequential(new RejectBlock());
+
     }
     
     addSequential(new SetAutoFinished());
