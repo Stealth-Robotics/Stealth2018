@@ -34,6 +34,7 @@ import org.usfirst.frc4089.Stealth2018.subsystems.*;
 public class Robot extends TimedRobot {
     
     SendableChooser<Command> chooser = new SendableChooser<>();
+    
 
     public static OI oi;
 
@@ -75,9 +76,11 @@ public class Robot extends TimedRobot {
         oi = new OI();
         
         
+        
+        
         // Add commands to Autonomous Sendable Chooser
 
-        chooser.addObject("1 Position One", new PositionOne());
+        chooser.addObject("1 Position One", new Position1Path1());
         //chooser.addObject("2 Position Two", new PositionTwo());
         chooser.addDefault("3 Position Three", new PositionThree());
         //chooser.addObject("4 Position Four", new PositionFour());
@@ -142,7 +145,7 @@ public class Robot extends TimedRobot {
       // So we are doing this the long way.  We need to research why it was running twice.
       if(true == chooser.getSelected().getName().equals("PositionOne"))
       {
-        mTestCommand = new PositionOne();
+        mTestCommand = new Position1Path1();
         Scheduler.getInstance().add(mTestCommand);
       }
       
