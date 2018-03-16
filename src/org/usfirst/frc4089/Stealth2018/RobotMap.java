@@ -16,6 +16,10 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
+import com.ctre.phoenix.motorcontrol.*;
+import com.ctre.phoenix.motion.*;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -50,11 +54,9 @@ public class RobotMap {
     public static WPI_TalonSRX elevatorMotor;
 
     // Picker
-    public static Encoder pickerElevatorEncoder;
-    public static DigitalInput pickerElevatorSwitchTop;
-    public static DigitalInput pickerElevatorSwitchBottom;
-    public static DigitalInput pickerElevatorTotalBottom;
+    //public static Encoder pickerElevatorEncoder;
     public static WPI_TalonSRX pickerElevatorMotor;
+    public static SensorCollection pickerSensors;
     public static WPI_TalonSRX pickerRaiseMotor;
     
     public static WPI_TalonSRX pickerLeftMotor;
@@ -96,11 +98,10 @@ public class RobotMap {
       elevatorMotor = new WPI_TalonSRX(Constants.CANTalonSRXElevator);
       elevatorMotor.setInverted(true);
        
-      pickerElevatorSwitchTop = new DigitalInput(7);
-      pickerElevatorSwitchBottom = new DigitalInput(5);
-      pickerElevatorTotalBottom = new DigitalInput(6);
-      pickerElevatorEncoder  = new Encoder(2, 3, false);
+      //pickerElevatorEncoder  = new Encoder(2, 3, false);
       pickerElevatorMotor = new WPI_TalonSRX(Constants.CANTalonSRXPickerElevator);
+      pickerElevatorMotor.setSafetyEnabled(true);
+      pickerSensors = pickerElevatorMotor.getSensorCollection();
       
       pickerRaiseMotor = new WPI_TalonSRX(Constants.CANTalonSRXPickerRaise);
       
@@ -115,7 +116,7 @@ public class RobotMap {
       netTable = NetworkTable.getTable("FRCRobot");
       
       overrideElevator = true;
-      overridePickerElevator = true;
+      overridePickerElevator = false;
       
       isAutoFinished = false;
       

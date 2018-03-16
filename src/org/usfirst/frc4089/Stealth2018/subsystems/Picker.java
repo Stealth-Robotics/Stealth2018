@@ -74,7 +74,7 @@ public class Picker extends Subsystem {
     	RobotMap.pickerLeftMotor.set(0);
     	RobotMap.pickerRightMotor.set(0);
     	
-    	System.out.println("Stop Picker Motors Source: Picker.stopPickerMotors()");
+    	//System.out.println("Stop Picker Motors Source: Picker.stopPickerMotors()");
     }
     
     public void DrivePickerWheels(Joystick mechJoystick) {

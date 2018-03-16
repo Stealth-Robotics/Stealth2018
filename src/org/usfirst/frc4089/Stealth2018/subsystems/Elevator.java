@@ -195,7 +195,7 @@ public class Elevator extends Subsystem {
   //--------------------------------------------------------------------  
   public void MoveElevatorToTarget() {
     //get current ticks
-    int elevatorEncoderTicks = RobotMap.elevatorEncoder.get();
+    int elevatorEncoderTicks = RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0);
 
     //make sure it doesn't go past limit switches
     if (RobotMap.elevatorSwitchBottom.get() == true) {
@@ -246,7 +246,7 @@ public class Elevator extends Subsystem {
   // --------------------------------------------------------------------
   // Constants:
   // --------------------------------------------------------------------
-  final double pickerElevatorKp = 0.03;
+  final double pickerElevatorKp = 0.005;
   final double pickerElevatorKi = 0;
   final double pickerElevatorKd = 0;
 
@@ -268,12 +268,12 @@ public class Elevator extends Subsystem {
   //--------------------------------------------------------------------  
   private void HandlePickerElevator(double yElevator) {
     yElevator = DriveMath.DeadBand(yElevator,0.25);
-    int change = (int)(-yElevator * 10);
-    boolean topSwitch = RobotMap.pickerElevatorSwitchTop.get();
-    boolean bottomSwitch = RobotMap.pickerElevatorSwitchBottom.get();
+    int change = (int)(-yElevator * 25);
+    boolean topSwitch = RobotMap.pickerSensors.isFwdLimitSwitchClosed();
+    boolean bottomSwitch = RobotMap.pickerSensors.isRevLimitSwitchClosed();
     
     if (RobotMap.overridePickerElevator) {
-      
+      System.out.println("override");
       if(topSwitch) {
         if(-yElevator > 0) {
           yElevator = 0;
@@ -287,6 +287,7 @@ public class Elevator extends Subsystem {
       }
       
       RobotMap.pickerElevatorMotor.set(-yElevator);
+      System.out.println("Override " + RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0) + " " + RobotMap.pickerElevatorMotor.get());
     } else {
       // only change things if the user wants to to advoid messing with auto
       if(0 != change)
@@ -348,9 +349,8 @@ public class Elevator extends Subsystem {
   //--------------------------------------------------------------------  
   public void MovePickerElevatorToTarget() {
         //get current ticks
-   int pickerElevatorEncoderTicks = RobotMap.pickerElevatorEncoder.get();
-   boolean pickerElevatorSwitchTotalBottom = RobotMap.pickerElevatorTotalBottom.get();
-
+   int pickerElevatorEncoderTicks = RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0);
+//   boolean pickerElevatorSwitchTotalBottom = RobotMap.pickerElevatorTotalBottom.get();
 /*
    if (RobotMap.pickerElevatorSwitchBottom.get() == true) {
      RobotMap.pickerElevatorEncoder.reset();
@@ -377,6 +377,13 @@ public class Elevator extends Subsystem {
 	  //clamp the value between -1 and 1
 	  motorOutput = Math.max(-1, Math.min(1, motorOutput));
 	  
+	   System.out.format("!override %d %d %f %f %f\n",
+	       pidPickerElevatorTarget,
+	       pickerElevatorEncoderTicks,
+	       error,
+	       derivative,
+	       motorOutput);
+
 	  pickerElevatorLastEncoderTicks = pickerElevatorEncoderTicks;
 	  
 	  //set the motor to the correct value

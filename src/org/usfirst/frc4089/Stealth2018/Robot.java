@@ -65,7 +65,8 @@ public class Robot extends TimedRobot {
         Robot.elevator.SetElevatorTarget(0);
         Robot.elevator.SetPickerElevatorTarget(0);
         RobotMap.elevatorEncoder.reset();
-        RobotMap.pickerElevatorEncoder.reset();
+        RobotMap.pickerElevatorMotor.setSelectedSensorPosition(0, 0, 20);
+        //RobotMap.pickerElevatorEncoder.reset();
         
         System.out.println("robot init");
         // OI must be constructed after subsystems. If the OI creates Commands
@@ -100,14 +101,13 @@ public class Robot extends TimedRobot {
 
     private void DisplaySensors()
     {
-      System.out.format("%b %b %b %b %b %d %d\n", 
+      System.out.format("%b %b %b %b %d %d\n", 
           RobotMap.elevatorSwitchTop.get(),
           RobotMap.elevatorSwitchBottom.get(),
-          RobotMap.pickerElevatorSwitchTop.get(),
-          RobotMap.pickerElevatorSwitchBottom.get(),
-          RobotMap.pickerElevatorTotalBottom.get(),
+          RobotMap.pickerSensors.isFwdLimitSwitchClosed(),
+          RobotMap.pickerSensors.isRevLimitSwitchClosed(),
           RobotMap.elevatorEncoder.get(),
-          RobotMap.pickerElevatorEncoder.get()
+          RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0)
           );
 
     }

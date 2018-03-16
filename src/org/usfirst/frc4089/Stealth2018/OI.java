@@ -76,6 +76,9 @@ public class OI {
                 
 //      grabBlockButton = new JoystickButton(mechJoystick, 5);
 //      grabBlockButton.whileHeld(new GrabBlock());
+      grabBlockButton = new JoystickButton(mechJoystick, 5);
+      grabBlockButton.whenPressed(new RejectBlock());
+      grabBlockButton.whenReleased(new HugBlock());
       
       grabClimber = new JoystickButton(dsJoystick, 4);
       grabClimber.whenPressed(new GrabClimber());

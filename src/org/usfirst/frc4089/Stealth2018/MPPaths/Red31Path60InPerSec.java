@@ -29,6 +29,7 @@ package org.usfirst.frc4089.Stealth2018.MPPaths;
 
 public class Red31Path60InPerSec extends Path {
     public Red31Path60InPerSec() {
+       kSpeed = 6.000000;
        kNumPoints = 147;
        kPoints = new double[][]{
   {0.400000, 0.400000, 0.002691, 16.002145, 167.250000, 16.002802, 153.250000},

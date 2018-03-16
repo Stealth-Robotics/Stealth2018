@@ -36,6 +36,7 @@ public class DrivePathAction extends Command {
       if(mCount<mPath.kNumPoints)
       {
         Robot.drive.AutoDrive(
+            mPath.kSpeed,
             mPath.kPoints[mCount][0],
             mPath.kPoints[mCount][1],
             mPath.kPoints[mCount][2],

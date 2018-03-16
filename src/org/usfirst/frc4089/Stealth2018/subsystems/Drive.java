@@ -164,7 +164,9 @@ public class Drive extends Subsystem {
   // Notes:
   //    
   //--------------------------------------------------------------------  
-  public void AutoDrive(double speedL, 
+  public void AutoDrive(
+      double speedInPerTenthSec,
+      double speedL, 
       double speedR, 
       double heading,
       FileWriter logFile)
@@ -173,6 +175,8 @@ public class Drive extends Subsystem {
     double [] xyz_dps = new double [3];
     RobotMap.pigeonIMU.getRawGyro(xyz_dps);
     RobotMap.pigeonIMU.getFusedHeading(fusionStatus);
+    
+    
     
     mCurrentAngle = fusionStatus.heading;
   

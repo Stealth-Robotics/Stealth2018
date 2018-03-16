@@ -4,7 +4,7 @@ package org.usfirst.frc4089.Stealth2018;
 
 public class Constants {
   
-	public static final boolean UseCamera = true;
+	public static final boolean UseCamera = false;
 	
 	//below are values for 2018
 	public static final double pickerLRSpeed = 1;
@@ -49,11 +49,15 @@ public class Constants {
 	  
 	// Motor setup constants
 	public static final int kPIDLoopIdx = 0;
-	public static final int kTimeoutMs = 10;
+	public static final int kTimeoutMs = 30;
 	public static final int kBaseTrajPeriodMs = 0;
 	public static final double kNeutralDeadband  = 0.01;
-  
-  
+    
+	public static final double kPickerElevatorKf = 0.034;
+	public static final double kPickerElevatorKi = 0.000069;
+	public static final double kPickerElevatorKp = 0.0035;
+	public static final double kPickerElevatorKd = 0.0;
+
 	//below are values for navigation
 	
 	public static final double drivekAngleSetpoint = 0.0;
