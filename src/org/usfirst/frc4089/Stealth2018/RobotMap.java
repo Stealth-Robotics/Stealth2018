@@ -54,9 +54,6 @@ public class RobotMap {
     
     //Picker
     public static WPI_TalonSRX pickerRaiseMotor;
-    //public static WPI_TalonSRX pickerSRXPickerL;
-    //public static WPI_TalonSRX pickerSRXPickerR;
-    
     public static WPI_TalonSRX pickerLeftMotor;
     public static WPI_TalonSRX pickerRightMotor;
     
@@ -67,6 +64,7 @@ public class RobotMap {
 
     public static NetworkTable netTable;
     
+    //flags
     public static boolean overrideElevator;
     public static boolean overridePickerElevator;
     

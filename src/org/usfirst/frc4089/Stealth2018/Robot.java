@@ -65,7 +65,8 @@ public class Robot extends TimedRobot {
 
         Robot.elevator.SetElevatorTarget(0);
         Robot.elevator.SetPickerElevatorTarget(0);
-        RobotMap.elevatorEncoder.reset();
+        //RobotMap.elevatorEncoder.reset();
+        RobotMap.elevatorMotor.setSelectedSensorPosition(0, 0, 20);
         RobotMap.pickerElevatorMotor.setSelectedSensorPosition(0, 0, 20);
         //RobotMap.pickerElevatorEncoder.reset();
         
@@ -110,11 +111,11 @@ public class Robot extends TimedRobot {
     private void DisplaySensors()
     {
       System.out.format("%b %b %b %b %d %d\n", 
-          RobotMap.elevatorSwitchTop.get(),
-          RobotMap.elevatorSwitchBottom.get(),
+          RobotMap.elevatorSensors.isFwdLimitSwitchClosed(),
+          RobotMap.elevatorSensors.isRevLimitSwitchClosed(),
           RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed(),
           RobotMap.pickerElevatorSensors.isRevLimitSwitchClosed(),
-          RobotMap.elevatorEncoder.get(),
+          RobotMap.elevatorMotor.getSelectedSensorPosition(0),
           RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0)
           );
 
@@ -241,7 +242,8 @@ public class Robot extends TimedRobot {
         Robot.drive.SetTele();
         Robot.picker.ungrabClimber();
         RobotMap.utilitiesPCMCompressor.setClosedLoopControl(true);
-        Robot.elevator.SetElevatorTarget(Robot.elevator.GetElevatorPosition());
+        Robot.elevator.SetElevatorTarget(RobotMap.elevatorMotor.getSelectedSensorPosition(0));
+        Robot.elevator.SetPickerElevatorTarget(RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0));
         
         
     }

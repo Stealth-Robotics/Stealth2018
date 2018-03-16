@@ -16,10 +16,12 @@ import org.usfirst.frc4089.Stealth2018.utilities.StopWatch;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+import edu.wpi.first.wpilibj.command.CommandGroup;
+
 /**
  *
  */
-public class RaisePicker extends Command {
+public class RaisePicker extends CommandGroup {
   
 	StopWatch mWaitTime = new StopWatch(1000);
 
@@ -35,7 +37,9 @@ public class RaisePicker extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	addSequential(new RejectBlock());
     	Robot.picker.setRaisePickerMotor(-1);
+    	
     }
 
     protected boolean isFinished() {
