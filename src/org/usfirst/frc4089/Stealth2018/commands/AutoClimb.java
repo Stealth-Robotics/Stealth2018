@@ -42,13 +42,13 @@ public class AutoClimb extends CommandGroup {
 	    	//run winch
 	    	
 	    	//TODO // resolve assumtion distance + orientation is set
-	    	//TODO //addSequential(new AutoElevator(lower));
+	    	addSequential(new AutoElevator(0,0));
 	    	addSequential(new LowerPicker());
 	    	addSequential(new GrabClimber());
 	    	addSequential(new RaisePicker());
-	    	//TODO //addSequential(new AutoElevator(raise));
+	    	addSequential(new AutoElevator(1400,1400));
 	    	//TODO //drive forward to position
-	    	//TODO //addSequential(new AutoElevator(deployclimbpos));
+	    	addSequential(new AutoElevator(0,0));
 	    	addSequential(new RaiseClimber());
 	    	
 	    	  	
