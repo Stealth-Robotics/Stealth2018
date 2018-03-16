@@ -42,6 +42,7 @@ public class Robot extends TimedRobot {
     public static Elevator elevator;
     public static Picker picker;
     public static Utilities utilities;
+    public static Climb climb;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -62,6 +63,7 @@ public class Robot extends TimedRobot {
         elevator = new Elevator();
         picker = new Picker();
         utilities = new Utilities();
+        climb = new Climb();
 
         Robot.elevator.SetElevatorTarget(0);
         Robot.elevator.SetPickerElevatorTarget(0);

@@ -41,7 +41,7 @@ public class LowerPicker extends Command {
 
     protected boolean isFinished() {
       
-        return (mWaitTime.timeLeft() <= 0);
+        return (mWaitTime.timeLeft() <= 0) || Robot.picker.getPickerPositionSwitch() ;
     }
 
     // Called once after isFinished returns true

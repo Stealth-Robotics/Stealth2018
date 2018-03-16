@@ -1,6 +1,7 @@
 package org.usfirst.frc4089.Stealth2018.commands;
 
 import org.usfirst.frc4089.Stealth2018.Constants;
+import org.usfirst.frc4089.Stealth2018.Robot;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -11,6 +12,7 @@ public class AutoClimb extends CommandGroup {
 	    
 	    public  AutoClimb() {
 	    	System.out.println("AutoClimb");
+	    	requires(Robot.climb);
 	        // Add Commands here:
 	        // e.g. addSequential(new Command1());
 	        //      addSequential(new Command2());
@@ -29,9 +31,9 @@ public class AutoClimb extends CommandGroup {
 	        // arm.
 	    	
 	    	//set distance + orientation
-	    	//lower picker
 	    	//lower elevator
 	    	//lower pickerelevator
+	    	//lower picker
 	    	//actuate climb hook
 	    	//raise picker
 	    	//raise elevator + pickerelevator
@@ -39,6 +41,10 @@ public class AutoClimb extends CommandGroup {
 	    	//lower elevator + pickerelevator
 	    	//run winch
 	    	
+	    	//TODO // resolve assumtion distance + orientation is set
+	    	
+	    	addSequential(new LowerPicker());
+	    	  	
 	    	
 	    	System.out.println("AutoClimb - Complete");
 	    }

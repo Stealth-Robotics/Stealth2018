@@ -36,6 +36,11 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
  * floating around.
  */
 public class RobotMap {
+	//+++++++
+	// switch to talon mapping
+	// pickerRaiseMotor = lower picker switch
+	
+	
     public static WPI_TalonSRX driveSRXDriveLR;
     public static WPI_TalonSRX driveSRXDriveLF;
     public static WPI_TalonSRX driveSRXDriveRR;
@@ -63,6 +68,8 @@ public class RobotMap {
     public static PigeonIMU pigeonIMU;
 
     public static NetworkTable netTable;
+    
+    public static SensorCollection pickerPositionSwitch;
     
     //flags
     public static boolean overrideElevator;
@@ -105,7 +112,7 @@ public class RobotMap {
       pickerElevatorSensors = pickerElevatorMotor.getSensorCollection();
       
       pickerRaiseMotor = new WPI_TalonSRX(Constants.CANTalonSRXPickerRaise);
-      
+      pickerPositionSwitch = pickerRaiseMotor.getSensorCollection();
       
       
       pickerArms = new Solenoid(16,5);

@@ -83,6 +83,10 @@ public class Picker extends Subsystem {
     	//System.out.println("Stop Picker Motors Source: Picker.stopPickerMotors()");
     }
     
+    public boolean getPickerPositionSwitch() {
+    	return RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed();
+    }
+    
     public void DrivePickerWheels(Joystick mechJoystick) {
     	if (mechJoystick.getRawAxis(3) > 0) {
     		setPickerMotors(mechJoystick.getRawAxis(3));
