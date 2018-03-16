@@ -37,8 +37,6 @@ public class LowerPicker extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
       Robot.picker.setRaisePickerMotor(0.7);
-      System.out.println("Lower picker");
-      //System.out.println("Time Left: " + mWaitTime.timeLeft());
     }
 
     protected boolean isFinished() {
@@ -48,8 +46,7 @@ public class LowerPicker extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	
-      Robot.picker.stopPickerMotors();
+    	Robot.picker.setRaisePickerMotor(0);
     }
 
     protected void interrupted() {

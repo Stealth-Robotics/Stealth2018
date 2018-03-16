@@ -35,31 +35,37 @@ public class Picker extends Subsystem {
     
     public void rejectBlock () {
       RobotMap.pickerArms.set(true);
-      System.out.println("Open Arms Source: Picker.rejectBlock()");
+      //System.out.println("Open Arms Source: Picker.rejectBlock()");
     }
     
     public void hugBlock () {
       RobotMap.pickerArms.set(false);
       
-      System.out.println("Close Arms Source: Picker.hugBlock()");
+      //System.out.println("Close Arms Source: Picker.hugBlock()");
     }
 
     public void grabClimber () {
       RobotMap.climberGrabber.set(true);
       
-      System.out.println("Grab Climber Source: Picker.grabClimber()");
+      //System.out.println("Grab Climber Source: Picker.grabClimber()");
     }
 
     public void ungrabClimber() {
       RobotMap.climberGrabber.set(false);
       
-      System.out.println("Ungrab Climber Source: Picker.ungrabClimber()");
+      //System.out.println("Ungrab Climber Source: Picker.ungrabClimber()");
     }
     
     public void setRaisePickerMotor(double value) {
       RobotMap.pickerRaiseMotor.set(value);
       
-      System.out.println("Set Picker Raise Motor " + value + " Source: Picker.setRaisePickerMotor()");
+      //System.out.println("Set Picker Raise Motor " + value + " Source: Picker.setRaisePickerMotor()");
+    }
+    
+    public void stopRaisePickerMotor() {
+    	RobotMap.pickerRaiseMotor.set(0);
+    	
+    	//System.out.println("Stop Picker Raise Motor Source: Picker.setRaisePickerMotor()");
     }
     
     public void setPickerMotors(double value) {
@@ -67,7 +73,7 @@ public class Picker extends Subsystem {
     	RobotMap.pickerLeftMotor.set(-value);
     	RobotMap.pickerRightMotor.set(value);
     	
-    	System.out.println("Set Picker Motors " + value + " Source: Picker.setPickerMotors()");
+    	//System.out.println("Set Picker Motors " + value + " Source: Picker.setPickerMotors()");
     }
     
     public void stopPickerMotors() {

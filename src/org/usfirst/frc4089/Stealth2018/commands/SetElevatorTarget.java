@@ -12,13 +12,20 @@
 package org.usfirst.frc4089.Stealth2018.commands;
 import org.usfirst.frc4089.Stealth2018.Robot;
 import org.usfirst.frc4089.Stealth2018.RobotMap;
+import org.usfirst.frc4089.Stealth2018.utilities.StopWatch;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class RaiseMainToTop extends Command {
-  
-    public RaiseMainToTop() {
-    	requires(Robot.elevator);
+/**
+ *
+ */
+public class SetElevatorTarget extends Command {
+
+    private int target;
+	
+    public SetElevatorTarget(int value) {
+        requires(Robot.elevator);
+        target = value;
     }
 
     // Called just before this Command runs the first time
@@ -28,37 +35,20 @@ public class RaiseMainToTop extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (RobotMap.overrideElevator) {
-    		System.out.println("Raise Elevator OVERRIDE MODE");
-    	    RobotMap.elevatorMotor.set(0.8);
-    	} else {
-    		System.out.println("Raise Elevator PID MODE");
-    		Robot.elevator.SetElevatorTarget(1400);
-    	}
+    	Robot.elevator.SetElevatorTarget(target);
     }
 
-    // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (RobotMap.overrideElevator) {
-    		return (RobotMap.elevatorSensors.isFwdLimitSwitchClosed());
-    	}
-    	else {
-    		return true;
-    	}
+      
+        return true;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-      if (RobotMap.overrideElevator) {
-    	  RobotMap.elevatorMotor.set(0);
-      } else {
-    	  //do nothing
-      }
     	
+     
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
     protected void interrupted() {
       end();
     }

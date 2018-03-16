@@ -41,23 +41,21 @@ public class RobotMap {
     public static WPI_TalonSRX driveSRXDriveRR;
     public static WPI_TalonSRX driveSRXDriveRF;
     
-    public static WPI_TalonSRX pickerSRXPickerL;
-    public static WPI_TalonSRX pickerSRXPickerR;
-    
     public static DoubleSolenoid pickerDoubleSolenoid1Pick;
     public static Compressor utilitiesPCMCompressor;
     
     // Elevator
-    public static Encoder elevatorEncoder;
-    public static DigitalInput elevatorSwitchTop;
-    public static DigitalInput elevatorSwitchBottom;
     public static WPI_TalonSRX elevatorMotor;
+    public static SensorCollection elevatorSensors;
 
-    // Picker
-    //public static Encoder pickerElevatorEncoder;
+    // Picker Elevator
     public static WPI_TalonSRX pickerElevatorMotor;
-    public static SensorCollection pickerSensors;
+    public static SensorCollection pickerElevatorSensors;
+    
+    //Picker
     public static WPI_TalonSRX pickerRaiseMotor;
+    //public static WPI_TalonSRX pickerSRXPickerL;
+    //public static WPI_TalonSRX pickerSRXPickerR;
     
     public static WPI_TalonSRX pickerLeftMotor;
     public static WPI_TalonSRX pickerRightMotor;
@@ -84,29 +82,33 @@ public class RobotMap {
       driveSRXDriveRR = new WPI_TalonSRX(Constants.CANTalonSRXDriveRR);
       driveSRXDriveRF = new WPI_TalonSRX(Constants.CANTalonSRXDriveRF);
 
-      pickerSRXPickerL = new WPI_TalonSRX(Constants.CANTalonSRXPickerL);
-      pickerSRXPickerR = new WPI_TalonSRX(Constants.CANTalonSRXPickerR);
+      //pickerSRXPickerL = new WPI_TalonSRX(Constants.CANTalonSRXPickerL);
+      //pickerSRXPickerR = new WPI_TalonSRX(Constants.CANTalonSRXPickerR);
+      
+      pickerLeftMotor = new WPI_TalonSRX(Constants.CANTalonSRXPickerL);
+      pickerRightMotor = new WPI_TalonSRX(Constants.CANTalonSRXPickerR);
       
       //pickerDoubleSolenoid1Pick = new DoubleSolenoid(0, 0, 1);
       //utilitiesPowerDistributionPanel1 = new PowerDistributionPanel(18);
       utilitiesPCMCompressor = new Compressor(16);
       utilitiesPCMCompressor.setClosedLoopControl(true);
 
-      elevatorSwitchTop  = new DigitalInput(9);
-      elevatorSwitchBottom = new DigitalInput(8);
-      elevatorEncoder  = new Encoder(0, 1, true);
+      //elevatorSwitchTop  = new DigitalInput(9);
+      //elevatorSwitchBottom = new DigitalInput(8);
+      //elevatorEncoder  = new Encoder(0, 1, true);
       elevatorMotor = new WPI_TalonSRX(Constants.CANTalonSRXElevator);
+      elevatorMotor.setSafetyEnabled(true);
+      elevatorSensors = elevatorMotor.getSensorCollection();
+      
       elevatorMotor.setInverted(true);
        
-      //pickerElevatorEncoder  = new Encoder(2, 3, false);
       pickerElevatorMotor = new WPI_TalonSRX(Constants.CANTalonSRXPickerElevator);
       pickerElevatorMotor.setSafetyEnabled(true);
-      pickerSensors = pickerElevatorMotor.getSensorCollection();
+      pickerElevatorSensors = pickerElevatorMotor.getSensorCollection();
       
       pickerRaiseMotor = new WPI_TalonSRX(Constants.CANTalonSRXPickerRaise);
       
-      pickerLeftMotor = new WPI_TalonSRX(Constants.CANTalonSRXPickerL);
-      pickerRightMotor = new WPI_TalonSRX(Constants.CANTalonSRXPickerR);
+      
       
       pickerArms = new Solenoid(16,5);
       climberGrabber = new Solenoid(16,7);

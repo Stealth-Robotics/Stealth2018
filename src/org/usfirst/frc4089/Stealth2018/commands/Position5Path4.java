@@ -54,7 +54,6 @@ public class Position5Path4 extends CommandGroup {
     {
       addSequential(new DrivePathAction(new Red54Path60InPerSec()));
       System.out.println("Left");
-      //addSequential(new RejectBlock());
     }
     else
     {
@@ -67,7 +66,7 @@ public class Position5Path4 extends CommandGroup {
     addParallel(new RaisePickerToTop());
     
     addParallel(new RaiseMainToTop());
-    
+    //let go of block
     addSequential(new RejectBlock());
     
     addSequential(new SetAutoFinished());

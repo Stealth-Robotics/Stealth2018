@@ -19,6 +19,7 @@ public class RaisePickerToTop extends Command {
     //final int SWITCH_HEIGHT = 800;
   
     public RaisePickerToTop() {
+    	requires(Robot.elevator);
     }
 
     // Called just before this Command runs the first time
@@ -28,19 +29,32 @@ public class RaisePickerToTop extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-      System.out.println("Raise Elevator");
-      RobotMap.pickerElevatorMotor.set(0.8);
+    	if (RobotMap.overridePickerElevator) {
+    		System.out.println("Raise Picker Elevator OVERRIDE MODE");
+    	      RobotMap.pickerElevatorMotor.set(0.8);
+    	} else {
+    		System.out.println("Raise Picker Elevator PID MODE");
+    		Robot.elevator.SetPickerElevatorTarget(1400);
+    	}
+      
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         //return (Robot.elevator.GetElevatorPosition()>-SWITCH_HEIGHT);
-      return (RobotMap.pickerElevatorSwitchTop.get());
+    	if (RobotMap.overridePickerElevator) {
+    		return (RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed());
+    	} else {
+    		return true;
+    	}
+      
     }
 
     // Called once after isFinished returns true
     protected void end() {
-      RobotMap.pickerElevatorMotor.set(0);
+    	if (RobotMap.overridePickerElevator) {
+    		RobotMap.pickerElevatorMotor.set(0);
+    	}
     }
 
     // Called when another command which requires one or more of the same

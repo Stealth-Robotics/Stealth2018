@@ -78,8 +78,7 @@ public class Robot extends TimedRobot {
         
         
         
-        
-        // Add commands to Autonomous Sendable Chooser
+        //TODO: Rename visible paths to avoid confusion with drivers EX: instead of "Position 1 Path 1" it becomes "Position 5 Go to Switch Front"
 
         chooser.addObject("Position 1 Path 1", new Position1Path1());
 
@@ -113,8 +112,8 @@ public class Robot extends TimedRobot {
       System.out.format("%b %b %b %b %d %d\n", 
           RobotMap.elevatorSwitchTop.get(),
           RobotMap.elevatorSwitchBottom.get(),
-          RobotMap.pickerSensors.isFwdLimitSwitchClosed(),
-          RobotMap.pickerSensors.isRevLimitSwitchClosed(),
+          RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed(),
+          RobotMap.pickerElevatorSensors.isRevLimitSwitchClosed(),
           RobotMap.elevatorEncoder.get(),
           RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0)
           );
@@ -146,8 +145,7 @@ public class Robot extends TimedRobot {
       Robot.elevator.SetElevatorTarget(0);
       Robot.elevator.SetPickerElevatorTarget(0);
       
-      //TODO // When we used the auto stuff for this the autonomous we running twice.
-      // So we are doing this the long way.  We need to research why it was running twice.
+      
       if(true == chooser.getSelected().getName().equals("Position 1 Path 1"))
       {
 
@@ -191,19 +189,19 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().add(mTestCommand);
       }
       
-      /*
-      if(true == chooser.getSelected().getName().equals("PositionThree"))
+      
+      if(true == chooser.getSelected().getName().equals("Position 5 Path 3"))
       {
-        mTestCommand = new PositionThree();
+        mTestCommand = new Position5Path3();
         Scheduler.getInstance().add(mTestCommand);
       }
       
-      if(true == chooser.getSelected().getName().equals("PositionFive"))
+      if(true == chooser.getSelected().getName().equals("Position 5 Path 4"))
       {
-        mTestCommand = new PositionFive();
+        mTestCommand = new Position5Path4();
         Scheduler.getInstance().add(mTestCommand);
       }
-      */
+      
       
       
       /* Should be that
