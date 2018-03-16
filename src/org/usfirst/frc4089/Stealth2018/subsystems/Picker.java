@@ -44,18 +44,7 @@ public class Picker extends Subsystem {
       //System.out.println("Close Arms Source: Picker.hugBlock()");
     }
 
-    public void grabClimber () {
-      RobotMap.climberGrabber.set(true);
-      
-      //System.out.println("Grab Climber Source: Picker.grabClimber()");
-    }
 
-    public void ungrabClimber() {
-      RobotMap.climberGrabber.set(false);
-      
-      //System.out.println("Ungrab Climber Source: Picker.ungrabClimber()");
-    }
-    
     public void setRaisePickerMotor(double value) {
       RobotMap.pickerRaiseMotor.set(value);
       

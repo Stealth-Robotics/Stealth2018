@@ -10,6 +10,7 @@
 
 
 package org.usfirst.frc4089.Stealth2018.commands;
+import org.usfirst.frc4089.Stealth2018.Constants;
 import org.usfirst.frc4089.Stealth2018.Robot;
 import org.usfirst.frc4089.Stealth2018.RobotMap;
 
@@ -18,10 +19,10 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class GrabClimber extends Command {
+public class LowerClimber extends Command {
 
     
-    public GrabClimber() {
+    public LowerClimber() {
 
     
         requires(Robot.climb);
@@ -31,15 +32,16 @@ public class GrabClimber extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	this.setTimeout(Constants.climbMotorLowerTimeout);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-      Robot.climb.grabClimber();
+      Robot.climb.lowerClimber();
     }
 
     protected boolean isFinished() {
-        return true;
+        return this.isTimedOut();
     }
 
     // Called once after isFinished returns true

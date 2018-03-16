@@ -24,7 +24,7 @@ public class UnGrabClimber extends Command {
     public UnGrabClimber() {
 
     
-        requires(Robot.picker);
+        requires(Robot.climb);
 
     
     }
@@ -35,7 +35,7 @@ public class UnGrabClimber extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-      Robot.picker.ungrabClimber();
+      Robot.climb.ungrabClimber();
     }
 
     protected boolean isFinished() {

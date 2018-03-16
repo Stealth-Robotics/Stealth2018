@@ -138,7 +138,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
       if (mTestCommand != null) mTestCommand.cancel();
-      Robot.picker.ungrabClimber();
+      Robot.climb.ungrabClimber();
       
       RobotMap.SetUpTalonsForAuto();
       drive.ClearCurrentAngle();
@@ -242,7 +242,7 @@ public class Robot extends TimedRobot {
         System.out.println("tele init");
         RobotMap.SetUpTalonsForTele();
         Robot.drive.SetTele();
-        Robot.picker.ungrabClimber();
+        Robot.climb.ungrabClimber();
         RobotMap.utilitiesPCMCompressor.setClosedLoopControl(true);
         Robot.elevator.SetElevatorTarget(RobotMap.elevatorMotor.getSelectedSensorPosition(0));
         Robot.elevator.SetPickerElevatorTarget(RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0));

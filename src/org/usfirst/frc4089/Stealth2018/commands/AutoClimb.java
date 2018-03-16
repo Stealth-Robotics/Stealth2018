@@ -42,8 +42,15 @@ public class AutoClimb extends CommandGroup {
 	    	//run winch
 	    	
 	    	//TODO // resolve assumtion distance + orientation is set
-	    	
+	    	//TODO //addSequential(new AutoElevator(lower));
 	    	addSequential(new LowerPicker());
+	    	addSequential(new GrabClimber());
+	    	addSequential(new RaisePicker());
+	    	//TODO //addSequential(new AutoElevator(raise));
+	    	//TODO //drive forward to position
+	    	//TODO //addSequential(new AutoElevator(deployclimbpos));
+	    	addSequential(new RaiseClimber());
+	    	
 	    	  	
 	    	
 	    	System.out.println("AutoClimb - Complete");
