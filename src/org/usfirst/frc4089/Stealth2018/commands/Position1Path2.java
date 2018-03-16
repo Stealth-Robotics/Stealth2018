@@ -18,8 +18,8 @@ import edu.wpi.first.wpilibj.*;
 /**
  *
  */
-public class PositionOne extends CommandGroup {
-  public PositionOne() {
+public class Position1Path2 extends CommandGroup {
+  public Position1Path2() {
     
   }
 
@@ -29,10 +29,7 @@ public class PositionOne extends CommandGroup {
 	  System.out.println("Position One Source: Commands.PositionOne");
     //hug block
     addSequential(new HugBlock());
-    //lower picker
-    addSequential(new LowerPicker());
-    //raise block to top
-    addParallel(new RaisePickerForSwitch());
+    
     
     
     String gameData = DriverStation.getInstance().getGameSpecificMessage();
@@ -45,7 +42,7 @@ public class PositionOne extends CommandGroup {
     
     if(gameData.length()>1)
     {
-      if('R'==gameData.charAt(0))
+      if('R'==gameData.charAt(1))
       {
         left = false;
       }
@@ -56,15 +53,22 @@ public class PositionOne extends CommandGroup {
     
     if(left)
     {
-      addSequential(new DrivePathAction(new Red11Path60InPerSec()));
+      addSequential(new DrivePathAction(new Red12Path60InPerSec()));
       System.out.println("Left");
+      //lower picker
+      addParallel(new LowerPicker());
+      //raise block to top
+      addParallel(new RaisePickerToTop());
+      addParallel(new RaiseMainToTop());
+      //drop it
       addSequential(new RejectBlock());
     }
     else
     {
       addSequential(new DrivePathAction(new Move10Path60InPerSec()));
       System.out.println("Right");
-      addSequential(new RejectBlock());
+      //lower picker
+      addSequential(new LowerPicker());
     }
     
     addSequential(new SetAutoFinished());

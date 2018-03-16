@@ -34,6 +34,7 @@ import org.usfirst.frc4089.Stealth2018.subsystems.*;
 public class Robot extends TimedRobot {
     
     SendableChooser<Command> chooser = new SendableChooser<>();
+    
 
     public static OI oi;
 
@@ -76,13 +77,21 @@ public class Robot extends TimedRobot {
         oi = new OI();
         
         
+        
+        
         // Add commands to Autonomous Sendable Chooser
 
-        chooser.addObject("1 Position One", new PositionOne());
+        chooser.addObject("Position 1 Path 1", new Position1Path1());
+
+        chooser.addObject("Position 1 Path 2", new Position1Path2());
+        chooser.addObject("Position 1 Path 3", new Position1Path3());
+        chooser.addObject("Position 1 Path 4", new Position1Path4());
+        
         //chooser.addObject("2 Position Two", new PositionTwo());
-        chooser.addDefault("3 Position Three", new PositionThree());
+        chooser.addDefault("Position 3 Path 1", new Position3Path1());
         //chooser.addObject("4 Position Four", new PositionFour());
-        chooser.addObject("5 Position Five", new PositionFive());
+        chooser.addObject("Position 5 Path 1", new Position5Path1());
+        chooser.addObject("Position 5 Path 2", new Position5Path2());
         SmartDashboard.putData("Auto mode", chooser);
         
     }
@@ -137,15 +146,52 @@ public class Robot extends TimedRobot {
       Robot.elevator.SetElevatorTarget(0);
       Robot.elevator.SetPickerElevatorTarget(0);
       
-
-      // When we used the auto stuff for this the autonomous we running twice.
+      //TODO // When we used the auto stuff for this the autonomous we running twice.
       // So we are doing this the long way.  We need to research why it was running twice.
-      if(true == chooser.getSelected().getName().equals("PositionOne"))
+      if(true == chooser.getSelected().getName().equals("Position 1 Path 1"))
       {
-        mTestCommand = new PositionOne();
+
+        mTestCommand = new Position1Path1();
+        Scheduler.getInstance().add(mTestCommand);
+      }
+      if(true == chooser.getSelected().getName().equals("Position 1 Path 2"))
+      {
+
+        mTestCommand = new Position1Path2();
+        Scheduler.getInstance().add(mTestCommand);
+      }
+      if(true == chooser.getSelected().getName().equals("Position 1 Path 3"))
+      {
+
+        mTestCommand = new Position1Path3();
+        Scheduler.getInstance().add(mTestCommand);
+      }
+      if(true == chooser.getSelected().getName().equals("Position 1 Path 4"))
+      {
+
+        mTestCommand = new Position1Path4();
+        Scheduler.getInstance().add(mTestCommand);
+      }
+      if(true == chooser.getSelected().getName().equals("Position 3 Path 1"))
+      {
+
+        mTestCommand = new Position3Path1();
+        Scheduler.getInstance().add(mTestCommand);
+      }
+      if(true == chooser.getSelected().getName().equals("Position 5 Path 1"))
+      {
+
+        mTestCommand = new Position5Path1();
+        Scheduler.getInstance().add(mTestCommand);
+      }
+      if(true == chooser.getSelected().getName().equals("Position 5 Path 2"))
+      {
+
+        mTestCommand = new Position5Path2();
         Scheduler.getInstance().add(mTestCommand);
       }
       
+      /*
       if(true == chooser.getSelected().getName().equals("PositionThree"))
       {
         mTestCommand = new PositionThree();
@@ -157,6 +203,8 @@ public class Robot extends TimedRobot {
         mTestCommand = new PositionFive();
         Scheduler.getInstance().add(mTestCommand);
       }
+      */
+      
       
       /* Should be that
       autonomousCommand = chooser.getSelected();

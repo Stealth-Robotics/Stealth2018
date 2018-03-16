@@ -15,10 +15,10 @@ import org.usfirst.frc4089.Stealth2018.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class RaisePickerForSwitch extends Command {
+public class RaiseMainToTop extends Command {
     //final int SWITCH_HEIGHT = 800;
   
-    public RaisePickerForSwitch() {
+    public RaiseMainToTop() {
     }
 
     // Called just before this Command runs the first time
