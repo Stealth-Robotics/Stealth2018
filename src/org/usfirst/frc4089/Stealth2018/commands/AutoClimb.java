@@ -43,7 +43,10 @@ public class AutoClimb extends CommandGroup {
 	    	
 	    	//TODO // resolve assumtion distance + orientation is set
 	    	addSequential(new AutoElevator(0,0));
-	    	addSequential(new LowerPicker());
+	    	//commented out lower picker for now because it is going to be down when we call this command
+	    	//addSequential(new LowerPicker());
+	    	addSequential(new IsPickerInPositionForClimb());
+	    	
 	    	addSequential(new GrabClimber());
 	    	addSequential(new RaisePicker());
 	    	addSequential(new AutoElevator(1400,1400));
