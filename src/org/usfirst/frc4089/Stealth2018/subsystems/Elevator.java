@@ -226,7 +226,7 @@ public class Elevator extends Subsystem {
   //--------------------------------------------------------------------  
   private void HandlePickerElevator(double yElevator) {
     yElevator = DriveMath.DeadBand(yElevator,0.25);
-    int change = (int)(-yElevator * 25);
+    int change = (int)(-yElevator * 35);
     boolean topSwitch = RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed();
     boolean bottomSwitch = RobotMap.pickerElevatorSensors.isRevLimitSwitchClosed();
     
@@ -250,30 +250,19 @@ public class Elevator extends Subsystem {
       System.out.println("Override " + RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0) + " " + RobotMap.pickerElevatorMotor.get());
     } else {
       // only change things if the user wants to to avoid messing with auto
-      if(0 != change)
+      if(change != 0)
       {
         // if nothing is pressed move the elevator
-        if((false == topSwitch)&&
-            (false == bottomSwitch))
-        {
+        if((!topSwitch) && (!bottomSwitch)) {
           AddPickerElevatorTarget(change);
-        }
-        else
-        {  
-          // Don't change the drive if the switches are set
-          if((true == bottomSwitch)&&
-              (change>0))
-           {
-             AddPickerElevatorTarget(change);
-           }
-          else
-          {
-              if(change<0)
-             {
-               AddPickerElevatorTarget(change);
-             }
-          }
-        }
+        } else {  
+         // Don't change the drive if the switches are set
+         if((bottomSwitch) && (change > 0)) {
+            AddPickerElevatorTarget(change);
+         } else if((topSwitch) && (change < 0)) {
+           AddPickerElevatorTarget(change);
+         }
+       }
       }
     }
   }
