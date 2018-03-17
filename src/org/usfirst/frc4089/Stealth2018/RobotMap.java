@@ -61,6 +61,7 @@ public class RobotMap {
     public static WPI_TalonSRX pickerRaiseMotor;
     public static WPI_TalonSRX pickerLeftMotor;
     public static WPI_TalonSRX pickerRightMotor;
+    public static DigitalInput SwitchPickerBottom;
     
     public static Solenoid pickerArms;
     public static Solenoid climberGrabber;
@@ -99,7 +100,7 @@ public class RobotMap {
       utilitiesPCMCompressor.setClosedLoopControl(true);
 
       //elevatorSwitchTop  = new DigitalInput(9);
-      //elevatorSwitchBottom = new DigitalInput(8);
+      SwitchPickerBottom = new DigitalInput(8);
       //elevatorEncoder  = new Encoder(0, 1, true);
       elevatorMotor = new WPI_TalonSRX(Constants.CANTalonSRXElevator);
       elevatorMotor.setSafetyEnabled(true);
