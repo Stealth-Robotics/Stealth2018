@@ -62,7 +62,6 @@ public class AutoFindCube extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	boolean logEncoders = false;
     	if (state == state_find)
     	{
         	if ((int) NetworkTable.getTable("fromPi/pixy").getDouble("pixyFrameSize", -1) > 0 )
@@ -96,7 +95,6 @@ public class AutoFindCube extends Command {
 	    	Robot.drive.DriveRobot(0, turn_power);
 	    	turn_accum_error += turn_error;
 	    	turn_last_error = turn_error;
-    		logEncoders = true;
     	}
     	
     	else if (state == move_towards)
@@ -116,14 +114,10 @@ public class AutoFindCube extends Command {
     		Robot.drive.DriveRobot(move_power, turn_power);
     		move_accum_error += move_error;
     		move_last_error = move_error;
-    		logEncoders = true;
     	}
-    	if (logEncoders)
-    	{
-    		PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
-    		RobotMap.pigeonIMU.getFusedHeading(fusionStatus);
-    		encoderLogger.add(new KPoint(RobotMap.driveSRXDriveLF.getSelectedSensorVelocity(0), RobotMap.driveSRXDriveRF.getSelectedSensorVelocity(0), fusionStatus.heading));
-    	}
+    	PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
+		RobotMap.pigeonIMU.getFusedHeading(fusionStatus);
+		encoderLogger.add(new KPoint(RobotMap.driveSRXDriveLF.getSelectedSensorVelocity(0), RobotMap.driveSRXDriveRF.getSelectedSensorVelocity(0), fusionStatus.heading));
     	
     }	
 

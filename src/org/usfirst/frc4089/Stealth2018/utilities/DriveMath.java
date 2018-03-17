@@ -200,12 +200,12 @@ public class DriveMath {
     {
     	Path path = new Path();
     	path.kSpeed = 60;
-    	path.kNumPoints = list.size();
+    	path.kNumPoints = list.size() - 1;
     	path.kPoints = new double[list.size() - 1][3];
     	KPoint first = list.get(0);
     	double lastLeftPos = first.ticksL;
     	double lastRightPos = first.ticksR;
-    	for (int c = 1; c < list.size(); c++)
+    	for (int c = list.size() - 1; c >= 1; c++)
     	{
     		path.kPoints[c - 1][0] = (list.get(c).ticksL - lastLeftPos) * Constants.encoderConversionDisIN;
     		path.kPoints[c - 1][1] = (list.get(c).ticksR - lastRightPos) * Constants.encoderConversionDisIN;
