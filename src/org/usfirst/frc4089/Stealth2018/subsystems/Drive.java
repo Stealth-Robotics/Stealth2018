@@ -255,9 +255,14 @@ public class Drive extends Subsystem {
       if(DriveControlState.OPEN_LOOP == mState)
       {
         DriveRobot(y, x);
+    	//DriveRobotWithOutGyro(y,x);
       }
     }
     
+    
+    public void DriveRobotWithOutGyro(double speed, double turn) {
+    	RawDriveRobot(speed*.5, turn*0.25);
+    }
     
     //--------------------------------------------------------------------
     // Purpose:
