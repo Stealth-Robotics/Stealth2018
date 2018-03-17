@@ -17,7 +17,10 @@
 //----------------------------------------------------------------------------
 package org.usfirst.frc4089.Stealth2018.utilities;
 
+import java.util.ArrayList;
+
 import org.usfirst.frc4089.Stealth2018.Constants;
+import org.usfirst.frc4089.Stealth2018.MPPaths.Path;
 
 //----------------------------------------------------------------------------
 //Class Declarations
@@ -192,6 +195,23 @@ public class DriveMath {
         return 0.10;
       return forwardThrot;
     }
-    
+ 
+    static public Path GeneratePath(ArrayList<KPoint> list)
+    {
+    	Path path = new Path();
+    	path.kSpeed = 60;
+    	path.kNumPoints = list.size();
+    	path.kPoints = new double[list.size() - 1][3];
+    	KPoint first = list.get(0);
+    	double lastLeftPos = first.ticksL;
+    	double lastRightPos = first.ticksR;
+    	for (int c = 1; c < list.size(); c++)
+    	{
+    		path.kPoints[c - 1][0] = (list.get(c).ticksL - lastLeftPos) * Constants.encoderConversionDisIN;
+    		path.kPoints[c - 1][1] = (list.get(c).ticksR - lastRightPos) * Constants.encoderConversionDisIN;
+    		path.kPoints[c - 1][2] = list.get(c).heading;
+    	}
+    	return path;
+    }
 }
 

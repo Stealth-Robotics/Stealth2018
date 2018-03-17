@@ -22,6 +22,9 @@ import edu.wpi.first.wpilibj.*;
  *
  */
 public class Position3Path1_2 extends CommandGroup {
+	
+	Path retracePath;
+	
   public Position3Path1_2() {
     
   }
@@ -76,7 +79,7 @@ public class Position3Path1_2 extends CommandGroup {
     
     addSequential(new AutoFindCube());
     
-    
+    addSequential(new DrivePathAction(Robot.path));
     
     addSequential(new SetAutoFinished());
   }
