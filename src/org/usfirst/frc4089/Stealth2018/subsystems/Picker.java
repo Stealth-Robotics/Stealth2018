@@ -77,12 +77,12 @@ public class Picker extends Subsystem {
     }
     
     public void DrivePickerWheels(Joystick mechJoystick) {
-    	if (mechJoystick.getRawAxis(3) > 0) {
+    	if (mechJoystick.getRawAxis(3) > 0.1) {
     		setPickerMotors(mechJoystick.getRawAxis(3));
-          } else if (mechJoystick.getRawAxis(2) > 0) {
+          } else if (mechJoystick.getRawAxis(2) > 0.1) {
         	  setPickerMotors(-mechJoystick.getRawAxis(2));
           } else {
-            stopPickerMotors();
+            setPickerMotors(-0.4);
           }
     }
 }
