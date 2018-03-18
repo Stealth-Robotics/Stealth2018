@@ -15,7 +15,10 @@ import java.util.ArrayList;
 import org.usfirst.frc4089.Stealth2018.Constants;
 import org.usfirst.frc4089.Stealth2018.Robot;
 import org.usfirst.frc4089.Stealth2018.RobotMap;
+import org.usfirst.frc4089.Stealth2018.utilities.DriveMath;
 import org.usfirst.frc4089.Stealth2018.utilities.KPoint;
+
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
@@ -45,9 +48,6 @@ public class AutoFindCube extends Command {
 	final double move_kD = 0;
 	//final double stop_kD = 0.0002;
 	final ArrayList<KPoint> encoderLogger = new ArrayList<KPoint>();
-    
-	int lastLeft;
-	int lastRight;
 	
     public AutoFindCube() {
         requires(Robot.drive);
@@ -62,7 +62,6 @@ public class AutoFindCube extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	boolean logEncoders = false;
     	if (state == state_find)
     	{
         	if ((int) NetworkTable.getTable("fromPi/pixy").getDouble("pixyFrameSize", -1) > 0 )
@@ -84,9 +83,6 @@ public class AutoFindCube extends Command {
 	    		state = move_towards;
 	    		move_last_error = 220 - (int) NetworkTable.getTable("fromPi/pixy").getDouble("largestPixyWidth", -1);
 	    		move_accum_error = move_last_error;
-	    		lastLeft = RobotMap.driveSRXDriveLF.getSelectedSensorVelocity(0);
-	    		lastRight = RobotMap.driveSRXDriveRF.getSelectedSensorVelocity(0);
-	    		
 	    	}
 	    	else if ((int) NetworkTable.getTable("fromPi/pixy").getDouble("pixyFrameSize", -1) <= 0 )
 	    	{
@@ -119,6 +115,9 @@ public class AutoFindCube extends Command {
     		move_accum_error += move_error;
     		move_last_error = move_error;
     	}
+    	PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
+		RobotMap.pigeonIMU.getFusedHeading(fusionStatus);
+		encoderLogger.add(new KPoint(RobotMap.driveSRXDriveLF.getSelectedSensorVelocity(0), RobotMap.driveSRXDriveRF.getSelectedSensorVelocity(0), fusionStatus.heading));
     	
     }	
 
@@ -131,6 +130,7 @@ public class AutoFindCube extends Command {
     protected void end() {
     	System.out.println("Block found!");
     	Robot.drive.DriveRobot(0, 0);
+    	Robot.path = DriveMath.GeneratePath(encoderLogger);
     }
 
     // Called when another command which requires one or more of the same

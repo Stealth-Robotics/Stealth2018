@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc4089.Stealth2018.MPPaths.Path;
 import org.usfirst.frc4089.Stealth2018.commands.*;
 import org.usfirst.frc4089.Stealth2018.subsystems.*;
 
@@ -44,6 +45,7 @@ public class Robot extends TimedRobot {
     public static Utilities utilities;
     public static Climb climb;
 
+    public static Path path;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
