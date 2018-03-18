@@ -22,24 +22,21 @@ public class RotateClimberMotor extends Command {
 
     
     public RotateClimberMotor() {
-
-    
         requires(Robot.picker);
-
-    
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-      RobotMap.climbMotor.set(0.2);
+      RobotMap.climbMotor.set(1);
     }
 
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true
