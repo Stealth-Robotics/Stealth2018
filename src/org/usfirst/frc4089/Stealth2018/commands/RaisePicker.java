@@ -21,9 +21,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class RaisePicker extends CommandGroup {
+public class RaisePicker extends Command {
   
-	StopWatch mWaitTime = new StopWatch(1000);
+	StopWatch mWaitTime = new StopWatch(1300);
 
     
     public RaisePicker() {
@@ -37,13 +37,10 @@ public class RaisePicker extends CommandGroup {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	addSequential(new RejectBlock());
-    	Robot.picker.setRaisePickerMotor(-1);
-    	
+    	Robot.picker.setRaisePickerMotor(1);
     }
 
     protected boolean isFinished() {
-      
         return (mWaitTime.timeLeft() <= 0);
     }
 

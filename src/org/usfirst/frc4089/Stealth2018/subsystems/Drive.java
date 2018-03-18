@@ -235,8 +235,8 @@ public class Drive extends Subsystem {
       double y = driveJoystick.getRawAxis(1);
       double x = driveJoystick.getRawAxis(2);
 
-      x = DriveMath.DeadBand(x,0.25);
-      y = DriveMath.DeadBand(y,0.25);
+      x = DriveMath.DeadBand(x,0.15);
+      y = DriveMath.DeadBand(y,0.15);
           
       // Adjust for speed, check if the fast button is pushed
       if (true == driveJoystick.getRawButton(Constants.kFastButton)) {
@@ -244,11 +244,11 @@ public class Drive extends Subsystem {
       } else {
         // Is the slow button pushed
         if (true == driveJoystick.getRawButton(Constants.kSlowButton)) {
-          y *= Constants.kSlowSpeed;
-          x *= Constants.kSlowSpeed;
+        	y *= Constants.kNormalSpeed;
+        	x *= 0.35;
         } else {
-          y *= Constants.kNormalSpeed;
-          x *= Constants.kNormalSpeed;
+        	y *= 0.2;
+            x *= 0.25;
         }
       }
       

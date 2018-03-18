@@ -93,7 +93,9 @@ public class OI {
       lowerPicker.whenPressed(new LowerPicker());
       
       raisePicker = new JoystickButton(mechJoystick, 2);
-      raisePicker.whenPressed(new RaisePicker());
+      raisePicker.whenPressed(new RejectBlock());
+      raisePicker.whenReleased(new RaisePicker());
+      
       
 //      autoFindCube = new JoystickButton(driveJoystick, 4);
 //      autoFindCube.whenReleased(new AutoFindCube());

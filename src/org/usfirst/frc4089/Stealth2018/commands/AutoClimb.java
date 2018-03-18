@@ -49,6 +49,7 @@ public class AutoClimb extends CommandGroup {
 	    	
 	    	addSequential(new GrabClimber());
 	    	addSequential(new RaisePicker());
+	    	addParallel(new RejectBlock());
 	    	addSequential(new AutoElevator(1400,1400));
 	    	//TODO //drive forward to position
 	    	addSequential(new AutoElevator(0,0));

@@ -73,7 +73,7 @@ public class Picker extends Subsystem {
     }
     
     public boolean getPickerPositionSwitch() {
-    	return RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed();
+    	return RobotMap.SwitchPickerBottom.get();
     }
     
     public void DrivePickerWheels(Joystick mechJoystick) {
