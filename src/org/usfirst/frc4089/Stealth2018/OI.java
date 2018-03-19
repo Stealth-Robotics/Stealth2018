@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.buttons.*;
 import org.usfirst.frc4089.Stealth2018.commands.*;
 import org.usfirst.frc4089.Stealth2018.subsystems.*;
 
+import org.usfirst.frc4089.Stealth2018.commands.*;
+
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -98,8 +100,10 @@ public class OI {
       raisePicker.whenPressed(new RejectBlock());
       raisePicker.whenReleased(new RaisePicker());
       
-      /*autoFindCube = new JoystickButton(driveJoystick, 4);
-      autoFindCube.whenReleased(new AutoFindCube());*/
+      if (Constants.UsePixyAutoFindCube) {
+    	  autoFindCube = new JoystickButton(driveJoystick, 4);
+    	  autoFindCube.whenReleased(new AutoFindCube());
+      }
 
     }
 }
