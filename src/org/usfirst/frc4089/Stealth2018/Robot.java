@@ -84,21 +84,20 @@ public class Robot extends TimedRobot {
         
         
         
-        //TODO: Rename visible paths to avoid confusion with drivers EX: instead of "Position 1 Path 1" it becomes "Position 5 Go to Switch Front"
 
-        chooser.addObject("Position 1 Path 1", new Position1Path1());
+        chooser.addObject("Position 1 Switch From Front", new Position1Path1());
 
-        chooser.addObject("Position 1 Path 2", new Position1Path2());
-        chooser.addObject("Position 1 Path 3", new Position1Path3());
-        chooser.addObject("Position 1 Path 4", new Position1Path4());
+        chooser.addObject("Position 1 Scale From Front", new Position1Path2());
+        chooser.addObject("Position 1 Scale From Side", new Position1Path3());
+        chooser.addObject("Position 1 Cross Scale From Side", new Position1Path4());
         
         //chooser.addObject("2 Position Two", new PositionTwo());
-        chooser.addDefault("Position 3 Path 1", new Position3Path1());
+        chooser.addDefault("Position 3 Switch From Side", new Position3Path1());
         //chooser.addObject("4 Position Four", new PositionFour());
-        chooser.addObject("Position 5 Path 1", new Position5Path1());
-        chooser.addObject("Position 5 Path 2", new Position5Path2());
-        chooser.addObject("Position 5 Path 3", new Position5Path3());
-        chooser.addObject("Position 5 Path 4", new Position5Path4());
+        chooser.addObject("Position 5 Switch From Front", new Position5Path1());
+        chooser.addObject("Position 5 Scale From Front", new Position5Path2());
+        chooser.addObject("Position 5 Scale From Side", new Position5Path3());
+        chooser.addObject("Position 5 Cross Scale From Side", new Position5Path4());
         SmartDashboard.putData("Auto mode", chooser);
         
     }
