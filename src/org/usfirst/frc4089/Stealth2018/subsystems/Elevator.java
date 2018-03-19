@@ -288,8 +288,15 @@ public class Elevator extends Subsystem {
   //     Picker Elevator PID loop 
   //--------------------------------------------------------------------  
   public void MovePickerElevatorToTarget() {
-      //get current ticks
+	  //get current ticks
 	  int pickerElevatorEncoderTicks = RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0);
+	  boolean topSwitch = RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed();
+	  boolean bottomSwitch = RobotMap.pickerElevatorSensors.isRevLimitSwitchClosed();
+	  
+	  //check to see target vs limit switch
+	  if (topSwitch && pickerElevatorEncoderTicks < pidPickerElevatorTarget) {
+		  SetPickerElevatorTarget(pickerElevatorEncoderTicks);
+	  }
 	  
 	  //calculate error
 	  double error = pidPickerElevatorTarget - pickerElevatorEncoderTicks;
@@ -307,12 +314,12 @@ public class Elevator extends Subsystem {
 	  motorOutput = Math.max(-1, Math.min(1, motorOutput));
 	  
 	  //print out debugging statements
-	  System.out.format("!override %d %d %f %f %f\n",
+	  /*System.out.format("!override %d %d %f %f %f\n",
 	       pidPickerElevatorTarget,
 	       pickerElevatorEncoderTicks,
 	       error,
 	       derivative,
-	       motorOutput);
+	       motorOutput);*/
 	  
 	  //set the motor to the correct value
 	  RobotMap.pickerElevatorMotor.set(motorOutput);

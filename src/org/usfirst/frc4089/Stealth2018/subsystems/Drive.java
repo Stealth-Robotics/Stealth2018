@@ -235,8 +235,8 @@ public class Drive extends Subsystem {
       double y = driveJoystick.getRawAxis(1);
       double x = driveJoystick.getRawAxis(2);
 
-      x = DriveMath.DeadBand(x,0.15);
-      y = DriveMath.DeadBand(y,0.15);
+      x = DriveMath.DeadBand(x,0.05);
+      y = DriveMath.DeadBand(y,0.05);
           
       // Adjust for speed, check if the fast button is pushed
       if (true == driveJoystick.getRawButton(Constants.kFastButton)) {
