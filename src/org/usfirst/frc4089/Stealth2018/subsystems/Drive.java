@@ -245,10 +245,10 @@ public class Drive extends Subsystem {
         // Is the slow button pushed
         if (true == driveJoystick.getRawButton(Constants.kSlowButton)) {
         	y *= Constants.kNormalSpeed;
-        	x *= 0.35;
+        	x *= Constants.kNormalTurnSpeed;
         } else {
-        	y *= 0.2;
-            x *= 0.25;
+        	y *= Constants.kSlowSpeed;
+            x *= Constants.kSlowTurnSpeed;
         }
       }
       
@@ -261,7 +261,7 @@ public class Drive extends Subsystem {
     
     
     public void DriveRobotWithOutGyro(double speed, double turn) {
-    	RawDriveRobot(speed*.5, turn*0.25);
+    	RawDriveRobot(speed*0.5, turn*0.5);
     }
     
     //--------------------------------------------------------------------

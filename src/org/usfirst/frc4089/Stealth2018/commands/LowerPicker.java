@@ -26,7 +26,6 @@ public class LowerPicker extends Command {
     
     public LowerPicker() {
         requires(Robot.picker);
-    
     }
 
     // Called just before this Command runs the first time
