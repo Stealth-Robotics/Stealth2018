@@ -5,7 +5,7 @@ package org.usfirst.frc4089.Stealth2018;
 public class Constants {
   
 	public static final boolean UseCamera = true;
-	public static final boolean UsePixyAutoFindCube = true;
+	public static final boolean UsePixyAutoFindCube = false;
 	
 	//below are values for 2018
 	public static final double pickerLRSpeed = 1;
