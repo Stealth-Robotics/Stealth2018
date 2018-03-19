@@ -73,12 +73,13 @@ public class Elevator extends Subsystem {
   // Main Elevator Functions
   //--------------------------------------------------------------------
   
+  public boolean isElevatorAtTarget = false;
   
   // --------------------------------------------------------------------
   // Constants:
   // --------------------------------------------------------------------
   final double elevatorKp = 0.035;
-  final double elevatorKi = 0.00069;
+  final double elevatorKi = 0;
   final double elevatorKd = 0;
 
   
@@ -95,8 +96,8 @@ public class Elevator extends Subsystem {
   //     Drive elevator using the joystick 
   //--------------------------------------------------------------------  
   private void HandleElevator(double yElevator) {
-    yElevator = DriveMath.DeadBand(yElevator, 0.20);
-    int change = (int)(-yElevator * 10);
+    yElevator = DriveMath.DeadBand(yElevator, 0.15);
+    int change = (int)(-yElevator * 35);
     boolean topSwitch = RobotMap.elevatorSensors.isFwdLimitSwitchClosed();
     boolean bottomSwitch = RobotMap.elevatorSensors.isRevLimitSwitchClosed();
     
@@ -116,32 +117,21 @@ public class Elevator extends Subsystem {
       
       RobotMap.elevatorMotor.set(-yElevator);
     } else {
-      // only change things if the user wants to to avoid messing with auto
-      if(0 != change)
-      {
-        // if nothing is pressed move the elevator
-        if((false == topSwitch)&&
-            (false == bottomSwitch))
+    	// only change things if the user wants to to avoid messing with auto
+        if(change != 0)
         {
-          AddElevatorTarget(change);
-        }
-        else
-        {  
-          // Don't change the drive if the switches are set
-          if((true == bottomSwitch)&&
-              (change>0))
-           {
+          // if nothing is pressed move the elevator
+          if((!topSwitch) && (!bottomSwitch)) {
+            AddElevatorTarget(change);
+          } else {
+           // Don't change the drive if the switches are set
+           if((bottomSwitch) && (change > 0)) {
+              AddElevatorTarget(change);
+           } else if((topSwitch) && (change < 0)) {
              AddElevatorTarget(change);
            }
-          else
-          {
-              if(change<0)
-             {
-               AddElevatorTarget(change);
-             }
-          }
+         }
         }
-      }
     }
   }   
  
@@ -169,15 +159,32 @@ public class Elevator extends Subsystem {
   //--------------------------------------------------------------------  
   public void MoveElevatorToTarget() {
       //get current ticks
-      int elevatorEncoderTicks = RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0);
+      int elevatorEncoderTicks = RobotMap.elevatorMotor.getSelectedSensorPosition(0);
+	  boolean topSwitch = RobotMap.elevatorSensors.isFwdLimitSwitchClosed();
+	  boolean bottomSwitch = RobotMap.elevatorSensors.isRevLimitSwitchClosed();
+	  
+	  //check to see target vs limit switch
+	  if (topSwitch && elevatorEncoderTicks < pidElevatorTarget) {
+		  SetElevatorTarget(elevatorEncoderTicks);
+	  }
+	  if (bottomSwitch && elevatorEncoderTicks > pidElevatorTarget) {
+		  SetElevatorTarget(elevatorEncoderTicks);
+	  }
     
 	  //calculate error
 	  double error = pidElevatorTarget - elevatorEncoderTicks;
+	  //set flags
+	  if (error < 10) {
+		  isElevatorAtTarget = true;
+	  } else {
+		  isElevatorAtTarget = false;
+	  }
+	  
 	  //calculate Integral
 	  elevatorIntegral = elevatorIntegral + error;
 	  //clamp Integral
 	  elevatorIntegral = Math.max(0, Math.min(1440, elevatorIntegral));
-	  //claculate derivative
+	  //Calculate derivative
 	  double derivative = (error - elevatorPreviousError);
 	  //Calculate Motor Power using PID loop
 	  double motorOutput = elevatorKp*error + elevatorKi*elevatorIntegral + elevatorKd*derivative;
@@ -189,20 +196,15 @@ public class Elevator extends Subsystem {
 	  
 	  //set the motor to the correct value
 	  RobotMap.elevatorMotor.set(motorOutput);
-	  
-	  //Put data in network tables
-	  /*RobotMap.netTable.putNumber("elevatorMotorOutput", motorOutput);
-      RobotMap.netTable.putNumber("elevatorError", error);
-      RobotMap.netTable.putNumber("elevatorSetPoint", pidElevatorTarget);
-      RobotMap.netTable.putNumber("elevatorIntegral", elevatorIntegral);
-      RobotMap.netTable.putNumber("elevatorDerivative", derivative);*/
   }
 
   
   //--------------------------------------------------------------------
   // Picker Elevator Functions
   //--------------------------------------------------------------------
-
+  
+  public boolean isPickerElevatorAtTarget = false;
+  
   // --------------------------------------------------------------------
   // Constants:
   // --------------------------------------------------------------------
@@ -225,7 +227,7 @@ public class Elevator extends Subsystem {
   //     none
   //--------------------------------------------------------------------  
   private void HandlePickerElevator(double yElevator) {
-    yElevator = DriveMath.DeadBand(yElevator,0.25);
+    yElevator = DriveMath.DeadBand(yElevator,0.1);
     int change = (int)(-yElevator * 35);
     boolean topSwitch = RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed();
     boolean bottomSwitch = RobotMap.pickerElevatorSensors.isRevLimitSwitchClosed();
@@ -247,7 +249,7 @@ public class Elevator extends Subsystem {
       RobotMap.pickerElevatorMotor.set(-yElevator);
       
       //print out debugging information
-      System.out.println("Override " + RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0) + " " + RobotMap.pickerElevatorMotor.get());
+      //System.out.println("Override " + RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0) + " " + RobotMap.pickerElevatorMotor.get());
     } else {
       // only change things if the user wants to to avoid messing with auto
       if(change != 0)
@@ -297,9 +299,18 @@ public class Elevator extends Subsystem {
 	  if (topSwitch && pickerElevatorEncoderTicks < pidPickerElevatorTarget) {
 		  SetPickerElevatorTarget(pickerElevatorEncoderTicks);
 	  }
+	  if (bottomSwitch && pickerElevatorEncoderTicks > pidPickerElevatorTarget) {
+		  SetPickerElevatorTarget(pickerElevatorEncoderTicks);
+	  }
 	  
 	  //calculate error
 	  double error = pidPickerElevatorTarget - pickerElevatorEncoderTicks;
+	  //set flags
+	  if (error < 10) {
+		  isPickerElevatorAtTarget = true;
+	  } else {
+		  isPickerElevatorAtTarget = false;
+	  }
 	  //calculate Integral
 	  pickerElevatorIntegral = pickerElevatorIntegral + error;
 	  //clamp Integral between 0 and max ticks for elevator (1440)
@@ -314,22 +325,10 @@ public class Elevator extends Subsystem {
 	  motorOutput = Math.max(-1, Math.min(1, motorOutput));
 	  
 	  //print out debugging statements
-	  /*System.out.format("!override %d %d %f %f %f\n",
-	       pidPickerElevatorTarget,
-	       pickerElevatorEncoderTicks,
-	       error,
-	       derivative,
-	       motorOutput);*/
+	  //System.out.format("!override %d %d %f %f %f\n", pidPickerElevatorTarget, pickerElevatorEncoderTicks, error, derivative, motorOutput);
 	  
 	  //set the motor to the correct value
 	  RobotMap.pickerElevatorMotor.set(motorOutput);
-	  
-	  //put data in NetTables
-	  /*RobotMap.netTable.putNumber("pickerElevatorMotorOutput", motorOutput);
-      RobotMap.netTable.putNumber("pickerError", error);
-      RobotMap.netTable.putNumber("pickerSetPoint", pidPickerElevatorTarget);
-      RobotMap.netTable.putNumber("pickerElevatorIntegral", pickerElevatorIntegral);
-      RobotMap.netTable.putNumber("pickerElevatorDerivative", derivative);*/
  }
 }
 

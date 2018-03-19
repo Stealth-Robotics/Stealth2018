@@ -10,6 +10,7 @@
 
 
 package org.usfirst.frc4089.Stealth2018.commands;
+import org.usfirst.frc4089.Stealth2018.Constants;
 import org.usfirst.frc4089.Stealth2018.Robot;
 import org.usfirst.frc4089.Stealth2018.RobotMap;
 
@@ -22,7 +23,7 @@ public class RotateClimberMotor extends Command {
 
     
     public RotateClimberMotor() {
-        requires(Robot.picker);
+        requires(Robot.climb);
     }
 
     // Called just before this Command runs the first time
@@ -32,7 +33,7 @@ public class RotateClimberMotor extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-      RobotMap.climbMotor.set(1);
+    	Robot.climb.SetClimberMotor(Constants.climbMotorPowerRaise);
     }
 
     protected boolean isFinished() {

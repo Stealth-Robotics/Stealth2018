@@ -10,6 +10,7 @@
 
 package org.usfirst.frc4089.Stealth2018.commands;
 
+import org.usfirst.frc4089.Stealth2018.Robot;
 import org.usfirst.frc4089.Stealth2018.RobotMap;
 import org.usfirst.frc4089.Stealth2018.MPPaths.*;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -30,20 +31,22 @@ public class AutoElevator extends CommandGroup {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
+		addSequential(new SetElevatorTarget(mainTarget));
+		addSequential(new SetPickerElevatorTarget(pickerTarget));
 	}
 	
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		addSequential(new SetElevatorTarget(mainTarget));
-		addSequential(new SetPickerElevatorTarget(pickerTarget));
-		
 	}
 	
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return true;
+		if (Robot.elevator.isElevatorAtTarget && Robot.elevator.isPickerElevatorAtTarget) {
+			return true;
+		}
+		return false;
 	}
 	
 	// Called once after isFinished returns true

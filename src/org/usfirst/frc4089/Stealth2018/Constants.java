@@ -62,8 +62,8 @@ public class Constants {
 	public static final double kPickerElevatorKd = 0.0;
 
 	// Motor Power Levels
-	public static final double climbMotorPowerRaise = 0.9;
-	public static final double climbMotorPowerLower= 0.9;
+	public static final double climbMotorPowerRaise = 1;
+	public static final double climbMotorPowerLower= -1;
 	
 	// Timeout durations
 	public static final double climbMotorRaiseTimeout = 4.0;

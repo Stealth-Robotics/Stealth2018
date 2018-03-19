@@ -53,7 +53,7 @@ public class AutoClimb extends CommandGroup {
 	    	addSequential(new AutoElevator(1400,1400));
 	    	//TODO //drive forward to position
 	    	addSequential(new AutoElevator(0,0));
-	    	addSequential(new RaiseClimber());
+	    	addSequential(new RotateClimberMotor(), 10);
 	    	
 	    	  	
 	    	

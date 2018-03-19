@@ -46,12 +46,16 @@ public class Climb extends Subsystem {
       //System.out.println("Ungrab Climber Source: Picker.ungrabClimber()");
     }
     
-    public void raiseClimber () {
+    /*public void raiseClimber () {
     	RobotMap.climbMotor.set(Constants.climbMotorPowerRaise);
     }
     
     public void lowerClimber () {
     	RobotMap.climbMotor.set(Constants.climbMotorPowerLower);
+    }*/
+    
+    public void SetClimberMotor (double value) {
+    	RobotMap.climbMotor.set(value);
     }
     
   
