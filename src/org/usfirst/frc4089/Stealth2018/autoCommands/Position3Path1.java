@@ -8,11 +8,17 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-package org.usfirst.frc4089.Stealth2018.commands;
+package org.usfirst.frc4089.Stealth2018.autoCommands;
 
 import org.usfirst.frc4089.Stealth2018.Robot;
 import org.usfirst.frc4089.Stealth2018.RobotMap;
 import org.usfirst.frc4089.Stealth2018.MPPaths.*;
+import org.usfirst.frc4089.Stealth2018.commands.DrivePathAction;
+import org.usfirst.frc4089.Stealth2018.commands.HugBlock;
+import org.usfirst.frc4089.Stealth2018.commands.LowerPicker;
+import org.usfirst.frc4089.Stealth2018.commands.RaiseMainToTop;
+import org.usfirst.frc4089.Stealth2018.commands.RejectBlock;
+import org.usfirst.frc4089.Stealth2018.commands.SetAutoFinished;
 import org.usfirst.frc4089.Stealth2018.subsystems.Picker;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;

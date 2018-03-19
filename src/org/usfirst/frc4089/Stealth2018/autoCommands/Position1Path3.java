@@ -8,12 +8,17 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-package org.usfirst.frc4089.Stealth2018.commands;
+package org.usfirst.frc4089.Stealth2018.autoCommands;
 
-import org.usfirst.frc4089.Stealth2018.Robot;
 import org.usfirst.frc4089.Stealth2018.RobotMap;
 import org.usfirst.frc4089.Stealth2018.MPPaths.*;
-import org.usfirst.frc4089.Stealth2018.subsystems.Picker;
+import org.usfirst.frc4089.Stealth2018.commands.DrivePathAction;
+import org.usfirst.frc4089.Stealth2018.commands.HugBlock;
+import org.usfirst.frc4089.Stealth2018.commands.LowerPicker;
+import org.usfirst.frc4089.Stealth2018.commands.RaiseMainToTop;
+import org.usfirst.frc4089.Stealth2018.commands.RaisePickerToTop;
+import org.usfirst.frc4089.Stealth2018.commands.RejectBlock;
+import org.usfirst.frc4089.Stealth2018.commands.SetAutoFinished;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.*;
@@ -21,67 +26,60 @@ import edu.wpi.first.wpilibj.*;
 /**
  *
  */
-public class Position3Path1_2 extends CommandGroup {
-	
-	Path retracePath;
-	
-  public Position3Path1_2() {
+public class Position1Path3 extends CommandGroup {
+  public Position1Path3() {
     
   }
 
   // Called just before this Command runs the first time
   @Override
     protected void initialize() {
-	  System.out.println("Position three Source: Commands.PositionThree");
+	  System.out.println("Position One Source: Commands.PositionOne");
     //hug block
     addSequential(new HugBlock());
-    //lower picker
-    addSequential(new LowerPicker());
-    //raise block to top
-    addParallel(new  RaiseMainToTop());
-
     
-    //get game data
     String gameData = DriverStation.getInstance().getGameSpecificMessage();
     int counter = 0;
     while ((gameData == "" || gameData == null || gameData.length() != 3) && counter < 250) {
       gameData = DriverStation.getInstance().getGameSpecificMessage();
       counter ++;
     }
-    //figure out where to go
     boolean left = true;
     
     if(gameData.length()>1)
     {
-      if('R'==gameData.charAt(0))
+      if('R'==gameData.charAt(1))
       {
         left = false;
       }
     }
     
     
+    
+    
     if(left)
     {
-      //go to where we need to go
-      addSequential(new DrivePathAction(new Red31Path60InPerSec()));
+      addSequential(new DrivePathAction(new Red13Path60InPerSec()));
       System.out.println("Left");
-      //let go of block
+      //lower picker
+      addParallel(new LowerPicker());
+      //raise block to top
+      addParallel(new RaisePickerToTop());
+      addParallel(new RaiseMainToTop());
+      //drop it like it is hot
       addSequential(new RejectBlock());
     }
     else
     {
-      //go to where we need to go
-      addSequential(new DrivePathAction(new Red32Path60InPerSec()));
+      addSequential(new DrivePathAction(new Move10Path60InPerSec()));
       System.out.println("Right");
-      //let go of block
-      addSequential(new RejectBlock());
+      //lower picker
+      addSequential(new LowerPicker());
     }
     
-    addSequential(new AutoFindCube());
-    
-    addSequential(new DrivePathAction(Robot.path));
-    
     addSequential(new SetAutoFinished());
+    
+    
   }
 
   // Called repeatedly when this Command is scheduled to run

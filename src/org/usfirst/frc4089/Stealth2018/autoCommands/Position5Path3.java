@@ -8,18 +8,26 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-package org.usfirst.frc4089.Stealth2018.commands;
+package org.usfirst.frc4089.Stealth2018.autoCommands;
 
 import org.usfirst.frc4089.Stealth2018.RobotMap;
 import org.usfirst.frc4089.Stealth2018.MPPaths.*;
+import org.usfirst.frc4089.Stealth2018.commands.DrivePathAction;
+import org.usfirst.frc4089.Stealth2018.commands.HugBlock;
+import org.usfirst.frc4089.Stealth2018.commands.LowerPicker;
+import org.usfirst.frc4089.Stealth2018.commands.RaiseMainToTop;
+import org.usfirst.frc4089.Stealth2018.commands.RaisePickerToTop;
+import org.usfirst.frc4089.Stealth2018.commands.RejectBlock;
+import org.usfirst.frc4089.Stealth2018.commands.SetAutoFinished;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.*;
 
 /**
  *
  */
-public class Position5Path4 extends CommandGroup {
-  public Position5Path4() {
+public class Position5Path3 extends CommandGroup {
+  public Position5Path3() {
     
   }
 
@@ -52,22 +60,23 @@ public class Position5Path4 extends CommandGroup {
     
     if(left)
     {
-      addSequential(new DrivePathAction(new Red54Path60InPerSec()));
-      System.out.println("Left");
+    	addSequential(new DrivePathAction(new Move10Path60InPerSec()));
+        System.out.println("Right");
+        //lower picker
+        addSequential(new LowerPicker());
     }
     else
     {
-      addSequential(new DrivePathAction(new Red53Path60InPerSec()));
-      System.out.println("Right");
+    	addSequential(new DrivePathAction(new Red53Path60InPerSec()));
+        System.out.println("Left");
+        //lower picker
+        addParallel(new LowerPicker());
+        //raise block to top
+        addParallel(new RaisePickerToTop());
+        addParallel(new RaiseMainToTop());
+        //drop it like it is hot
+        addSequential(new RejectBlock());
     }
-    //lower picker
-    addParallel(new LowerPicker());
-    //raise block to top
-    addParallel(new RaisePickerToTop());
-    
-    addParallel(new RaiseMainToTop());
-    //let go of block
-    addSequential(new RejectBlock());
     
     addSequential(new SetAutoFinished());
     
