@@ -32,7 +32,7 @@ public class AutoFindCube extends Command {
     
 	
 	int state;
-	final int state_find = 1;
+	final int find = 1;
 	final int zero_in = 2;
 	final int move_towards = 3;
 	int turn_last_error;
@@ -57,12 +57,12 @@ public class AutoFindCube extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	state = state_find;
+    	state = find;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (state == state_find)
+    	if (state == find)
     	{
         	if ((int) NetworkTable.getTable("fromPi/pixy").getDouble("pixyFrameSize", -1) > 0 )
         	{
@@ -86,7 +86,7 @@ public class AutoFindCube extends Command {
 	    	}
 	    	else if ((int) NetworkTable.getTable("fromPi/pixy").getDouble("pixyFrameSize", -1) <= 0 )
 	    	{
-	    		state = state_find;
+	    		state = find;
 	    	}
 	    	System.out.println("Zeroing in...");
 	    	int turn_error = blockX - 190;

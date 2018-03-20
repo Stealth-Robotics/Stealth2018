@@ -34,11 +34,7 @@ public class IsPickerInPositionForClimb extends Command {
     }
 
     protected boolean isFinished() {
-        if (RobotMap.SwitchPickerBottom.get() == true) {
-        	return true;
-        }else {
-        	return false;
-        }
+        return RobotMap.SwitchPickerBottom.get();
         
     }
 

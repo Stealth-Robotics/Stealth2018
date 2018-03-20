@@ -131,7 +131,7 @@ public class Robot extends TimedRobot {
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
         
-        if(true == Robot.oi.mechJoystick.getRawButton(9))
+        if(Robot.oi.mechJoystick.getRawButton(9))
         {
           DisplaySensors();
         }
@@ -153,57 +153,47 @@ public class Robot extends TimedRobot {
       Robot.elevator.SetPickerElevatorTarget(0);
       
       
-      if(true == chooser.getSelected().getName().equals("Position 1 Switch From Front"))
+      if(chooser.getSelected().getName().equals("Position 1 Switch From Front"))
       {
-
         mTestCommand = new Position1Path1();
         Scheduler.getInstance().add(mTestCommand);
       }
-      if(true == chooser.getSelected().getName().equals("Position 1 Scale From Front"))
+      else if(chooser.getSelected().getName().equals("Position 1 Scale From Front"))
       {
-
         mTestCommand = new Position1Path2();
         Scheduler.getInstance().add(mTestCommand);
       }
-      if(true == chooser.getSelected().getName().equals("Position 1 Scale From Side"))
+      else if(chooser.getSelected().getName().equals("Position 1 Scale From Side"))
       {
-
         mTestCommand = new Position1Path3();
         Scheduler.getInstance().add(mTestCommand);
       }
-      if(true == chooser.getSelected().getName().equals("Position 1 Cross Scale From Side"))
+      else if(chooser.getSelected().getName().equals("Position 1 Cross Scale From Side"))
       {
-
         mTestCommand = new Position1Path4();
         Scheduler.getInstance().add(mTestCommand);
       }
-      if(true == chooser.getSelected().getName().equals("Position 3 Switch From Side"))
+      else if(chooser.getSelected().getName().equals("Position 3 Switch From Side"))
       {
-
         mTestCommand = new Position3Path1();
         Scheduler.getInstance().add(mTestCommand);
       }
-      if(true == chooser.getSelected().getName().equals("Position 5 Switch From Front"))
+      else if(chooser.getSelected().getName().equals("Position 5 Switch From Front"))
       {
-
         mTestCommand = new Position5Path1();
         Scheduler.getInstance().add(mTestCommand);
       }
-      if(true == chooser.getSelected().getName().equals("Position 5 Scale From Front"))
+      else if(chooser.getSelected().getName().equals("Position 5 Scale From Front"))
       {
-
         mTestCommand = new Position5Path2();
         Scheduler.getInstance().add(mTestCommand);
       }
-      
-      
-      if(true == chooser.getSelected().getName().equals("Position 5 Scale From Side"))
+      else if(chooser.getSelected().getName().equals("Position 5 Scale From Side"))
       {
         mTestCommand = new Position5Path3();
         Scheduler.getInstance().add(mTestCommand);
       }
-      
-      if(true == chooser.getSelected().getName().equals("Position 5 Cross Scale From Side"))
+      else if(chooser.getSelected().getName().equals("Position 5 Cross Scale From Side"))
       {
         mTestCommand = new Position5Path4();
         Scheduler.getInstance().add(mTestCommand);
