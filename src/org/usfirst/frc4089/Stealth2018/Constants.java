@@ -7,6 +7,9 @@ public class Constants {
 	public static final boolean UseCamera = true;
 	public static final boolean UsePixyAutoFindCube = false;
 	
+	public static final int PickerElevatorTopTicks = 1400;
+	public static final int ElevatorTopTicks = 1400;
+	
 	//below are values for 2018
 	public static final double pickerLRSpeed = 1;
 	public static final double pickerLFSpeed = 1;

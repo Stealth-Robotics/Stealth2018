@@ -46,23 +46,25 @@ public class Position1Path2 extends CommandGroup {
       gameData = DriverStation.getInstance().getGameSpecificMessage();
       counter ++;
     }
-    boolean left = true;
+    boolean scaleLeft = true;
+    boolean switchLeft = true;
     
     if(gameData.length()>1)
     {
+      if('R'==gameData.charAt(0))
+      {
+    	  switchLeft = false;
+      }
       if('R'==gameData.charAt(1))
       {
-        left = false;
+        scaleLeft = false;
       }
     }
     
-    
-    
-    
-    if(left)
+    if(scaleLeft)
     {
       addSequential(new DrivePathAction(new Red12Path60InPerSec()));
-      System.out.println("Left");
+      System.out.println("Left Scale");
       //lower picker
       addParallel(new LowerPicker());
       //raise block to top
@@ -70,11 +72,20 @@ public class Position1Path2 extends CommandGroup {
       addParallel(new RaiseMainToTop());
       //drop it
       addSequential(new RejectBlock());
-    }
-    else
-    {
+      
+    } else if (switchLeft) {
+    	addSequential(new DrivePathAction(new Red11Path60InPerSec()));
+        System.out.println("Left Switch");
+        //lower picker
+        addParallel(new LowerPicker());
+        //raise block to top
+        addParallel(new RaisePickerToTop());
+        //drop it
+        addSequential(new RejectBlock());
+        
+    } else {
       addSequential(new DrivePathAction(new Move10Path60InPerSec()));
-      System.out.println("Right");
+      System.out.println("Right Scale and Switch");
       //lower picker
       addSequential(new LowerPicker());
     }
