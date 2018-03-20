@@ -70,10 +70,8 @@ public class Robot extends TimedRobot {
 
         Robot.elevator.SetElevatorTarget(0);
         Robot.elevator.SetPickerElevatorTarget(0);
-        //RobotMap.elevatorEncoder.reset();
         RobotMap.elevatorMotor.setSelectedSensorPosition(0, 0, 20);
         RobotMap.pickerElevatorMotor.setSelectedSensorPosition(0, 0, 20);
-        //RobotMap.pickerElevatorEncoder.reset();
         
         System.out.println("robot init");
         // OI must be constructed after subsystems. If the OI creates Commands
@@ -81,23 +79,16 @@ public class Robot extends TimedRobot {
         // constructed yet. Thus, their requires() statements may grab null
         // pointers. Bad news. Don't move it.
         oi = new OI();
-        
-        
-        
 
         chooser.addObject("Position 1 Switch From Front", new Position1Path1());
-
         chooser.addObject("Position 1 Scale From Front", new Position1Path2());
         chooser.addObject("Position 1 Scale From Side", new Position1Path3());
-        chooser.addObject("Position 1 Cross Scale From Side", new Position1Path4());
-        
-        //chooser.addObject("2 Position Two", new PositionTwo());
+        chooser.addObject("Position 1 Cross Scale From Side or Scale From Front", new Position1Path4());
         chooser.addDefault("Position 3 Switch From Side", new Position3Path1());
-        //chooser.addObject("4 Position Four", new PositionFour());
         chooser.addObject("Position 5 Switch From Front", new Position5Path1());
         chooser.addObject("Position 5 Scale From Front", new Position5Path2());
         chooser.addObject("Position 5 Scale From Side", new Position5Path3());
-        chooser.addObject("Position 5 Cross Scale From Side", new Position5Path4());
+        chooser.addObject("Position 5 Cross Scale From Side or Scale From Front", new Position5Path4());
         SmartDashboard.putData("Auto mode", chooser);
         
     }
@@ -109,9 +100,7 @@ public class Robot extends TimedRobot {
     
     @Override
     public void disabledInit(){
-      if (mTestCommand != null) mTestCommand.cancel();
-      //picker.hugBlock();
-      //RobotMap.utilitiesPCMCompressor.setClosedLoopControl(true);
+      if (mAutoCommand != null) mAutoCommand.cancel();
     }
 
     private void DisplaySensors()
@@ -133,15 +122,15 @@ public class Robot extends TimedRobot {
         
         if(Robot.oi.mechJoystick.getRawButton(9))
         {
-          DisplaySensors();
+        	DisplaySensors();
         }
     }
 
-    Command mTestCommand;
+    Command mAutoCommand;
     
     @Override
     public void autonomousInit() {
-      if (mTestCommand != null) mTestCommand.cancel();
+      if (mAutoCommand != null) mAutoCommand.cancel();
       Robot.climb.ungrabClimber();
       
       RobotMap.SetUpTalonsForAuto();
@@ -155,62 +144,49 @@ public class Robot extends TimedRobot {
       
       if(chooser.getSelected().getName().equals("Position 1 Switch From Front"))
       {
-        mTestCommand = new Position1Path1();
-        Scheduler.getInstance().add(mTestCommand);
+        mAutoCommand = new Position1Path1();
+        Scheduler.getInstance().add(mAutoCommand);
       }
       else if(chooser.getSelected().getName().equals("Position 1 Scale From Front"))
       {
-        mTestCommand = new Position1Path2();
-        Scheduler.getInstance().add(mTestCommand);
+        mAutoCommand = new Position1Path2();
+        Scheduler.getInstance().add(mAutoCommand);
       }
       else if(chooser.getSelected().getName().equals("Position 1 Scale From Side"))
       {
-        mTestCommand = new Position1Path3();
-        Scheduler.getInstance().add(mTestCommand);
+        mAutoCommand = new Position1Path3();
+        Scheduler.getInstance().add(mAutoCommand);
       }
-      else if(chooser.getSelected().getName().equals("Position 1 Cross Scale From Side"))
+      else if(chooser.getSelected().getName().equals("Position 1 Cross Scale From Side or Scale From Front"))
       {
-        mTestCommand = new Position1Path4();
-        Scheduler.getInstance().add(mTestCommand);
+        mAutoCommand = new Position1Path4();
+        Scheduler.getInstance().add(mAutoCommand);
       }
       else if(chooser.getSelected().getName().equals("Position 3 Switch From Side"))
       {
-        mTestCommand = new Position3Path1();
-        Scheduler.getInstance().add(mTestCommand);
+        mAutoCommand = new Position3Path1();
+        Scheduler.getInstance().add(mAutoCommand);
       }
       else if(chooser.getSelected().getName().equals("Position 5 Switch From Front"))
       {
-        mTestCommand = new Position5Path1();
-        Scheduler.getInstance().add(mTestCommand);
+        mAutoCommand = new Position5Path1();
+        Scheduler.getInstance().add(mAutoCommand);
       }
       else if(chooser.getSelected().getName().equals("Position 5 Scale From Front"))
       {
-        mTestCommand = new Position5Path2();
-        Scheduler.getInstance().add(mTestCommand);
+        mAutoCommand = new Position5Path2();
+        Scheduler.getInstance().add(mAutoCommand);
       }
       else if(chooser.getSelected().getName().equals("Position 5 Scale From Side"))
       {
-        mTestCommand = new Position5Path3();
-        Scheduler.getInstance().add(mTestCommand);
+        mAutoCommand = new Position5Path3();
+        Scheduler.getInstance().add(mAutoCommand);
       }
-      else if(chooser.getSelected().getName().equals("Position 5 Cross Scale From Side"))
+      else if(chooser.getSelected().getName().equals("Position 5 Cross Scale From Side or Scale From Front"))
       {
-        mTestCommand = new Position5Path4();
-        Scheduler.getInstance().add(mTestCommand);
+        mAutoCommand = new Position5Path4();
+        Scheduler.getInstance().add(mAutoCommand);
       }
-      
-      
-      
-      
-      
-      /* Should be that
-      autonomousCommand = chooser.getSelected();
-      // schedule the autonomous command (example)
-      if (autonomousCommand != null)
-      {
-        autonomousCommand.start();
-      }
-      */
     }
 
     /**
@@ -222,10 +198,10 @@ public class Robot extends TimedRobot {
        
        if(!RobotMap.overrideElevator) {
            Robot.elevator.MoveElevatorToTarget();
-         }
-         if(!RobotMap.overridePickerElevator) {
+       }
+       if(!RobotMap.overridePickerElevator) {
            Robot.elevator.MovePickerElevatorToTarget();
-         }
+       }
     }
 
     @Override
@@ -234,7 +210,7 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        if (mTestCommand != null) mTestCommand.cancel();
+        if (mAutoCommand != null) mAutoCommand.cancel();
         System.out.println("tele init");
         RobotMap.SetUpTalonsForTele();
         Robot.drive.SetTele();
@@ -242,8 +218,6 @@ public class Robot extends TimedRobot {
         RobotMap.utilitiesPCMCompressor.setClosedLoopControl(true);
         Robot.elevator.SetElevatorTarget(RobotMap.elevatorMotor.getSelectedSensorPosition(0));
         Robot.elevator.SetPickerElevatorTarget(RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0));
-        
-        
     }
 
     /**
@@ -260,10 +234,10 @@ public class Robot extends TimedRobot {
         Robot.picker.DrivePickerWheels(oi.mechJoystick);
         
         if(!RobotMap.overrideElevator) {
-          Robot.elevator.MoveElevatorToTarget();
+        	Robot.elevator.MoveElevatorToTarget();
         }
         if(!RobotMap.overridePickerElevator) {
-          Robot.elevator.MovePickerElevatorToTarget();
+        	Robot.elevator.MovePickerElevatorToTarget();
         }
     }
     
