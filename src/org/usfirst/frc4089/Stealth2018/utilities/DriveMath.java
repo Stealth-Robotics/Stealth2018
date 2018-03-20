@@ -196,13 +196,13 @@ public class DriveMath {
       return forwardThrot;
     }
  
-    static public Path GeneratePath(ArrayList<KPoint> list)
+    static public Path GeneratePath(ArrayList<MPPoint> list)
     {
     	Path path = new Path();
     	path.kSpeed = 60;
     	path.kNumPoints = list.size() - 1;
     	path.kPoints = new double[list.size() - 1][3];
-    	KPoint first = list.get(0);
+    	MPPoint first = list.get(0);
     	double lastLeftPos = first.ticksL;
     	double lastRightPos = first.ticksR;
     	for (int c = list.size() - 1; c >= 1; c++)

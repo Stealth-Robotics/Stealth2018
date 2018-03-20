@@ -16,7 +16,7 @@ import org.usfirst.frc4089.Stealth2018.Constants;
 import org.usfirst.frc4089.Stealth2018.Robot;
 import org.usfirst.frc4089.Stealth2018.RobotMap;
 import org.usfirst.frc4089.Stealth2018.utilities.DriveMath;
-import org.usfirst.frc4089.Stealth2018.utilities.KPoint;
+import org.usfirst.frc4089.Stealth2018.utilities.MPPoint;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
 
@@ -47,7 +47,7 @@ public class AutoFindCube extends Command {
 	final double move_kI = 0.000005;
 	final double move_kD = 0;
 	//final double stop_kD = 0.0002;
-	final ArrayList<KPoint> encoderLogger = new ArrayList<KPoint>();
+	final ArrayList<MPPoint> encoderLogger = new ArrayList<MPPoint>();
 	
     public AutoFindCube() {
         requires(Robot.drive);
@@ -117,7 +117,7 @@ public class AutoFindCube extends Command {
     	}
     	PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
 		RobotMap.pigeonIMU.getFusedHeading(fusionStatus);
-		encoderLogger.add(new KPoint(RobotMap.driveSRXDriveLF.getSelectedSensorVelocity(0), RobotMap.driveSRXDriveRF.getSelectedSensorVelocity(0), fusionStatus.heading));
+		encoderLogger.add(new MPPoint(RobotMap.driveSRXDriveLF.getSelectedSensorVelocity(0), RobotMap.driveSRXDriveRF.getSelectedSensorVelocity(0), fusionStatus.heading));
     	
     }	
 
