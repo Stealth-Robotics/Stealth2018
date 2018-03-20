@@ -10,6 +10,7 @@
 
 
 package org.usfirst.frc4089.Stealth2018.commands;
+import org.usfirst.frc4089.Stealth2018.Constants;
 import org.usfirst.frc4089.Stealth2018.Robot;
 import org.usfirst.frc4089.Stealth2018.RobotMap;
 
@@ -23,18 +24,18 @@ public class RaiseMainToTop extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-      
-    }
-
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
     	if (RobotMap.overrideElevator) {
     		System.out.println("Raise Elevator OVERRIDE MODE");
     	    RobotMap.elevatorMotor.set(0.8);
     	} else {
     		System.out.println("Raise Elevator PID MODE");
-    		Robot.elevator.SetElevatorTarget(1400);
+    		Robot.elevator.SetElevatorTarget(Constants.ElevatorTopTicks);
     	}
+    }
+
+    // Called repeatedly when this Command is scheduled to run
+    protected void execute() {
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -43,7 +44,7 @@ public class RaiseMainToTop extends Command {
     		return (RobotMap.elevatorSensors.isFwdLimitSwitchClosed());
     	}
     	else {
-    		return true;
+    		return (Robot.elevator.isElevatorAtTarget);
     	}
     }
 
@@ -51,8 +52,6 @@ public class RaiseMainToTop extends Command {
     protected void end() {
       if (RobotMap.overrideElevator) {
     	  RobotMap.elevatorMotor.set(0);
-      } else {
-    	  //do nothing
       }
     	
     }
@@ -60,6 +59,6 @@ public class RaiseMainToTop extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-      end();
+    	end();
     }
 }

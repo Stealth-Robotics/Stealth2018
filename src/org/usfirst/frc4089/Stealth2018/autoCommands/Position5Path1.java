@@ -66,7 +66,7 @@ public class Position5Path1 extends CommandGroup {
     }
     else
     {
-	    addSequential(new DrivePathAction(new Red11Path60InPerSec()));
+	    addSequential(new DrivePathAction(new Red51Path60InPerSec()));
 	    System.out.println("Left");
 	      
 	    //lower picker

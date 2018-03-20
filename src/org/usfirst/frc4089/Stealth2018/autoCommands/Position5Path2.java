@@ -48,26 +48,24 @@ public class Position5Path2 extends CommandGroup {
       counter ++;
     }
     
-    boolean left = true;
+    boolean scaleRight = false;
+    boolean switchRight = false;
     
     if(gameData.length()>1)
     {
+      if('R'==gameData.charAt(0))
+      {
+    	  switchRight = true;
+      }
       if('R'==gameData.charAt(1))
       {
-        left = false;
+        scaleRight = true;
       }
     }
     
     
     
-    if(left)
-    {
-    	addSequential(new DrivePathAction(new Move10Path60InPerSec()));
-        System.out.println("Right");
-        //lower picker
-        addSequential(new LowerPicker());
-    }
-    else
+    if(scaleRight)
     {
     	addSequential(new DrivePathAction(new Red52Path60InPerSec()));
         System.out.println("Left");
@@ -78,6 +76,21 @@ public class Position5Path2 extends CommandGroup {
         addParallel(new RaiseMainToTop());
         //drop it like it is hot
         addSequential(new RejectBlock());
+    } else if (switchRight) {
+    	addSequential(new DrivePathAction(new Red51Path60InPerSec()));
+	    System.out.println("Left");
+	      
+	    //lower picker
+	    addParallel(new LowerPicker());
+	    //raise block to top
+	    addParallel(new RaisePickerToTop());
+	    //drop it
+	    addSequential(new RejectBlock());
+    } else {
+    	addSequential(new DrivePathAction(new Move10Path60InPerSec()));
+        System.out.println("Right");
+        //lower picker
+        addSequential(new LowerPicker());
     }
     
     addSequential(new SetAutoFinished());
