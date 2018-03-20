@@ -16,10 +16,12 @@ import org.usfirst.frc4089.Stealth2018.MPPaths.*;
 import org.usfirst.frc4089.Stealth2018.commands.AutoFindCube;
 import org.usfirst.frc4089.Stealth2018.commands.DrivePathAction;
 import org.usfirst.frc4089.Stealth2018.commands.HugBlock;
+import org.usfirst.frc4089.Stealth2018.commands.LowerMainToBottom;
 import org.usfirst.frc4089.Stealth2018.commands.LowerPicker;
 import org.usfirst.frc4089.Stealth2018.commands.RaiseMainToTop;
 import org.usfirst.frc4089.Stealth2018.commands.RejectBlock;
 import org.usfirst.frc4089.Stealth2018.commands.SetAutoFinished;
+import org.usfirst.frc4089.Stealth2018.commands.WaitTime;
 import org.usfirst.frc4089.Stealth2018.subsystems.Picker;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -72,21 +74,36 @@ public class Position3Path1_2 extends CommandGroup {
       //go to where we need to go
       addSequential(new DrivePathAction(new Red31Path60InPerSec()));
       System.out.println("Left");
-      //let go of block
-      addSequential(new RejectBlock());
     }
     else
     {
       //go to where we need to go
       addSequential(new DrivePathAction(new Red32Path60InPerSec()));
       System.out.println("Right");
-      //let go of block
-      addSequential(new RejectBlock());
     }
+    
+    //let go of block
+    addSequential(new RejectBlock());
+    
+    Robot.drive.DriveRobot(-0.3, 0);
+    
+    addSequential(new WaitTime(500));
+    
+    addSequential(new LowerMainToBottom());
     
     addSequential(new AutoFindCube());
     
+    addSequential(new HugBlock());
+    
+    addSequential(new RaiseMainToTop());
+    
     addSequential(new DrivePathAction(Robot.path));
+    
+    Robot.drive.DriveRobot(0.3, 0);
+    
+    addSequential(new WaitTime(500));
+    
+    addSequential(new RejectBlock());
     
     addSequential(new SetAutoFinished());
   }
