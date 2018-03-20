@@ -63,15 +63,15 @@ public class Position1Path2 extends CommandGroup {
     
     if(scaleLeft)
     {
-      addSequential(new DrivePathAction(new Red12Path60InPerSec()));
-      System.out.println("Left Scale");
-      //lower picker
-      addParallel(new LowerPicker());
-      //raise block to top
-      addParallel(new RaisePickerToTop());
-      addParallel(new RaiseMainToTop());
-      //drop it
-      addSequential(new RejectBlock());
+        addSequential(new DrivePathAction(new Red12Path60InPerSec()));
+        System.out.println("Left Scale");
+        //lower picker
+        addParallel(new LowerPicker());
+        //raise block to top
+        addParallel(new RaisePickerToTop());
+        addParallel(new RaiseMainToTop());
+        //drop it
+        addSequential(new RejectBlock());
       
     } else if (switchLeft) {
     	addSequential(new DrivePathAction(new Red11Path60InPerSec()));
@@ -84,10 +84,10 @@ public class Position1Path2 extends CommandGroup {
         addSequential(new RejectBlock());
         
     } else {
-      addSequential(new DrivePathAction(new Move10Path60InPerSec()));
-      System.out.println("Right Scale and Switch");
-      //lower picker
-      addSequential(new LowerPicker());
+        addSequential(new DrivePathAction(new Move10Path60InPerSec()));
+        System.out.println("Right Scale and Switch");
+        //lower picker
+        addSequential(new LowerPicker());
     }
     
     addSequential(new SetAutoFinished());

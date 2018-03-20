@@ -72,7 +72,6 @@ public class Position5Path4 extends CommandGroup {
     addParallel(new LowerPicker());
     //raise block to top
     addParallel(new RaisePickerToTop());
-    
     addParallel(new RaiseMainToTop());
     //let go of block
     addSequential(new RejectBlock());

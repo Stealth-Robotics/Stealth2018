@@ -44,37 +44,49 @@ public class Position1Path3 extends CommandGroup {
       gameData = DriverStation.getInstance().getGameSpecificMessage();
       counter ++;
     }
-    boolean left = true;
+    boolean scaleLeft = true;
+    boolean switchLeft = true;
     
     if(gameData.length()>1)
     {
+      if('R'==gameData.charAt(0))
+      {
+    	  switchLeft = false;
+      }
       if('R'==gameData.charAt(1))
       {
-        left = false;
+        scaleLeft = false;
       }
     }
     
     
     
     
-    if(left)
+    if(scaleLeft)
     {
-      addSequential(new DrivePathAction(new Red13Path60InPerSec()));
-      System.out.println("Left");
-      //lower picker
-      addParallel(new LowerPicker());
-      //raise block to top
-      addParallel(new RaisePickerToTop());
-      addParallel(new RaiseMainToTop());
-      //drop it like it is hot
-      addSequential(new RejectBlock());
-    }
-    else
-    {
-      addSequential(new DrivePathAction(new Move10Path60InPerSec()));
-      System.out.println("Right");
-      //lower picker
-      addSequential(new LowerPicker());
+        addSequential(new DrivePathAction(new Red13Path60InPerSec()));
+        System.out.println("Left");
+        //lower picker
+        addParallel(new LowerPicker());
+        //raise block to top
+        addParallel(new RaisePickerToTop());
+        addParallel(new RaiseMainToTop());
+        //drop it like it is hot
+        addSequential(new RejectBlock());
+    } else if (switchLeft) {
+    	addSequential(new DrivePathAction(new Red11Path60InPerSec()));
+        System.out.println("Left Switch");
+        //lower picker
+        addParallel(new LowerPicker());
+        //raise block to top
+        addParallel(new RaisePickerToTop());
+        //drop it
+        addSequential(new RejectBlock());
+    } else {
+        addSequential(new DrivePathAction(new Move10Path60InPerSec()));
+        System.out.println("Right");
+        //lower picker
+        addSequential(new LowerPicker());
     }
     
     addSequential(new SetAutoFinished());
