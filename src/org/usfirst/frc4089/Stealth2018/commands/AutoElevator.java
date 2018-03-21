@@ -44,10 +44,11 @@ public class AutoElevator extends CommandGroup {
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		if (Robot.elevator.isElevatorAtTarget && Robot.elevator.isPickerElevatorAtTarget) {
-			return true;
-		}
-		return false;
+//		if (Robot.elevator.isElevatorAtTarget && Robot.elevator.isPickerElevatorAtTarget) {
+//			return true;
+//		}
+//		return false;
+		return Robot.elevator.isElevatorAtTarget && Robot.elevator.isPickerElevatorAtTarget;
 	}
 	
 	// Called once after isFinished returns true

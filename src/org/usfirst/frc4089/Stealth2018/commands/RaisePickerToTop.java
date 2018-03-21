@@ -42,11 +42,12 @@ public class RaisePickerToTop extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         //return (Robot.elevator.GetElevatorPosition()>-SWITCH_HEIGHT);
-    	if (RobotMap.overridePickerElevator) {
-    		return (RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed());
-    	} else {
-    		return true;
-    	}
+//    	if (RobotMap.overridePickerElevator) {
+//    		return (RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed());
+//    	} else {
+//    		return true;
+//    	}
+    	return !RobotMap.overridePickerElevator || RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed();
       
     }
 

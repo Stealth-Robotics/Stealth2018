@@ -25,10 +25,9 @@ public class DrivePathAction extends Command {
         if(curCount<1)
         {
           System.out.println(mPath.kNumPoints);
-          return true;
         }
         
-        return false;
+        return curCount<1;
     }
 
     @Override
