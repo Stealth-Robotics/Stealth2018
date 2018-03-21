@@ -10,13 +10,13 @@
 
 
 package org.usfirst.frc4089.Stealth2018.commands;
+import org.usfirst.frc4089.Stealth2018.Constants;
 import org.usfirst.frc4089.Stealth2018.Robot;
 import org.usfirst.frc4089.Stealth2018.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class RaisePickerToTop extends Command {
-    //final int SWITCH_HEIGHT = 800;
   
     public RaisePickerToTop() {
     	requires(Robot.elevator);
@@ -24,23 +24,22 @@ public class RaisePickerToTop extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-      //Robot.elevator.SetElevatorTarget(SWITCH_HEIGHT);
-    }
-
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
     	if (RobotMap.overridePickerElevator) {
     		System.out.println("Raise Picker Elevator OVERRIDE MODE");
     	      RobotMap.pickerElevatorMotor.set(0.8);
     	} else {
     		System.out.println("Raise Picker Elevator PID MODE");
-    		Robot.elevator.SetPickerElevatorTarget(1400);
+    		Robot.elevator.SetPickerElevatorTarget(Constants.PickerElevatorTopTicks);
     	}
-      
+    }
+
+    // Called repeatedly when this Command is scheduled to run
+    protected void execute() {
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+<<<<<<< HEAD
         //return (Robot.elevator.GetElevatorPosition()>-SWITCH_HEIGHT);
 //    	if (RobotMap.overridePickerElevator) {
 //    		return (RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed());
@@ -48,6 +47,13 @@ public class RaisePickerToTop extends Command {
 //    		return true;
 //    	}
     	return !RobotMap.overridePickerElevator || RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed();
+=======
+//    	if (RobotMap.overridePickerElevator) {
+//    		return (RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed());
+//    	} else {
+//    		return (Robot.elevator.isPickerElevatorAtTarget);
+//    	}
+>>>>>>> branch 'master' of https://github.com/Stealth-Robotics/Stealth2018.git
       
     }
 
@@ -61,6 +67,6 @@ public class RaisePickerToTop extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-      end();
+    	end();
     }
 }

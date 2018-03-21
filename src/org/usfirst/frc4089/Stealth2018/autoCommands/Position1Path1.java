@@ -26,61 +26,56 @@ import edu.wpi.first.wpilibj.*;
  *
  */
 public class Position1Path1 extends CommandGroup {
-  public Position1Path1() {
-    
-  }
-
-  // Called just before this Command runs the first time
-  @Override
-    protected void initialize() {
-	  System.out.println("Position One Source: Commands.PositionOne");
-    //hug block
-    addSequential(new HugBlock());
-    
-    
-    String gameData = DriverStation.getInstance().getGameSpecificMessage();
-    int counter = 0;
-    while ((gameData == "" || gameData == null || gameData.length() != 3) && counter < 250) {
-      gameData = DriverStation.getInstance().getGameSpecificMessage();
-      counter ++;
-    }
-    boolean left = true;
-    
-    if(gameData.length()>1)
-    {
-      if('R'==gameData.charAt(0))
-      {
-        left = false;
-      }
-    }
-    
-    
-    
-    
-    if(left)
-    {
-      addSequential(new DrivePathAction(new Red11Path60InPerSec()));
-      System.out.println("Left");
+    public Position1Path1() {
       
-      //lower picker
-      addParallel(new LowerPicker());
-      //raise block to top
-      addParallel(new RaisePickerToTop());
-      //drop it
-      addSequential(new RejectBlock());
     }
-    else
-    {
-      addSequential(new DrivePathAction(new Move10Path60InPerSec()));
-      System.out.println("Right");
-      //lower picker
-      addSequential(new LowerPicker());
+
+    // Called just before this Command runs the first time
+    @Override
+    protected void initialize() {
+		System.out.println("Position One Source: Commands.PositionOne");
+	    //hug block
+	    addSequential(new HugBlock());
+	    
+	    
+	    String gameData = DriverStation.getInstance().getGameSpecificMessage();
+	    int counter = 0;
+	    while ((gameData == "" || gameData == null || gameData.length() != 3) && counter < 250) {
+	      gameData = DriverStation.getInstance().getGameSpecificMessage();
+	      counter ++;
+	    }
+	    boolean left = true;
+	    
+	    if(gameData.length()>1)
+	    {
+	      if('R'==gameData.charAt(0))
+	      {
+	        left = false;
+	      }
+	    }
+	    
+	    if(left)
+	    {
+	      addSequential(new DrivePathAction(new Red11Path60InPerSec()));
+	      System.out.println("Left");
+	      
+	      //lower picker
+	      addParallel(new LowerPicker());
+	      //raise block to top
+	      addParallel(new RaisePickerToTop());
+	      //drop it
+	      addSequential(new RejectBlock());
+	    }
+	    else
+	    {
+	      addSequential(new DrivePathAction(new Move10Path60InPerSec()));
+	      System.out.println("Right");
+	      //lower picker
+	      addSequential(new LowerPicker());
+	    }
+	    
+	    addSequential(new SetAutoFinished());
     }
-    
-    addSequential(new SetAutoFinished());
-    
-    
-  }
 
   // Called repeatedly when this Command is scheduled to run
   @Override

@@ -3,9 +3,12 @@ package org.usfirst.frc4089.Stealth2018;
 //import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Constants {
-  
+     
 	public static final boolean UseCamera = true;
 	public static final boolean UsePixyAutoFindCube = false;
+	
+	public static final int PickerElevatorTopTicks = 1400;
+	public static final int ElevatorTopTicks = 1400;
 	
 	//below are values for 2018
 	public static final double pickerLRSpeed = 1;
@@ -24,10 +27,10 @@ public class Constants {
 	// Elevator Picker Assignments 
     public static final int CANTalonSRXElevator = 5;
     public static final int CANTalonSRXPickerElevator = 7;
-    public static final int CANTalonSRXPickerRaise = 10;
+    public static final int CANTalonSRXPickerRaise = 9;
 	public static final int CANTalonSRXPickerL = 6;
 	public static final int CANTalonSRXPickerR = 8;
-	public static final int CANTalonSRXClimb = 9;
+	public static final int CANTalonSRXClimb = 10;
 	
 	public static final int CANPCM1 = 16;
 	public static final int CANPCM2 = 17;
