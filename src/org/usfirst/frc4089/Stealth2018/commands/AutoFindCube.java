@@ -115,6 +115,11 @@ public class AutoFindCube extends Command {
 	    	{
 	    		state = zero_in;
 	    	}
+    		//if the block is no longer visible, start looking for it again
+	    	else if ((int) NetworkTable.getTable("fromPi/pixy").getDouble("pixyFrameSize", -1) <= 0 )
+	    	{
+	    		state = find;
+	    	}
     		System.out.println("Driving to block...");
     		int move_error = 220 - (int) NetworkTable.getTable("fromPi/pixy").getDouble("largestPixyWidth", -1);
     		double move_power = move_error * move_kP + move_accum_error * move_kI + (move_error - move_last_error) * move_kD;
