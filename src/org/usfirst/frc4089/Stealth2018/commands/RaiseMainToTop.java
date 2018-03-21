@@ -40,7 +40,6 @@ public class RaiseMainToTop extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-<<<<<<< HEAD
 //    	if (RobotMap.overrideElevator) {
 //    		return (RobotMap.elevatorSensors.isFwdLimitSwitchClosed());
 //    	}
@@ -48,14 +47,6 @@ public class RaiseMainToTop extends Command {
 //    		return true;
 //    	}
     	return !RobotMap.overrideElevator || RobotMap.elevatorSensors.isFwdLimitSwitchClosed();
-=======
-//    	if (RobotMap.overrideElevator) {
-//    		return (RobotMap.elevatorSensors.isFwdLimitSwitchClosed());
-//    	}
-//    	else {
-//    		return (Robot.elevator.isElevatorAtTarget);
-//    	}
->>>>>>> branch 'master' of https://github.com/Stealth-Robotics/Stealth2018.git
     }
 
     // Called once after isFinished returns true

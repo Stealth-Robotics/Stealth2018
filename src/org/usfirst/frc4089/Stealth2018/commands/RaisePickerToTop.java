@@ -39,7 +39,6 @@ public class RaisePickerToTop extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-<<<<<<< HEAD
         //return (Robot.elevator.GetElevatorPosition()>-SWITCH_HEIGHT);
 //    	if (RobotMap.overridePickerElevator) {
 //    		return (RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed());
@@ -47,13 +46,6 @@ public class RaisePickerToTop extends Command {
 //    		return true;
 //    	}
     	return !RobotMap.overridePickerElevator || RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed();
-=======
-//    	if (RobotMap.overridePickerElevator) {
-//    		return (RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed());
-//    	} else {
-//    		return (Robot.elevator.isPickerElevatorAtTarget);
-//    	}
->>>>>>> branch 'master' of https://github.com/Stealth-Robotics/Stealth2018.git
       
     }
 
