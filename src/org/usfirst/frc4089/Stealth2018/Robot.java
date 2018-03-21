@@ -73,7 +73,7 @@ public class Robot extends TimedRobot {
         RobotMap.elevatorMotor.setSelectedSensorPosition(0, 0, 20);
         RobotMap.pickerElevatorMotor.setSelectedSensorPosition(0, 0, 20);
         
-        System.out.println("robot init");
+        
         // OI must be constructed after subsystems. If the OI creates Commands
         //(which it very likely will), subsystems are not guaranteed to be
         // constructed yet. Thus, their requires() statements may grab null
@@ -91,6 +91,8 @@ public class Robot extends TimedRobot {
         chooser.addObject("Position 5 Cross Scale From Side or Scale From Front", new Position5Path4());
         SmartDashboard.putData("Auto mode", chooser);
         
+        System.out.println("robot init");
+        
     }
 
 
@@ -105,7 +107,7 @@ public class Robot extends TimedRobot {
 
     private void DisplaySensors()
     {
-      System.out.format("%b %b %b %b %d %d\n", 
+      System.out.format("ELEVATOR TOP: %b ELEVATOR BOTTOM: %b PICKER TOP: %b PICKER BOTTOM: %b ELEVATOR TICKS: %d PICKER TICKS: %d\n", 
           RobotMap.elevatorSensors.isFwdLimitSwitchClosed(),
           RobotMap.elevatorSensors.isRevLimitSwitchClosed(),
           RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed(),
@@ -206,16 +208,17 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        // This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to
-        // continue until interrupted by another command, remove
-        // this line or comment it out.
+        //stop auto
         if (mAutoCommand != null) mAutoCommand.cancel();
+        
+        //Init teleop
         System.out.println("tele init");
         RobotMap.SetUpTalonsForTele();
         Robot.drive.SetTele();
         Robot.climb.ungrabClimber();
+        Robot.picker.hugBlock();
         RobotMap.utilitiesPCMCompressor.setClosedLoopControl(true);
+        //set the elevator targets to be where they are
         Robot.elevator.SetElevatorTarget(RobotMap.elevatorMotor.getSelectedSensorPosition(0));
         Robot.elevator.SetPickerElevatorTarget(RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0));
     }
