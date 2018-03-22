@@ -115,7 +115,11 @@ public class Elevator extends Subsystem {
         }
       }
       
+      
+      
       RobotMap.elevatorMotor.set(-yElevator);
+      
+      System.out.println("Override " + RobotMap.elevatorMotor.getSelectedSensorPosition(0) + " " + RobotMap.elevatorMotor.get());
     } else {
     	// only change things if the user wants to to avoid messing with auto
         if(change != 0)
@@ -194,6 +198,9 @@ public class Elevator extends Subsystem {
 	  //record previous error
 	  elevatorPreviousError = error;
 	  
+	  //print out debugging statements
+	  System.out.format("!override %d %d %f %f %f\n", pidElevatorTarget, elevatorEncoderTicks, error, derivative, motorOutput);
+	  
 	  //set the motor to the correct value
 	  RobotMap.elevatorMotor.set(motorOutput);
   }
@@ -249,7 +256,7 @@ public class Elevator extends Subsystem {
       RobotMap.pickerElevatorMotor.set(-yElevator);
       
       //print out debugging information
-      //System.out.println("Override " + RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0) + " " + RobotMap.pickerElevatorMotor.get());
+      System.out.println("Override " + RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0) + " " + RobotMap.pickerElevatorMotor.get());
     } else {
       // only change things if the user wants to to avoid messing with auto
       if(change != 0)

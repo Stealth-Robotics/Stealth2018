@@ -103,17 +103,23 @@ public class RobotMap {
       SwitchPickerBottom = new DigitalInput(8);
       //elevatorEncoder  = new Encoder(0, 1, true);
       elevatorMotor = new WPI_TalonSRX(Constants.CANTalonSRXElevator);
+      elevatorMotor.setExpiration(30);
       elevatorMotor.setSafetyEnabled(true);
+      elevatorMotor.setSensorPhase(true);
+      elevatorMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
       elevatorSensors = elevatorMotor.getSensorCollection();
       
       elevatorMotor.setInverted(true);
        
       pickerElevatorMotor = new WPI_TalonSRX(Constants.CANTalonSRXPickerElevator);
+      pickerElevatorMotor.setExpiration(30);
       pickerElevatorMotor.setSafetyEnabled(true);
+      pickerElevatorMotor.setSensorPhase(false);
+      pickerElevatorMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 30);
       pickerElevatorSensors = pickerElevatorMotor.getSensorCollection();
       
       pickerRaiseMotor = new WPI_TalonSRX(Constants.CANTalonSRXPickerRaise);
-      pickerPositionSwitch = pickerRaiseMotor.getSensorCollection();
+      //pickerPositionSwitch = pickerRaiseMotor.getSensorCollection();
       
       
       pickerArms = new Solenoid(16,5);
@@ -123,7 +129,7 @@ public class RobotMap {
       pigeonIMU.setFusedHeading(0.0, 10);
       netTable = NetworkTable.getTable("FRCRobot");
       
-      overrideElevator = true;
+      overrideElevator = false;
       overridePickerElevator = false;
       
       isAutoFinished = false;
