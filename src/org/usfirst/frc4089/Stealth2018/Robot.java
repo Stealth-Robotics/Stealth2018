@@ -144,47 +144,47 @@ public class Robot extends TimedRobot {
       Robot.elevator.SetPickerElevatorTarget(0);
       
       
-      if(chooser.getSelected().getName().equals("Position 1 Switch From Front"))
+      if(chooser.getSelected().getName().equals("Position1Path1"))
       {
         mAutoCommand = new Position1Path1();
         Scheduler.getInstance().add(mAutoCommand);
       }
-      else if(chooser.getSelected().getName().equals("Position 1 Scale From Front"))
+      else if(chooser.getSelected().getName().equals("Position1Path2"))
       {
         mAutoCommand = new Position1Path2();
         Scheduler.getInstance().add(mAutoCommand);
       }
-      else if(chooser.getSelected().getName().equals("Position 1 Scale From Side"))
+      else if(chooser.getSelected().getName().equals("Position1Path3"))
       {
         mAutoCommand = new Position1Path3();
         Scheduler.getInstance().add(mAutoCommand);
       }
-      else if(chooser.getSelected().getName().equals("Position 1 Cross Scale From Side or Scale From Front"))
+      else if(chooser.getSelected().getName().equals("Position1Path4"))
       {
         mAutoCommand = new Position1Path4();
         Scheduler.getInstance().add(mAutoCommand);
       }
-      else if(chooser.getSelected().getName().equals("Position 3 Switch From Side"))
+      else if(chooser.getSelected().getName().equals("Position3Path1"))
       {
         mAutoCommand = new Position3Path1();
         Scheduler.getInstance().add(mAutoCommand);
       }
-      else if(chooser.getSelected().getName().equals("Position 5 Switch From Front"))
+      else if(chooser.getSelected().getName().equals("Position5Path1"))
       {
         mAutoCommand = new Position5Path1();
         Scheduler.getInstance().add(mAutoCommand);
       }
-      else if(chooser.getSelected().getName().equals("Position 5 Scale From Front"))
+      else if(chooser.getSelected().getName().equals("Position5Path2"))
       {
         mAutoCommand = new Position5Path2();
         Scheduler.getInstance().add(mAutoCommand);
       }
-      else if(chooser.getSelected().getName().equals("Position 5 Scale From Side"))
+      else if(chooser.getSelected().getName().equals("Position5Path3"))
       {
         mAutoCommand = new Position5Path3();
         Scheduler.getInstance().add(mAutoCommand);
       }
-      else if(chooser.getSelected().getName().equals("Position 5 Cross Scale From Side or Scale From Front"))
+      else if(chooser.getSelected().getName().equals("Position5Path4"))
       {
         mAutoCommand = new Position5Path4();
         Scheduler.getInstance().add(mAutoCommand);
