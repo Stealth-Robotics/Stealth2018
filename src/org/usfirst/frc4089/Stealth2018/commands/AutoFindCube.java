@@ -30,11 +30,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class AutoFindCube extends Command {
 
     
-	//states the robot could be in to find the cube
+	//used to keep track of the state the robot is in
 	int state;
-	final int find = 1;
-	final int zero_in = 2;
-	final int move_towards = 3;
+//	final int find = 1;
+//	final int zero_in = 2;
+//	final int move_towards = 3;
 	//the variables and constants for the zero in PID loop
 	int turn_last_error;
 	int turn_accum_error;
@@ -60,18 +60,85 @@ public class AutoFindCube extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	state = find;
+    	state = 0;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//if the camera does not see a block
-    	if (state == find)
+//    	//if the camera does not see a block
+//    	if (state == find)
+//    	{
+//    		//if it sees a cube, move to the zero in stage
+//        	if ((int) NetworkTable.getTable("fromPi/pixy").getDouble("pixyFrameSize", -1) > 0 )
+//        	{
+//        		state = zero_in;
+//        		turn_last_error = 160 - (int) NetworkTable.getTable("fromPi/pixy").getDouble("largestPixyX", -1);
+//        		turn_accum_error = turn_last_error;
+//        	}
+//        	//if the robot does not see a block, it simply rotates in a clockwise fashion
+//    		Robot.drive.DriveRobot(0, 0.25);
+//    		System.out.println("Looking for block...");
+//    		return;
+//    	}
+//
+//    	//if the robot needs to point itself towards the block
+//    	else if (state == zero_in)
+//    	{
+//	    	int blockX = (int) NetworkTable.getTable("fromPi/pixy").getDouble("largestPixyX", -1);
+//	    	//if the block is centered enough, start driving towards it
+//	    	if (blockX >= 170 && blockX <= 210)
+//	    	{
+//	    		state = move_towards;
+//	    		move_last_error = 220 - (int) NetworkTable.getTable("fromPi/pixy").getDouble("largestPixyWidth", -1);
+//	    		move_accum_error = move_last_error;
+//	    	}
+//	    	//if the block is no longer visible, start looking for it again
+//	    	else if ((int) NetworkTable.getTable("fromPi/pixy").getDouble("pixyFrameSize", -1) <= 0 )
+//	    	{
+//	    		state = find;
+//	    	}
+//	    	System.out.println("Zeroing in...");
+//	    	int turn_error = blockX - 190;
+//	    	double turn_power = turn_error * turn_kP + turn_accum_error * turn_kI + (turn_error - turn_last_error) * turn_kD;
+//	    	System.out.println(turn_power);
+//	    	Robot.drive.DriveRobot(0, turn_power);
+//	    	turn_accum_error += turn_error;
+//	    	turn_last_error = turn_error;
+//    	}
+//    	
+//    	//if the robot needs to move closer to the block
+//    	else if (state == move_towards)
+//    	{
+//    		int blockX = (int) NetworkTable.getTable("fromPi/pixy").getDouble("largestPixyX", -1);
+//    		//if the block gets too off center, stop driving towards it and get it lined up again
+//    		if (blockX < 130 || blockX > 250)
+//	    	{
+//	    		state = zero_in;
+//	    	}
+//    		//if the block is no longer visible, start looking for it again
+//	    	else if ((int) NetworkTable.getTable("fromPi/pixy").getDouble("pixyFrameSize", -1) <= 0 )
+//	    	{
+//	    		state = find;
+//	    	}
+//    		System.out.println("Driving to block...");
+//    		int move_error = 220 - (int) NetworkTable.getTable("fromPi/pixy").getDouble("largestPixyWidth", -1);
+//    		double move_power = move_error * move_kP + move_accum_error * move_kI + (move_error - move_last_error) * move_kD;
+//    		System.out.println(move_power);
+//    		int turn_error = blockX - 190;
+//    		double turn_power = turn_error * turn_kP + turn_accum_error * turn_kI + (turn_error - turn_last_error) * turn_kD;
+//    		System.out.println(turn_power);
+//    		Robot.drive.DriveRobot(move_power, turn_power);
+//    		move_accum_error += move_error;
+//    		move_last_error = move_error;
+//    	}
+    	switch (state)
     	{
+    	//if the camera does not see a block
+    	case 0:
     		//if it sees a cube, move to the zero in stage
         	if ((int) NetworkTable.getTable("fromPi/pixy").getDouble("pixyFrameSize", -1) > 0 )
         	{
-        		state = zero_in;
+        		state++;
         		turn_last_error = 160 - (int) NetworkTable.getTable("fromPi/pixy").getDouble("largestPixyX", -1);
         		turn_accum_error = turn_last_error;
         	}
@@ -79,23 +146,20 @@ public class AutoFindCube extends Command {
     		Robot.drive.DriveRobot(0, 0.25);
     		System.out.println("Looking for block...");
     		return;
-    	}
-
     	//if the robot needs to point itself towards the block
-    	else if (state == zero_in)
-    	{
-	    	int blockX = (int) NetworkTable.getTable("fromPi/pixy").getDouble("largestPixyX", -1);
+    	case 1:
+    		int blockX = (int) NetworkTable.getTable("fromPi/pixy").getDouble("largestPixyX", -1);
 	    	//if the block is centered enough, start driving towards it
 	    	if (blockX >= 170 && blockX <= 210)
 	    	{
-	    		state = move_towards;
+	    		state++;
 	    		move_last_error = 220 - (int) NetworkTable.getTable("fromPi/pixy").getDouble("largestPixyWidth", -1);
 	    		move_accum_error = move_last_error;
 	    	}
 	    	//if the block is no longer visible, start looking for it again
 	    	else if ((int) NetworkTable.getTable("fromPi/pixy").getDouble("pixyFrameSize", -1) <= 0 )
 	    	{
-	    		state = find;
+	    		state--;
 	    	}
 	    	System.out.println("Zeroing in...");
 	    	int turn_error = blockX - 190;
@@ -104,28 +168,26 @@ public class AutoFindCube extends Command {
 	    	Robot.drive.DriveRobot(0, turn_power);
 	    	turn_accum_error += turn_error;
 	    	turn_last_error = turn_error;
-    	}
-    	
-    	//if the robot needs to move closer to the block
-    	else if (state == move_towards)
-    	{
-    		int blockX = (int) NetworkTable.getTable("fromPi/pixy").getDouble("largestPixyX", -1);
+	    	break;
+	    //if the robot needs to move closer to the block
+    	case 2:
+    		blockX = (int) NetworkTable.getTable("fromPi/pixy").getDouble("largestPixyX", -1);
     		//if the block gets too off center, stop driving towards it and get it lined up again
     		if (blockX < 130 || blockX > 250)
 	    	{
-	    		state = zero_in;
+	    		state--;
 	    	}
     		//if the block is no longer visible, start looking for it again
 	    	else if ((int) NetworkTable.getTable("fromPi/pixy").getDouble("pixyFrameSize", -1) <= 0 )
 	    	{
-	    		state = find;
+	    		state = 0;
 	    	}
     		System.out.println("Driving to block...");
     		int move_error = 220 - (int) NetworkTable.getTable("fromPi/pixy").getDouble("largestPixyWidth", -1);
     		double move_power = move_error * move_kP + move_accum_error * move_kI + (move_error - move_last_error) * move_kD;
     		System.out.println(move_power);
-    		int turn_error = blockX - 190;
-    		double turn_power = turn_error * turn_kP + turn_accum_error * turn_kI + (turn_error - turn_last_error) * turn_kD;
+    		turn_error = blockX - 190;
+    		turn_power = turn_error * turn_kP + turn_accum_error * turn_kI + (turn_error - turn_last_error) * turn_kD;
     		System.out.println(turn_power);
     		Robot.drive.DriveRobot(move_power, turn_power);
     		move_accum_error += move_error;
