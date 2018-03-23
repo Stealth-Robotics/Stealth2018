@@ -57,12 +57,12 @@ public class Elevator extends Subsystem {
     
 	  
 	//TODO Move these button mapings to Robot.oi
-    if (driveJoystick.getRawButton(9) || Robot.oi.dsJoystick.getRawButton(5)) {
+    /*if (driveJoystick.getRawButton(9) || Robot.oi.dsJoystick.getRawButton(5)) {
       RobotMap.overrideElevator = true;
     }
     if (driveJoystick.getRawButton(10) || Robot.oi.dsJoystick.getRawButton(1)) {
       RobotMap.overridePickerElevator = true;
-    }
+    }*/
     
     HandleElevator(driveJoystick.getRawAxis(1));
     HandlePickerElevator(driveJoystick.getRawAxis(5));

@@ -66,6 +66,9 @@ public class OI {
     public JoystickButton climb;
     public JoystickButton reverseClimbMotor;
     public JoystickButton autoFindCube;
+    
+    public JoystickButton overrideElevator;
+    public JoystickButton overridePickerElevator;
 
     
     public Joystick driveJoystick;
@@ -99,6 +102,14 @@ public class OI {
       raisePicker = new JoystickButton(mechJoystick, 2);
       raisePicker.whenPressed(new RejectBlock());
       raisePicker.whenReleased(new RaisePicker());
+      
+      overrideElevator = new JoystickButton(dsJoystick, 5);
+      overrideElevator.whenPressed(new OverrideElevator());
+      
+      overridePickerElevator = new JoystickButton(dsJoystick, 1);
+      overridePickerElevator.whenPressed(new OverridePickerElevator());
+      
+      
       
       if (Constants.UsePixyAutoFindCube) {
     	  autoFindCube = new JoystickButton(driveJoystick, 4);
