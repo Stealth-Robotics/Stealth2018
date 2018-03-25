@@ -66,7 +66,7 @@ public class Position1Path2 extends CommandGroup {
         addSequential(new DrivePathAction(new Red12Path60InPerSec()));
         
         addSequential(new AutoRotatePickerRaiseMotor(1.0));
-        addSequential(new WaitTime(500));
+        addSequential(new WaitTime(600));
         addSequential(new AutoRotatePickerRaiseMotor(0));
         
         addSequential(new AutoRawDrive(0,0.1));
@@ -75,7 +75,7 @@ public class Position1Path2 extends CommandGroup {
         System.out.println("Left Scale");
         
         
-        //drop it
+        //shoot it
         addSequential(new ShootBlock());
         //addSequential(new RejectBlock());
       

@@ -48,7 +48,7 @@ public class Logging extends TimedRobot {
 			LogFile = new FileWriter("/home/lvuser/PowerUpLogging.csv", true);
 		} catch(IOException e) {
 			e.printStackTrace();
-	        System.out.println("Unable to create FileWriter");
+	        System.out.println("Unable to create/find FileWriter");
 	    }
 	}
 	
@@ -78,20 +78,4 @@ public class Logging extends TimedRobot {
 	        System.out.println("Unable to write to FileWriter");
 	    }
 	}
-	
-    private void DisplaySensors()
-    {
-    	PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
-    	RobotMap.pigeonIMU.getFusedHeading(fusionStatus);
-      System.out.format("ELEVATOR TOP: %b ELEVATOR BOTTOM: %b PICKER TOP: %b PICKER BOTTOM: %b ELEVATOR TICKS: %d PICKER TICKS: %d HEADING: %f\n", 
-          RobotMap.elevatorSensors.isFwdLimitSwitchClosed(),
-          RobotMap.elevatorSensors.isRevLimitSwitchClosed(),
-          RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed(),
-          RobotMap.pickerElevatorSensors.isRevLimitSwitchClosed(),
-          RobotMap.elevatorMotor.getSelectedSensorPosition(0),
-          RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0),
-      	  fusionStatus.heading
-       );
-
-    }
 }

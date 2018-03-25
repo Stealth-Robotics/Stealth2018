@@ -40,13 +40,13 @@ public class RaiseMainToTop extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-//    	if (RobotMap.overrideElevator) {
-//    		return (RobotMap.elevatorSensors.isFwdLimitSwitchClosed());
-//    	}
-//    	else {
-//    		return true;
-//    	}
-    	return !RobotMap.overrideElevator || RobotMap.elevatorSensors.isFwdLimitSwitchClosed();
+    	if (RobotMap.overrideElevator) {
+    		return (RobotMap.elevatorSensors.isFwdLimitSwitchClosed());
+    	}
+    	else {
+    		return true;
+    	}
+    	//return !RobotMap.overrideElevator || RobotMap.elevatorSensors.isFwdLimitSwitchClosed();
     }
 
     // Called once after isFinished returns true
