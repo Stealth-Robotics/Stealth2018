@@ -64,22 +64,26 @@ public class Position1Path3 extends CommandGroup {
     
     if(scaleLeft)
     {
+    	//lower picker
+        addSequential(new LowerPicker());
+        //raise block to top
+        addSequential(new RaisePickerToTop());
+        addSequential(new RaiseMainToTop());
+        
         addSequential(new DrivePathAction(new Red13Path60InPerSec()));
         System.out.println("Left");
-        //lower picker
-        addParallel(new LowerPicker());
-        //raise block to top
-        addParallel(new RaisePickerToTop());
-        addParallel(new RaiseMainToTop());
+        
         //drop it like it is hot
         addSequential(new RejectBlock());
     } else if (switchLeft) {
+    	//lower picker
+        addSequential(new LowerPicker());
+        //raise block to top
+        addSequential(new RaisePickerToTop());
+        
     	addSequential(new DrivePathAction(new Red11Path60InPerSec()));
         System.out.println("Left Switch");
-        //lower picker
-        addParallel(new LowerPicker());
-        //raise block to top
-        addParallel(new RaisePickerToTop());
+        
         //drop it
         addSequential(new RejectBlock());
     } else {

@@ -17,6 +17,7 @@
 //----------------------------------------------------------------------------
 package org.usfirst.frc4089.Stealth2018.subsystems;
 
+import org.usfirst.frc4089.Stealth2018.Constants;
 import org.usfirst.frc4089.Stealth2018.Robot;
 import org.usfirst.frc4089.Stealth2018.RobotMap;
 import org.usfirst.frc4089.Stealth2018.commands.*;
@@ -78,7 +79,7 @@ public class Elevator extends Subsystem {
   // --------------------------------------------------------------------
   // Constants:
   // --------------------------------------------------------------------
-  final double elevatorKp = 0.035;
+  final double elevatorKp = 0.005;
   final double elevatorKi = 0;
   final double elevatorKd = 0;
 
@@ -97,7 +98,7 @@ public class Elevator extends Subsystem {
   //--------------------------------------------------------------------  
   private void HandleElevator(double yElevator) {
     yElevator = DriveMath.DeadBand(yElevator, 0.15);
-    int change = (int)(-yElevator * 35);
+    int change = (int)(-yElevator * 50);
     boolean topSwitch = RobotMap.elevatorSensors.isFwdLimitSwitchClosed();
     boolean bottomSwitch = RobotMap.elevatorSensors.isRevLimitSwitchClosed();
     
@@ -119,7 +120,9 @@ public class Elevator extends Subsystem {
       
       RobotMap.elevatorMotor.set(-yElevator);
       
-      System.out.println("Override " + RobotMap.elevatorMotor.getSelectedSensorPosition(0) + " " + RobotMap.elevatorMotor.get());
+      if (Constants.PrintElevatorHelp) {
+    	  System.out.println("Main Override " + RobotMap.elevatorMotor.getSelectedSensorPosition(0) + " " + RobotMap.elevatorMotor.get());
+      }
     } else {
     	// only change things if the user wants to to avoid messing with auto
         if(change != 0)
@@ -146,6 +149,10 @@ public class Elevator extends Subsystem {
   public void SetElevatorTarget(int target)
   {
     pidElevatorTarget = target;  
+  }
+  
+  public int GetElevatorTarget() {
+	  return pidElevatorTarget;
   }
     
   //--------------------------------------------------------------------
@@ -198,9 +205,10 @@ public class Elevator extends Subsystem {
 	  //record previous error
 	  elevatorPreviousError = error;
 	  
-	  //print out debugging statements
-	  System.out.format("!override %d %d %f %f %f\n", pidElevatorTarget, elevatorEncoderTicks, error, derivative, motorOutput);
-	  
+	  if(Constants.PrintElevatorHelp) {
+		  //print out debugging statements
+		  System.out.format("Main !override %d %d %f %f %f\n", pidElevatorTarget, elevatorEncoderTicks, error, derivative, motorOutput);
+	  }
 	  //set the motor to the correct value
 	  RobotMap.elevatorMotor.set(motorOutput);
   }
@@ -235,7 +243,7 @@ public class Elevator extends Subsystem {
   //--------------------------------------------------------------------  
   private void HandlePickerElevator(double yElevator) {
     yElevator = DriveMath.DeadBand(yElevator,0.1);
-    int change = (int)(-yElevator * 35);
+    int change = (int)(-yElevator * 50);
     boolean topSwitch = RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed();
     boolean bottomSwitch = RobotMap.pickerElevatorSensors.isRevLimitSwitchClosed();
     
@@ -254,9 +262,10 @@ public class Elevator extends Subsystem {
       }
       
       RobotMap.pickerElevatorMotor.set(-yElevator);
-      
-      //print out debugging information
-      System.out.println("Override " + RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0) + " " + RobotMap.pickerElevatorMotor.get());
+      if (Constants.PrintPickerElevatorHelp) {
+    	  //print out debugging information
+    	  System.out.println("Picker Override " + RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0) + " " + RobotMap.pickerElevatorMotor.get());
+      }
     } else {
       // only change things if the user wants to to avoid messing with auto
       if(change != 0)
@@ -283,6 +292,10 @@ public class Elevator extends Subsystem {
   public void SetPickerElevatorTarget(int target) {
     pidPickerElevatorTarget = target;
    }
+  
+  public int GetPickerElevatorTarget() {
+	  return pidPickerElevatorTarget;
+  }
 
   //--------------------------------------------------------------------
   // Purpose:
@@ -331,9 +344,10 @@ public class Elevator extends Subsystem {
 	  //clamp the value between -1 and 1
 	  motorOutput = Math.max(-1, Math.min(1, motorOutput));
 	  
-	  //print out debugging statements
-	  //System.out.format("!override %d %d %f %f %f\n", pidPickerElevatorTarget, pickerElevatorEncoderTicks, error, derivative, motorOutput);
-	  
+	  if (Constants.PrintPickerElevatorHelp) {
+		  //print out debugging statements
+		  System.out.format("Picker !override %d %d %f %f %f\n", pidPickerElevatorTarget, pickerElevatorEncoderTicks, error, derivative, motorOutput);
+	  }
 	  //set the motor to the correct value
 	  RobotMap.pickerElevatorMotor.set(motorOutput);
  }

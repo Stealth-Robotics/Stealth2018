@@ -15,6 +15,7 @@ import org.usfirst.frc4089.Stealth2018.MPPaths.*;
 import org.usfirst.frc4089.Stealth2018.commands.DrivePathAction;
 import org.usfirst.frc4089.Stealth2018.commands.HugBlock;
 import org.usfirst.frc4089.Stealth2018.commands.LowerPicker;
+import org.usfirst.frc4089.Stealth2018.commands.RaiseMainToTop;
 import org.usfirst.frc4089.Stealth2018.commands.RaisePickerToTop;
 import org.usfirst.frc4089.Stealth2018.commands.RejectBlock;
 import org.usfirst.frc4089.Stealth2018.commands.SetAutoFinished;
@@ -34,6 +35,8 @@ public class Position1Path1 extends CommandGroup {
     @Override
     protected void initialize() {
 		System.out.println("Position One Source: Commands.PositionOne");
+		
+		RobotMap.pigeonIMU.setFusedHeading(0, 30);
 	    //hug block
 	    addSequential(new HugBlock());
 	    
@@ -56,15 +59,17 @@ public class Position1Path1 extends CommandGroup {
 	    
 	    if(left)
 	    {
-	      addSequential(new DrivePathAction(new Red11Path60InPerSec()));
-	      System.out.println("Left");
+	    	//lower picker
+		    addSequential(new LowerPicker());
+		    //raise block to top
+		    addSequential(new RaiseMainToTop());
+		    //addSequential(new RaisePickerToTop());
+		    
+		    addSequential(new DrivePathAction(new Red11Path60InPerSec()));
+		    System.out.println("Left");
 	      
-	      //lower picker
-	      addParallel(new LowerPicker());
-	      //raise block to top
-	      addParallel(new RaisePickerToTop());
-	      //drop it
-	      addSequential(new RejectBlock());
+		    //drop it
+		    addSequential(new RejectBlock());
 	    }
 	    else
 	    {

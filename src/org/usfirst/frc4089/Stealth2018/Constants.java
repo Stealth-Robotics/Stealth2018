@@ -7,8 +7,11 @@ public class Constants {
 	public static final boolean UseCamera = true;
 	public static final boolean UsePixyAutoFindCube = false;
 	
-	public static final int PickerElevatorTopTicks = 1400;
-	public static final int ElevatorTopTicks = 1400;
+	public static final boolean PrintElevatorHelp = false;
+	public static final boolean PrintPickerElevatorHelp = false;
+	
+	public static final int PickerElevatorTopTicks = 5800;
+	public static final int ElevatorTopTicks = 7500;
 	
 	//below are values for 2018
 	public static final double pickerLRSpeed = 1;
@@ -44,10 +47,10 @@ public class Constants {
 	public static final int kBackupTurnAxes = 2;
 	
 	// Drivers Speed
-	public static final double kNormalSpeed = 0.5;
-	public static final double kNormalTurnSpeed = 0.35;
-	public static final double kSlowSpeed = 0.2;
-	public static final double kSlowTurnSpeed = 0.25;
+	public static final double kNormalSpeed = 0.6;
+	public static final double kNormalTurnSpeed = 0.6;
+	public static final double kSlowSpeed = 0.37;
+	public static final double kSlowTurnSpeed = 0.42;
 		
 	// Gyro Constants
 	public static final int kGyroZ = 2;

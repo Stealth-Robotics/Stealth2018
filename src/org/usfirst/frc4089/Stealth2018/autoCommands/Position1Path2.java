@@ -12,13 +12,7 @@ package org.usfirst.frc4089.Stealth2018.autoCommands;
 
 import org.usfirst.frc4089.Stealth2018.RobotMap;
 import org.usfirst.frc4089.Stealth2018.MPPaths.*;
-import org.usfirst.frc4089.Stealth2018.commands.DrivePathAction;
-import org.usfirst.frc4089.Stealth2018.commands.HugBlock;
-import org.usfirst.frc4089.Stealth2018.commands.LowerPicker;
-import org.usfirst.frc4089.Stealth2018.commands.RaiseMainToTop;
-import org.usfirst.frc4089.Stealth2018.commands.RaisePickerToTop;
-import org.usfirst.frc4089.Stealth2018.commands.RejectBlock;
-import org.usfirst.frc4089.Stealth2018.commands.SetAutoFinished;
+import org.usfirst.frc4089.Stealth2018.commands.*;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.*;
@@ -63,23 +57,37 @@ public class Position1Path2 extends CommandGroup {
     
     if(scaleLeft)
     {
-        addSequential(new DrivePathAction(new Red12Path60InPerSec()));
-        System.out.println("Left Scale");
-        //lower picker
-        addParallel(new LowerPicker());
+    	//lower picker
+        addSequential(new LowerPicker());
         //raise block to top
-        addParallel(new RaisePickerToTop());
-        addParallel(new RaiseMainToTop());
+        addSequential(new RaisePickerToTop());
+        addSequential(new RaiseMainToTop());
+        
+        addSequential(new DrivePathAction(new Red12Path60InPerSec()));
+        
+        addSequential(new AutoRotatePickerRaiseMotor(1.0));
+        addSequential(new WaitTime(500));
+        addSequential(new AutoRotatePickerRaiseMotor(0));
+        
+        addSequential(new AutoRawDrive(0,0.1));
+        addSequential(new WaitTime(750));
+        addSequential(new AutoRawDrive(0,0));
+        System.out.println("Left Scale");
+        
+        
         //drop it
-        addSequential(new RejectBlock());
+        addSequential(new ShootBlock());
+        //addSequential(new RejectBlock());
       
     } else if (switchLeft) {
+    	//lower picker
+        addSequential(new LowerPicker());
+        //raise block to top
+        addSequential(new RaisePickerToTop());
+        
     	addSequential(new DrivePathAction(new Red11Path60InPerSec()));
         System.out.println("Left Switch");
-        //lower picker
-        addParallel(new LowerPicker());
-        //raise block to top
-        addParallel(new RaisePickerToTop());
+        
         //drop it
         addSequential(new RejectBlock());
         

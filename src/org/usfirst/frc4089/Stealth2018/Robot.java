@@ -21,10 +21,14 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import javax.print.DocFlavor.STRING;
+
 import org.usfirst.frc4089.Stealth2018.MPPaths.Path;
 import org.usfirst.frc4089.Stealth2018.autoCommands.*;
 import org.usfirst.frc4089.Stealth2018.commands.*;
 import org.usfirst.frc4089.Stealth2018.subsystems.*;
+
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -37,8 +41,10 @@ public class Robot extends TimedRobot {
     
     SendableChooser<Command> chooser = new SendableChooser<>();
     
-
+    public static String CurrentMode;
+    
     public static OI oi;
+    public static Logging logging;
 
     public static Drive drive;
     public static Elevator elevator;
@@ -53,7 +59,10 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
+    	CurrentMode = "Initing";
+    	
         RobotMap.init();
+        RobotMap.pigeonIMU.setFusedHeading(0, 30);
         
         if(Constants.UseCamera) {
 	        //start camera server
@@ -61,6 +70,8 @@ public class Robot extends TimedRobot {
 	        camera.setResolution(320,240);
 	        camera.setFPS(30);
         }
+        
+        logging = new Logging();
         
         drive = new Drive();
         elevator = new Elevator();
@@ -79,7 +90,8 @@ public class Robot extends TimedRobot {
         // constructed yet. Thus, their requires() statements may grab null
         // pointers. Bad news. Don't move it.
         oi = new OI();
-
+        
+        chooser.addObject("Literaly Just Move Forward", new MoveForward());
         chooser.addObject("Position 1 Switch From Front", new Position1Path1());
         chooser.addObject("Position 1 Scale From Front", new Position1Path2());
         chooser.addObject("Position 1 Scale From Side", new Position1Path3());
@@ -102,18 +114,25 @@ public class Robot extends TimedRobot {
     
     @Override
     public void disabledInit(){
+    	
+    	CurrentMode = "Disabled";
       if (mAutoCommand != null) mAutoCommand.cancel();
+      
+      
     }
 
     private void DisplaySensors()
     {
-      System.out.format("ELEVATOR TOP: %b ELEVATOR BOTTOM: %b PICKER TOP: %b PICKER BOTTOM: %b ELEVATOR TICKS: %d PICKER TICKS: %d\n", 
+    	PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
+    	RobotMap.pigeonIMU.getFusedHeading(fusionStatus);
+      System.out.format("ELEVATOR TOP: %b ELEVATOR BOTTOM: %b PICKER TOP: %b PICKER BOTTOM: %b ELEVATOR TICKS: %d PICKER TICKS: %d HEADING: %f\n", 
           RobotMap.elevatorSensors.isFwdLimitSwitchClosed(),
           RobotMap.elevatorSensors.isRevLimitSwitchClosed(),
           RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed(),
           RobotMap.pickerElevatorSensors.isRevLimitSwitchClosed(),
           RobotMap.elevatorMotor.getSelectedSensorPosition(0),
-          RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0)
+          RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0),
+      	  fusionStatus.heading
           );
 
     }
@@ -121,6 +140,8 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
+        
+        RobotMap.pigeonIMU.setFusedHeading(0, 30);
         
         if(Robot.oi.mechJoystick.getRawButton(9))
         {
@@ -132,18 +153,23 @@ public class Robot extends TimedRobot {
     
     @Override
     public void autonomousInit() {
+    	CurrentMode = "Autonomus";
       if (mAutoCommand != null) mAutoCommand.cancel();
       Robot.climb.ungrabClimber();
       
       RobotMap.SetUpTalonsForAuto();
       drive.ClearCurrentAngle();
+      RobotMap.pigeonIMU.setFusedHeading(0.0, 30);
 
       drive.SetAuto();
       
       Robot.elevator.SetElevatorTarget(0);
       Robot.elevator.SetPickerElevatorTarget(0);
       
-      
+      if(chooser.getSelected().getName().equals("MoveForward")) {
+    	  mAutoCommand = new MoveForward();
+          Scheduler.getInstance().add(mAutoCommand);
+      }
       if(chooser.getSelected().getName().equals("Position1Path1"))
       {
         mAutoCommand = new Position1Path1();
@@ -196,6 +222,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousPeriodic() {
+    	logging.Log();
        Scheduler.getInstance().run();
        
        if(!RobotMap.overrideElevator) {
@@ -208,6 +235,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+    	CurrentMode = "Teleop";
         //stop auto
         if (mAutoCommand != null) mAutoCommand.cancel();
         
@@ -228,6 +256,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
+    	logging.Log();
         Scheduler.getInstance().run();
         
         //DisplaySensors();
@@ -247,11 +276,11 @@ public class Robot extends TimedRobot {
     
     @Override
     public void testInit() {
-      
+    	CurrentMode = "Test";
     }   
 
     @Override
     public void testPeriodic() {
-      
+    	logging.Log();
     }   
 }

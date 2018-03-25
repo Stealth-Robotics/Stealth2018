@@ -153,7 +153,7 @@ public class Drive extends Subsystem {
     public void ClearCurrentAngle()
     {
       mCurrentAngle = 0.0;
-      RobotMap.pigeonIMU.setFusedHeading(0, 20);
+      RobotMap.pigeonIMU.setFusedHeading(0, 30);
     }
     
     
@@ -240,12 +240,15 @@ public class Drive extends Subsystem {
           
       // Adjust for speed, check if the fast button is pushed
       if (true == driveJoystick.getRawButton(Constants.kFastButton)) {
-        // Do Nothing
+    	  //normal speed
+    	  y *= Constants.kNormalSpeed;
+      	  x *= Constants.kNormalTurnSpeed;
       } else {
         // Is the slow button pushed
         if (true == driveJoystick.getRawButton(Constants.kSlowButton)) {
-        	y *= Constants.kNormalSpeed;
-        	x *= Constants.kNormalTurnSpeed;
+        	// Do Nothing
+        	//y *= Constants.kNormalSpeed;
+        	//x *= Constants.kNormalTurnSpeed;
         } else {
         	y *= Constants.kSlowSpeed;
             x *= Constants.kSlowTurnSpeed;
@@ -358,7 +361,7 @@ public class Drive extends Subsystem {
     // Notes:
     //     None
     //--------------------------------------------------------------------  
-    protected void RawDriveRobot(double speed, double turn) {
+    public void RawDriveRobot(double speed, double turn) {
       // Ramp the speed
       if(mActualSpeed != speed)
       {

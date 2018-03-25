@@ -67,6 +67,9 @@ public class OI {
     public JoystickButton reverseClimbMotor;
     public JoystickButton autoFindCube;
     
+    public JoystickButton RotatePickerRaiseMotor;
+    public JoystickButton RotatePickerRaiseMotorReverse;
+    
     public JoystickButton overrideElevator;
     public JoystickButton overridePickerElevator;
 
@@ -83,6 +86,12 @@ public class OI {
       grabBlockButton = new JoystickButton(mechJoystick, 5);
       grabBlockButton.whenPressed(new RejectBlock());
       grabBlockButton.whenReleased(new HugBlock());
+      
+      RotatePickerRaiseMotor = new JoystickButton(mechJoystick, 4);
+      RotatePickerRaiseMotor.whileHeld(new RotatePickerRaiseMotor());
+      
+      RotatePickerRaiseMotorReverse = new JoystickButton(mechJoystick, 3);
+      RotatePickerRaiseMotorReverse.whileHeld(new RotatePickerRaiseMotorReverse());
       
       grabClimber = new JoystickButton(dsJoystick, 4);
       grabClimber.whenPressed(new GrabClimber());

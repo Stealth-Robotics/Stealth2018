@@ -13,12 +13,7 @@ package org.usfirst.frc4089.Stealth2018.autoCommands;
 import org.usfirst.frc4089.Stealth2018.Robot;
 import org.usfirst.frc4089.Stealth2018.RobotMap;
 import org.usfirst.frc4089.Stealth2018.MPPaths.*;
-import org.usfirst.frc4089.Stealth2018.commands.DrivePathAction;
-import org.usfirst.frc4089.Stealth2018.commands.HugBlock;
-import org.usfirst.frc4089.Stealth2018.commands.LowerPicker;
-import org.usfirst.frc4089.Stealth2018.commands.RaiseMainToTop;
-import org.usfirst.frc4089.Stealth2018.commands.RejectBlock;
-import org.usfirst.frc4089.Stealth2018.commands.SetAutoFinished;
+import org.usfirst.frc4089.Stealth2018.commands.*;
 import org.usfirst.frc4089.Stealth2018.subsystems.Picker;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -36,12 +31,15 @@ public class Position3Path1 extends CommandGroup {
   @Override
     protected void initialize() {
 	  System.out.println("Position three Source: Commands.PositionThree");
+	  
+	  RobotMap.pigeonIMU.setFusedHeading(0, 30);
+	  
     //hug block
     addSequential(new HugBlock());
     //lower picker
     addSequential(new LowerPicker());
     //raise block to top
-    addParallel(new  RaiseMainToTop());
+    addSequential(new RaisePickerToTop());
 
     
     //get game data

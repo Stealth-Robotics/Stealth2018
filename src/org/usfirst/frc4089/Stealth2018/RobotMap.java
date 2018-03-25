@@ -126,7 +126,7 @@ public class RobotMap {
       climberGrabber = new Solenoid(16,7);
 
       pigeonIMU = new PigeonIMU(driveSRXDriveLR);
-      pigeonIMU.setFusedHeading(0.0, 10);
+      pigeonIMU.setFusedHeading(0.0, 30);
       netTable = NetworkTable.getTable("FRCRobot");
       
       overrideElevator = false;
