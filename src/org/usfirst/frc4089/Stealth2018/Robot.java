@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-    	CurrentMode = "Initing";
+    	CurrentMode = "Init";
     	
         RobotMap.init();
         RobotMap.pigeonIMU.setFusedHeading(0, 30);
@@ -139,6 +139,7 @@ public class Robot extends TimedRobot {
     
     @Override
     public void disabledPeriodic() {
+    	//logging.Log();
         Scheduler.getInstance().run();
         
         RobotMap.pigeonIMU.setFusedHeading(0, 30);
@@ -153,68 +154,68 @@ public class Robot extends TimedRobot {
     
     @Override
     public void autonomousInit() {
-    	CurrentMode = "Autonomus";
-      if (mAutoCommand != null) mAutoCommand.cancel();
-      Robot.climb.ungrabClimber();
-      
-      RobotMap.SetUpTalonsForAuto();
-      drive.ClearCurrentAngle();
-      RobotMap.pigeonIMU.setFusedHeading(0.0, 30);
-
-      drive.SetAuto();
-      
-      Robot.elevator.SetElevatorTarget(0);
-      Robot.elevator.SetPickerElevatorTarget(0);
-      
-      if(chooser.getSelected().getName().equals("MoveForward")) {
-    	  mAutoCommand = new MoveForward();
-          Scheduler.getInstance().add(mAutoCommand);
-      }
-      if(chooser.getSelected().getName().equals("Position1Path1"))
-      {
-        mAutoCommand = new Position1Path1();
-        Scheduler.getInstance().add(mAutoCommand);
-      }
-      else if(chooser.getSelected().getName().equals("Position1Path2"))
-      {
-        mAutoCommand = new Position1Path2();
-        Scheduler.getInstance().add(mAutoCommand);
-      }
-      else if(chooser.getSelected().getName().equals("Position1Path3"))
-      {
-        mAutoCommand = new Position1Path3();
-        Scheduler.getInstance().add(mAutoCommand);
-      }
-      else if(chooser.getSelected().getName().equals("Position1Path4"))
-      {
-        mAutoCommand = new Position1Path4();
-        Scheduler.getInstance().add(mAutoCommand);
-      }
-      else if(chooser.getSelected().getName().equals("Position3Path1"))
-      {
-        mAutoCommand = new Position3Path1();
-        Scheduler.getInstance().add(mAutoCommand);
-      }
-      else if(chooser.getSelected().getName().equals("Position5Path1"))
-      {
-        mAutoCommand = new Position5Path1();
-        Scheduler.getInstance().add(mAutoCommand);
-      }
-      else if(chooser.getSelected().getName().equals("Position5Path2"))
-      {
-        mAutoCommand = new Position5Path2();
-        Scheduler.getInstance().add(mAutoCommand);
-      }
-      else if(chooser.getSelected().getName().equals("Position5Path3"))
-      {
-        mAutoCommand = new Position5Path3();
-        Scheduler.getInstance().add(mAutoCommand);
-      }
-      else if(chooser.getSelected().getName().equals("Position5Path4"))
-      {
-        mAutoCommand = new Position5Path4();
-        Scheduler.getInstance().add(mAutoCommand);
-      }
+    	  CurrentMode = "Autonomus";
+	      if (mAutoCommand != null) mAutoCommand.cancel();
+	      Robot.climb.ungrabClimber();
+	      
+	      RobotMap.SetUpTalonsForAuto();
+	      drive.ClearCurrentAngle();
+	      RobotMap.pigeonIMU.setFusedHeading(0.0, 30);
+	
+	      drive.SetAuto();
+	      
+	      Robot.elevator.SetElevatorTarget(0);
+	      Robot.elevator.SetPickerElevatorTarget(0);
+	      
+	      if(chooser.getSelected().getName().equals("MoveForward")) {
+	    	  mAutoCommand = new MoveForward();
+	          Scheduler.getInstance().add(mAutoCommand);
+	      }
+	      if(chooser.getSelected().getName().equals("Position1Path1"))
+	      {
+	        mAutoCommand = new Position1Path1();
+	        Scheduler.getInstance().add(mAutoCommand);
+	      }
+	      else if(chooser.getSelected().getName().equals("Position1Path2"))
+	      {
+	        mAutoCommand = new Position1Path2();
+	        Scheduler.getInstance().add(mAutoCommand);
+	      }
+	      else if(chooser.getSelected().getName().equals("Position1Path3"))
+	      {
+	        mAutoCommand = new Position1Path3();
+	        Scheduler.getInstance().add(mAutoCommand);
+	      }
+	      else if(chooser.getSelected().getName().equals("Position1Path4"))
+	      {
+	        mAutoCommand = new Position1Path4();
+	        Scheduler.getInstance().add(mAutoCommand);
+	      }
+	      else if(chooser.getSelected().getName().equals("Position3Path1"))
+	      {
+	        mAutoCommand = new Position3Path1();
+	        Scheduler.getInstance().add(mAutoCommand);
+	      }
+	      else if(chooser.getSelected().getName().equals("Position5Path1"))
+	      {
+	        mAutoCommand = new Position5Path1();
+	        Scheduler.getInstance().add(mAutoCommand);
+	      }
+	      else if(chooser.getSelected().getName().equals("Position5Path2"))
+	      {
+	        mAutoCommand = new Position5Path2();
+	        Scheduler.getInstance().add(mAutoCommand);
+	      }
+	      else if(chooser.getSelected().getName().equals("Position5Path3"))
+	      {
+	        mAutoCommand = new Position5Path3();
+	        Scheduler.getInstance().add(mAutoCommand);
+	      }
+	      else if(chooser.getSelected().getName().equals("Position5Path4"))
+	      {
+	        mAutoCommand = new Position5Path4();
+	        Scheduler.getInstance().add(mAutoCommand);
+	      }
     }
 
     /**

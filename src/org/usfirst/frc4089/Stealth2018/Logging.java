@@ -14,6 +14,8 @@ package org.usfirst.frc4089.Stealth2018;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -39,43 +41,158 @@ import com.ctre.phoenix.sensors.PigeonIMU;
  * creating this project, you must also update the build.properties file in 
  * the project.
  */
-public class Logging extends TimedRobot {
+public class Logging {
 	
-	private FileWriter LogFile;
+	private FileWriter logMatch;
+	private FileWriter logSystems;
+	private FileWriter logError;
+	
+	private PowerDistributionPanel PDP;
+	private long StartTime;
 	
 	public Logging() {
+		PDP = new PowerDistributionPanel(Constants.CANPDP);
+		
+		StartTime = RobotController.getFPGATime();
+		
 		try {
-			LogFile = new FileWriter("/home/lvuser/PowerUpLogging.csv", true);
+			logMatch = new FileWriter("/LOGS/logMatch.csv", true);
+			logSystems = new FileWriter("/LOGS/logElevatorSystems.csv", true);
+			logError = new FileWriter("/LOGS/logError.csv", true);
 		} catch(IOException e) {
 			e.printStackTrace();
 	        System.out.println("Unable to create/find FileWriter");
 	    }
 	}
 	
+	
 	public void Log() {
+		LogMatch();
+		LogSystems();
+		LogErrors();
+	}
+	
+	
+	private void LogMatch() {
+		
+		try {
+			//System Start Time, System Time, 
+			//Match Time, isFMSConnected, Event Name, Match Number, Match Type, Alliance, Replay Number, Game Specific Message
+			logMatch.write(
+					StartTime + "," +
+					RobotController.getFPGATime() + "," +
+					
+					Timer.getMatchTime() + "," +
+					DriverStation.getInstance().isFMSAttached() + "," +
+					DriverStation.getInstance().getEventName() + "," +
+					DriverStation.getInstance().getMatchNumber() + "," +
+					DriverStation.getInstance().getMatchType() + "," +
+					DriverStation.getInstance().getAlliance() + "," +
+					DriverStation.getInstance().getReplayNumber() + "," +
+					DriverStation.getInstance().getGameSpecificMessage() 
+					
+					+ "\n"
+			);
+		} catch(IOException e) {
+			e.printStackTrace();
+	        System.out.println("Unable to write to LogMatch");
+	    }
+	}
+	
+	private void LogSystems() {
 		PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
+		double [] xyz_dps = new double [3];
+	    RobotMap.pigeonIMU.getRawGyro(xyz_dps);
     	RobotMap.pigeonIMU.getFusedHeading(fusionStatus);
 		
 		try {
-			//Mode, System Time, Match Time, Event Name, Match Number, Alliance, Replay Number, Battery Voltage, Game Message, Elevator Position, Elevator Target, Picker Elevator Position, Picker Elevator Target, Heading
-			LogFile.write(Robot.CurrentMode + "," +
-					Timer.getFPGATimestamp() + "," +
-					Timer.getMatchTime() + "," +
-					DriverStation.getInstance().getEventName() + "," +
-					DriverStation.getInstance().getMatchNumber() + "," +
-					DriverStation.getInstance().getAlliance() + "," +
-					DriverStation.getInstance().getReplayNumber() + "," +
-					DriverStation.getInstance().getBatteryVoltage() + "," +
-					DriverStation.getInstance().getGameSpecificMessage() + "," +
+			//System Start Time, System Time, Mode, isDriverStationConnected,
+			//Battery Voltage, PDP input voltage, PDP Temperature, PDP Total Energy
+			//Elevator Position, Elevator Velocity, Elevator Target, Elevator Power, Elevator Output %, 
+			//Picker Elevator Position, Picker Elevator Velocity, Picker Elevator Target, Picker Elevator Power, Picker Elevator %
+			//Heading, Current Angular Rate,
+			//DriveLR Power, DriveLR Output %, DriveLF Power, DriveLF Output %, DriveL Encoder Position, DriveL Encoder Velocity,
+			//DriveRR Power, Drive RR Output %, DriveRF Power, DriveRF Output %, DriveR Encoder Position, DriveR Encoder Velocity,
+			//ElevatorSwitchTop, ElevatorSwitchBottom, PickerSwitchTop, PickerSwitchBottom
+			logSystems.write(
+					StartTime + "," +
+					RobotController.getFPGATime() + "," +
+					Robot.CurrentMode + "," +
+					DriverStation.getInstance().isDSAttached() + "," +
+					
+					RobotController.getBatteryVoltage() + "," +
+					PDP.getVoltage() + "," +
+					PDP.getTemperature() + "," +
+					PDP.getTotalPower() + "," +
+					
 					RobotMap.elevatorMotor.getSelectedSensorPosition(0) + "," +
+					RobotMap.elevatorMotor.getSelectedSensorVelocity(0) + "," +
 					Robot.elevator.GetElevatorTarget() + "," +
+					RobotMap.elevatorMotor.getMotorOutputVoltage() + "," +
+					RobotMap.elevatorMotor.getMotorOutputPercent() + "," +
+					
 					RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0) + "," +
+					RobotMap.pickerElevatorMotor.getSelectedSensorVelocity(0) + "," +
 					Robot.elevator.GetPickerElevatorTarget() + "," +
-					fusionStatus.heading + "\n"
+					RobotMap.pickerElevatorMotor.getMotorOutputVoltage() + "," +
+					RobotMap.pickerElevatorMotor.getMotorOutputPercent() + "," +
+					
+					fusionStatus.heading + "," +
+					xyz_dps[2] + "," +
+					
+					RobotMap.driveSRXDriveLR.getMotorOutputVoltage() + "," +
+					RobotMap.driveSRXDriveLR.getMotorOutputPercent() + "," +
+					RobotMap.driveSRXDriveLF.getMotorOutputVoltage() + "," +
+					RobotMap.driveSRXDriveLF.getMotorOutputPercent() + "," +
+					RobotMap.driveSRXDriveLF.getSelectedSensorPosition(0) + "," +
+					RobotMap.driveSRXDriveLF.getSelectedSensorVelocity(0) + "," +
+					
+					RobotMap.driveSRXDriveRR.getMotorOutputVoltage() + "," +
+					RobotMap.driveSRXDriveRR.getMotorOutputPercent() + "," +
+					RobotMap.driveSRXDriveRF.getMotorOutputVoltage() + "," +
+					RobotMap.driveSRXDriveRF.getMotorOutputPercent() + "," +
+					RobotMap.driveSRXDriveRF.getSelectedSensorPosition(0) + "," +
+					RobotMap.driveSRXDriveRF.getSelectedSensorVelocity(0) + "," +
+					
+					RobotMap.elevatorSensors.isFwdLimitSwitchClosed() + "," +
+					RobotMap.elevatorSensors.isRevLimitSwitchClosed() + "," +
+					RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed() + "," +
+					RobotMap.pickerElevatorSensors.isRevLimitSwitchClosed()
+					
+					+ "\n"
 					);
 		} catch(IOException e) {
 			e.printStackTrace();
-	        System.out.println("Unable to write to FileWriter");
+	        System.out.println("Unable to write to LogSystems");
 	    }
 	}
+	
+	private void LogErrors() {
+		
+		try {
+			//System Start Time, System Time, 
+			//isBrownedOut, isSysActive,
+			//Fault Count 3.3v, Fault Count 5v, Fault Count 6v,
+			//CAN Status
+			logError.write(StartTime + "," +
+					RobotController.getFPGATime() + "," +
+					
+					RobotController.isBrownedOut() + "," +
+					RobotController.isSysActive() + "," +
+					
+					RobotController.getFaultCount3V3() + "," +
+					RobotController.getFaultCount5V() + "," +
+					RobotController.getFaultCount6V() + "," +
+					
+					RobotController.getCANStatus()
+					
+					+ "\n"
+					);
+		} catch(IOException e) {
+			e.printStackTrace();
+	        System.out.println("Unable to write to LogError");
+	    }
+	}
+	
+	
 }

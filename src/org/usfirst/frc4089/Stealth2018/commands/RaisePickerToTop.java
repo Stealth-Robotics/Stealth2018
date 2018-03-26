@@ -46,7 +46,6 @@ public class RaisePickerToTop extends Command {
     		return true;
     	}
     	//return !RobotMap.overridePickerElevator || RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed();
-      
     }
 
     // Called once after isFinished returns true
