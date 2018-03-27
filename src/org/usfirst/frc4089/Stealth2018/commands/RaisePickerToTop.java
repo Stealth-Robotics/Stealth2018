@@ -24,6 +24,7 @@ public class RaisePickerToTop extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.logging.LogEvent("RaisePickerElevatorToTop Source: Commands.RaisePickerToTop");
     	if (RobotMap.overridePickerElevator) {
     		System.out.println("Raise Picker Elevator OVERRIDE MODE");
     	      RobotMap.pickerElevatorMotor.set(0.8);

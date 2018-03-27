@@ -30,7 +30,7 @@ public class SetPickerElevatorTarget extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-      
+    	Robot.logging.LogEvent("SetPickerElevatorTarget("+target+") Source: Commands.SetPickerElevatorTarget");
     }
 
     // Called repeatedly when this Command is scheduled to run

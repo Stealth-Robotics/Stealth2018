@@ -26,11 +26,11 @@ public class RejectBlock extends Command {
     }
 
     protected void initialize() {
-      
+    	Robot.logging.LogEvent("RejectBlock Source: Commands.RejectBlock");
     }
 
     protected void execute() {
-      System.out.println("open picker Source: RejectBlock.execute()");
+      //System.out.println("open picker Source: RejectBlock.execute()");
       Robot.picker.rejectBlock();
     }
 

@@ -28,6 +28,7 @@ public class OverrideElevator extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	RobotMap.overrideElevator = true;
+    	Robot.logging.LogEvent("OverrideElevator Source: Commands.OverrideElevator");
     }
 
     // Called repeatedly when this Command is scheduled to run

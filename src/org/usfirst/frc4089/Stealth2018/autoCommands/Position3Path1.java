@@ -30,6 +30,7 @@ public class Position3Path1 extends CommandGroup {
   // Called just before this Command runs the first time
   @Override
     protected void initialize() {
+	  Robot.logging.LogEvent("Position3Path1 Source: autoCommands.Position3Path1");
 	  System.out.println("Position three Source: Commands.PositionThree");
 	  
 	  RobotMap.pigeonIMU.setFusedHeading(0, 30);

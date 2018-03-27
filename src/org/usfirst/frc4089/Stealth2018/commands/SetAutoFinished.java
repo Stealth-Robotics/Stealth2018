@@ -32,7 +32,7 @@ public class SetAutoFinished extends Command {
     }
 
     protected void initialize() {
-      
+    	Robot.logging.LogEvent("SetAutoFinished(" + autoFinished + ") Source: Commands.autoFinished");
     }
 
     protected void execute() {

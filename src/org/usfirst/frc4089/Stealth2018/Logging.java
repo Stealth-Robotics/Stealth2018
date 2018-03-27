@@ -46,12 +46,11 @@ public class Logging {
 	private FileWriter logMatch;
 	private FileWriter logSystems;
 	private FileWriter logError;
+	private FileWriter logEvents;
 	
-	private PowerDistributionPanel PDP;
 	private long StartTime;
 	
 	public Logging() {
-		PDP = new PowerDistributionPanel(Constants.CANPDP);
 		
 		StartTime = RobotController.getFPGATime();
 		
@@ -59,6 +58,7 @@ public class Logging {
 			logMatch = new FileWriter("/LOGS/logMatch.csv", true);
 			logSystems = new FileWriter("/LOGS/logElevatorSystems.csv", true);
 			logError = new FileWriter("/LOGS/logError.csv", true);
+			logEvents = new FileWriter("/LOGS/logEvents.csv", true);
 		} catch(IOException e) {
 			e.printStackTrace();
 	        System.out.println("Unable to create/find FileWriter");
@@ -70,6 +70,22 @@ public class Logging {
 		LogMatch();
 		LogSystems();
 		LogErrors();
+	}
+	
+	public void LogEvent(String input) {
+		try {
+			//start Time, System Time, input
+			logEvents.write(
+					StartTime + "," +
+					RobotController.getFPGATime() + "," +
+							
+					input + "\n"
+			);
+		} catch(IOException e) {
+			e.printStackTrace();
+	        System.out.println("Unable to write to LogEvent");
+	    }
+		
 	}
 	
 	
@@ -107,13 +123,15 @@ public class Logging {
 		
 		try {
 			//System Start Time, System Time, Mode, isDriverStationConnected,
-			//Battery Voltage, PDP input voltage, PDP Temperature, PDP Total Energy
+			//Battery Voltage, PDP input voltage, PDP Temperature Celsius, PDP Total Energy
 			//Elevator Position, Elevator Velocity, Elevator Target, Elevator Power, Elevator Output %, 
 			//Picker Elevator Position, Picker Elevator Velocity, Picker Elevator Target, Picker Elevator Power, Picker Elevator %
-			//Heading, Current Angular Rate,
+			//Heading, Current Angular Rate, Gyro Up Time, Gyro Temperature,
 			//DriveLR Power, DriveLR Output %, DriveLF Power, DriveLF Output %, DriveL Encoder Position, DriveL Encoder Velocity,
 			//DriveRR Power, Drive RR Output %, DriveRF Power, DriveRF Output %, DriveR Encoder Position, DriveR Encoder Velocity,
-			//ElevatorSwitchTop, ElevatorSwitchBottom, PickerSwitchTop, PickerSwitchBottom
+			//ElevatorSwitchTop, ElevatorSwitchBottom, PickerSwitchTop, PickerSwitchBottom,
+			//Picker Closed/Open, Picker L Voltage, Picker L Output %, Picker R Voltage, Picker R Output %,
+			//Picker Raise Motor Voltage, Picker Raise Motor Output %
 			logSystems.write(
 					StartTime + "," +
 					RobotController.getFPGATime() + "," +
@@ -121,9 +139,9 @@ public class Logging {
 					DriverStation.getInstance().isDSAttached() + "," +
 					
 					RobotController.getBatteryVoltage() + "," +
-					PDP.getVoltage() + "," +
-					PDP.getTemperature() + "," +
-					PDP.getTotalPower() + "," +
+					RobotMap.PDP.getVoltage() + "," +
+					RobotMap.PDP.getTemperature() + "," +
+					RobotMap.PDP.getTotalPower() + "," +
 					
 					RobotMap.elevatorMotor.getSelectedSensorPosition(0) + "," +
 					RobotMap.elevatorMotor.getSelectedSensorVelocity(0) + "," +
@@ -139,6 +157,8 @@ public class Logging {
 					
 					fusionStatus.heading + "," +
 					xyz_dps[2] + "," +
+					RobotMap.pigeonIMU.getUpTime() + "," +
+					RobotMap.pigeonIMU.getTemp() + "," +
 					
 					RobotMap.driveSRXDriveLR.getMotorOutputVoltage() + "," +
 					RobotMap.driveSRXDriveLR.getMotorOutputPercent() + "," +
@@ -157,7 +177,16 @@ public class Logging {
 					RobotMap.elevatorSensors.isFwdLimitSwitchClosed() + "," +
 					RobotMap.elevatorSensors.isRevLimitSwitchClosed() + "," +
 					RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed() + "," +
-					RobotMap.pickerElevatorSensors.isRevLimitSwitchClosed()
+					RobotMap.pickerElevatorSensors.isRevLimitSwitchClosed() + "," +
+					
+					RobotMap.pickerArms.get() + "," +
+					RobotMap.pickerLeftMotor.getMotorOutputVoltage() + "," +
+					RobotMap.pickerLeftMotor.getMotorOutputPercent() + "," +
+					RobotMap.pickerRightMotor.getMotorOutputVoltage() + "," +
+					RobotMap.pickerRightMotor.getMotorOutputPercent() + "," +
+					
+					RobotMap.pickerRaiseMotor.getMotorOutputVoltage() + "," +
+					RobotMap.pickerRaiseMotor.getMotorOutputPercent()
 					
 					+ "\n"
 					);
@@ -173,7 +202,8 @@ public class Logging {
 			//System Start Time, System Time, 
 			//isBrownedOut, isSysActive,
 			//Fault Count 3.3v, Fault Count 5v, Fault Count 6v,
-			//CAN Status
+			//CAN Status,
+			//Gyro Last error, Gyro State
 			logError.write(StartTime + "," +
 					RobotController.getFPGATime() + "," +
 					
@@ -184,7 +214,10 @@ public class Logging {
 					RobotController.getFaultCount5V() + "," +
 					RobotController.getFaultCount6V() + "," +
 					
-					RobotController.getCANStatus()
+					RobotController.getCANStatus() + "," +
+					
+					RobotMap.pigeonIMU.getLastError() + "," +
+					RobotMap.pigeonIMU.getState()
 					
 					+ "\n"
 					);

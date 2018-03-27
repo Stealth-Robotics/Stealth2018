@@ -10,6 +10,7 @@
 
 package org.usfirst.frc4089.Stealth2018.autoCommands;
 
+import org.usfirst.frc4089.Stealth2018.Robot;
 import org.usfirst.frc4089.Stealth2018.RobotMap;
 import org.usfirst.frc4089.Stealth2018.MPPaths.*;
 import org.usfirst.frc4089.Stealth2018.commands.DrivePathAction;
@@ -34,7 +35,8 @@ public class Position5Path3 extends CommandGroup {
   // Called just before this Command runs the first time
   @Override
     protected void initialize() {
-	  System.out.println("Position Five Source: Commands.PositionFive");
+	  Robot.logging.LogEvent("Position5Path3 Source: autoCommands.Position5Path3");
+	  //System.out.println("Position Five Source: Commands.PositionFive");
     //hug block
     addSequential(new HugBlock());
     

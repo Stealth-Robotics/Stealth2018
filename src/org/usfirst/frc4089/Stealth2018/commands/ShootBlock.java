@@ -26,6 +26,7 @@ public class ShootBlock extends Command {
     }
 
     protected void initialize() {
+    	Robot.logging.LogEvent("ShootBlock Source: Commands.ShootBlock");
       //System.out.println("Init");
     }
 

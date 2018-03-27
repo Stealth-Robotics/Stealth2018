@@ -51,6 +51,7 @@ public class DrivePathAction extends Command {
 
     @Override
     public void initialize() {
+    	Robot.logging.LogEvent("DrivePathAction Source: Commands.DrivePathAction");
       try {
         mLogFile = new FileWriter("/home/lvuser/drivePath.csv", true);
         mLogFile.write("\n");

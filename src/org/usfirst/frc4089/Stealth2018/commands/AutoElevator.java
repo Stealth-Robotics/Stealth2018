@@ -31,7 +31,7 @@ public class AutoElevator extends CommandGroup {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		
+		Robot.logging.LogEvent("AutoElevator(" + mainTarget + "," + pickerTarget + ") Source: Commands.AutoElevator");
 		addSequential(new SetElevatorTarget(mainTarget));
 		addSequential(new SetPickerElevatorTarget(pickerTarget));
 	}

@@ -41,7 +41,8 @@ public class Position3Path1_2 extends CommandGroup {
   // Called just before this Command runs the first time
   @Override
     protected void initialize() {
-	  System.out.println("Position three Source: Commands.PositionThree");
+	  Robot.logging.LogEvent("Position3Path1_2 Source: autoCommands.Position3Path1_2");
+	  //System.out.println("Position three Source: Commands.PositionThree");
     //hug block
     addSequential(new HugBlock());
     //lower picker

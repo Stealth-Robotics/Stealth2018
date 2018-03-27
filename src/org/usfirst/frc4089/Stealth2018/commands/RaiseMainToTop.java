@@ -24,6 +24,7 @@ public class RaiseMainToTop extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.logging.LogEvent("RaiseMainToTop Source: Commands.RaiseMainToTop");
     	if (RobotMap.overrideElevator) {
     		System.out.println("Raise Elevator OVERRIDE MODE");
     	    RobotMap.elevatorMotor.set(0.8);

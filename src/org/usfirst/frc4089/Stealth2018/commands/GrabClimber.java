@@ -31,6 +31,7 @@ public class GrabClimber extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.logging.LogEvent("GrabClimber Source: Commands.GrabClimber");
     }
 
     // Called repeatedly when this Command is scheduled to run

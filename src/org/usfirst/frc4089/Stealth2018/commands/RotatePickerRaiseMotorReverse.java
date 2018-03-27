@@ -28,7 +28,7 @@ public class RotatePickerRaiseMotorReverse extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
+    	Robot.logging.LogEvent("RotatePickerRaiseMotorReverse Source: Commands.RotatePickerRaiseMotorReverse");
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -27,6 +27,7 @@ public class HugBlock extends Command {
 
     protected void initialize() {
       //System.out.println("Init");
+    	Robot.logging.LogEvent("Hug Block Source: Commands.HugBlock");
     }
 
     protected void execute() {

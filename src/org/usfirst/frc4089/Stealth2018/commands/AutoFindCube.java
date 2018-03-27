@@ -60,6 +60,7 @@ public class AutoFindCube extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.logging.LogEvent("AutoFindCube Source: Commands.AutoFindCube");
     	state = 0;
     }
 

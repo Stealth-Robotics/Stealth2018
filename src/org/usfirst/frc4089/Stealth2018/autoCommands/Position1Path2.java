@@ -10,6 +10,7 @@
 
 package org.usfirst.frc4089.Stealth2018.autoCommands;
 
+import org.usfirst.frc4089.Stealth2018.Robot;
 import org.usfirst.frc4089.Stealth2018.RobotMap;
 import org.usfirst.frc4089.Stealth2018.MPPaths.*;
 import org.usfirst.frc4089.Stealth2018.commands.*;
@@ -28,6 +29,7 @@ public class Position1Path2 extends CommandGroup {
   // Called just before this Command runs the first time
   @Override
     protected void initialize() {
+	  	Robot.logging.LogEvent("Position1Path2 Source: autoCommands.Position1Path2");
 		//System.out.println("Position One Source: Commands.PositionOne");
 		
 		addSequential(new SetAutoFinished(false));

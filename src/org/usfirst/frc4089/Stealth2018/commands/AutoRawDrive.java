@@ -42,6 +42,7 @@ public class AutoRawDrive extends Command {
 
     @Override
     public void initialize() {
+    	Robot.logging.LogEvent("AutoRawDrive(" + Speed + "," + Turn + ") Source: Commands.AutoRawDrive");
     	//isFinished = false;
     	//mWaitTime = new StopWatch(TimeOut);
     }

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutoClimb extends CommandGroup {
 	    
 	    public  AutoClimb() {
+	    	Robot.logging.LogEvent("AutoClimb Source: Commands.AutoClimb");
 	    	System.out.println("AutoClimb");
 	    	requires(Robot.climb);
 	        // Add Commands here:
@@ -57,7 +58,7 @@ public class AutoClimb extends CommandGroup {
 	    	
 	    	  	
 	    	
-	    	System.out.println("AutoClimb - Complete");
+	    	//System.out.println("AutoClimb - Complete");
 	    }
 }
 

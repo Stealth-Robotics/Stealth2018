@@ -11,6 +11,8 @@
 package org.usfirst.frc4089.Stealth2018.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+
+import org.usfirst.frc4089.Stealth2018.Robot;
 import org.usfirst.frc4089.Stealth2018.utilities.*;
 
 /**
@@ -28,14 +30,18 @@ public class WaitTime extends Command {
     
     mWaitTime.setTime(1000);
   }
+  
+  private int SetTime;
 
   public WaitTime(int setTime) {
     mWaitTime.setTime(setTime);
+    SetTime = setTime;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+	  Robot.logging.LogEvent("WaitTime("+SetTime+" Source: Commands.DrivePathAction");
     mWaitTime.reset();
   }
 

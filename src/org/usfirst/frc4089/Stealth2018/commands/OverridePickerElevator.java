@@ -27,6 +27,7 @@ public class OverridePickerElevator extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	RobotMap.overridePickerElevator = true;
+    	Robot.logging.LogEvent("OverridePickerElevator Source: Commands.OverridePickerElevator");
     }
 
     // Called repeatedly when this Command is scheduled to run

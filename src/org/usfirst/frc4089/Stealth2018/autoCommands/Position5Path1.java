@@ -10,6 +10,7 @@
 
 package org.usfirst.frc4089.Stealth2018.autoCommands;
 
+import org.usfirst.frc4089.Stealth2018.Robot;
 import org.usfirst.frc4089.Stealth2018.RobotMap;
 import org.usfirst.frc4089.Stealth2018.MPPaths.*;
 import org.usfirst.frc4089.Stealth2018.commands.DrivePathAction;
@@ -33,6 +34,7 @@ public class Position5Path1 extends CommandGroup {
   // Called just before this Command runs the first time
   @Override
     protected void initialize() {
+	  Robot.logging.LogEvent("Position5Path1 Source: autoCommands.Position5Path1");
 	  System.out.println("Position One Source: Commands.PositionOne");
 	  
 	  RobotMap.pigeonIMU.setFusedHeading(0, 30);

@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
@@ -81,6 +82,8 @@ public class RobotMap {
     
     public static WPI_TalonSRX climbMotor;
     
+    public static PowerDistributionPanel PDP;
+    
     
     public static void init() {
       driveSRXDriveLR = new WPI_TalonSRX(Constants.CANTalonSRXDriveLR);
@@ -135,6 +138,8 @@ public class RobotMap {
       isAutoFinished = false;
       
       climbMotor = new WPI_TalonSRX(Constants.CANTalonSRXClimb);
+      
+      PDP = new PowerDistributionPanel(Constants.CANPDP);
     }
     
     
