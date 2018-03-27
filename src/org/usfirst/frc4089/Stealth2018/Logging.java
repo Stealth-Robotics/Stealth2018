@@ -79,7 +79,9 @@ public class Logging {
 					StartTime + "," +
 					RobotController.getFPGATime() + "," +
 							
-					input + "\n"
+					input 
+					
+					+ "\n"
 			);
 		} catch(IOException e) {
 			e.printStackTrace();
