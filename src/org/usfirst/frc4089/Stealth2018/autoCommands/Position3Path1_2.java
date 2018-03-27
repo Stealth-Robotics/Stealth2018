@@ -13,15 +13,7 @@ package org.usfirst.frc4089.Stealth2018.autoCommands;
 import org.usfirst.frc4089.Stealth2018.Robot;
 import org.usfirst.frc4089.Stealth2018.RobotMap;
 import org.usfirst.frc4089.Stealth2018.MPPaths.*;
-import org.usfirst.frc4089.Stealth2018.commands.AutoFindCube;
-import org.usfirst.frc4089.Stealth2018.commands.DrivePathAction;
-import org.usfirst.frc4089.Stealth2018.commands.HugBlock;
-import org.usfirst.frc4089.Stealth2018.commands.LowerMainToBottom;
-import org.usfirst.frc4089.Stealth2018.commands.LowerPicker;
-import org.usfirst.frc4089.Stealth2018.commands.RaiseMainToTop;
-import org.usfirst.frc4089.Stealth2018.commands.RejectBlock;
-import org.usfirst.frc4089.Stealth2018.commands.SetAutoFinished;
-import org.usfirst.frc4089.Stealth2018.commands.WaitTime;
+import org.usfirst.frc4089.Stealth2018.commands.*;
 import org.usfirst.frc4089.Stealth2018.subsystems.Picker;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -43,12 +35,14 @@ public class Position3Path1_2 extends CommandGroup {
     protected void initialize() {
 	  Robot.logging.LogEvent("Position3Path1_2 Source: autoCommands.Position3Path1_2");
 	  //System.out.println("Position three Source: Commands.PositionThree");
+	  
+	  addSequential(new SetAutoFinished(false));
     //hug block
     addSequential(new HugBlock());
     //lower picker
     addSequential(new LowerPicker());
     //raise block to top
-    addParallel(new  RaiseMainToTop());
+    addParallel(new  RaisePickerToTop());
 
     
     //get game data
@@ -86,21 +80,24 @@ public class Position3Path1_2 extends CommandGroup {
     //let go of block
     addSequential(new RejectBlock());
     
-    Robot.drive.DriveRobot(-0.3, 0);
+    //Robot.drive.DriveRobot(-0.3, 0);
+    addSequential(new AutoRawDrive(-0.3, 0));
     
     addSequential(new WaitTime(500));
     
     addSequential(new LowerMainToBottom());
+    addSequential(new LowerPickerToBottom());
     
     addSequential(new AutoFindCube());
     
     addSequential(new HugBlock());
     
-    addSequential(new RaiseMainToTop());
+    addSequential(new RaisePickerToTop());
     
     addSequential(new DrivePathAction(Robot.path));
     
-    Robot.drive.DriveRobot(0.3, 0);
+    //Robot.drive.DriveRobot(0.3, 0);
+    addSequential(new AutoRawDrive(0.3,0));
     
     addSequential(new WaitTime(500));
     

@@ -37,6 +37,7 @@ public class Position1Path3 extends CommandGroup {
     protected void initialize() {
 	  Robot.logging.LogEvent("Position1Path3 Source: autoCommands.Position1Path3");
 	  //System.out.println("Position One Source: Commands.PositionOne");
+	  addSequential(new SetAutoFinished(false));
     //hug block
     addSequential(new HugBlock());
     

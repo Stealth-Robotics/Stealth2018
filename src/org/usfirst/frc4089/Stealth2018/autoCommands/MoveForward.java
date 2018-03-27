@@ -38,6 +38,7 @@ public class MoveForward extends CommandGroup {
     	Robot.logging.LogEvent("MoveForward Source: autoCommands.MoveForward");
 		//System.out.println("Position One Source: Commands.PositionOne");
 		RobotMap.pigeonIMU.setFusedHeading(0, 30);
+		addSequential(new SetAutoFinished(false));
 	    //hug block
 	    addSequential(new HugBlock());
 	    

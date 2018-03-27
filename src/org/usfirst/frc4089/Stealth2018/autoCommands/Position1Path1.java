@@ -39,6 +39,7 @@ public class Position1Path1 extends CommandGroup {
 		//System.out.println("Position One Source: Commands.PositionOne");
 		
 		RobotMap.pigeonIMU.setFusedHeading(0, 30);
+		addSequential(new SetAutoFinished(false));
 	    //hug block
 	    addSequential(new HugBlock());
 	    

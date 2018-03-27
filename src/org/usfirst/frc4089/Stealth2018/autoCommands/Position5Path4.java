@@ -36,7 +36,8 @@ public class Position5Path4 extends CommandGroup {
   @Override
     protected void initialize() {
 	  Robot.logging.LogEvent("Position5Path4 Source: autoCommands.Position5Path4");
-	  System.out.println("Position Five Source: Commands.PositionFive");
+	  //System.out.println("Position Five Source: Commands.PositionFive");
+	  addSequential(new SetAutoFinished(false));
     //hug block
     addSequential(new HugBlock());
     

@@ -34,7 +34,7 @@ public class Position3Path1 extends CommandGroup {
 	  System.out.println("Position three Source: Commands.PositionThree");
 	  
 	  RobotMap.pigeonIMU.setFusedHeading(0, 30);
-	  
+	  addSequential(new SetAutoFinished(false));
     //hug block
     addSequential(new HugBlock());
     //lower picker
