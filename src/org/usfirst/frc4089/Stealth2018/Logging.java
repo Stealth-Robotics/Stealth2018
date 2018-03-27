@@ -11,26 +11,12 @@
 
 package org.usfirst.frc4089.Stealth2018;
 
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.io.FileWriter;
 import java.io.IOException;
-
-import org.usfirst.frc4089.Stealth2018.MPPaths.Path;
-import org.usfirst.frc4089.Stealth2018.autoCommands.*;
-import org.usfirst.frc4089.Stealth2018.commands.*;
-import org.usfirst.frc4089.Stealth2018.subsystems.*;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
 
