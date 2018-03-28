@@ -27,6 +27,7 @@ import com.ctre.phoenix.sensors.PigeonIMU;
  * creating this project, you must also update the build.properties file in 
  * the project.
  */
+
 public class Logging {
 	
 	private FileWriter logMatch;
@@ -49,6 +50,12 @@ public class Logging {
 			e.printStackTrace();
 	        System.out.println("Unable to create/find FileWriter");
 	    }
+	}
+	
+	private Modes currentMode;
+	
+	public void SetMode(Modes input) {
+		currentMode = input;
 	}
 	
 	
@@ -123,7 +130,7 @@ public class Logging {
 			logSystems.write(
 					StartTime + "," +
 					RobotController.getFPGATime() + "," +
-					Robot.CurrentMode + "," +
+					currentMode.toString() + "," +
 					DriverStation.getInstance().isDSAttached() + "," +
 					
 					RobotController.getBatteryVoltage() + "," +

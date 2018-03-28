@@ -41,8 +41,6 @@ public class Robot extends TimedRobot {
     
     SendableChooser<Command> chooser = new SendableChooser<>();
     
-    public static String CurrentMode;
-    
     public static OI oi;
     public static Logging logging;
 
@@ -59,9 +57,17 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-    	CurrentMode = "Init";
-    	
         RobotMap.init();
+        logging = new Logging();
+        
+        drive = new Drive();
+        elevator = new Elevator();
+        picker = new Picker();
+        utilities = new Utilities();
+        climb = new Climb();
+        
+        logging.SetMode(Modes.Init);
+        
         RobotMap.pigeonIMU.setFusedHeading(0, 30);
         
         if(Constants.UseCamera) {
@@ -71,13 +77,9 @@ public class Robot extends TimedRobot {
 	        camera.setFPS(30);
         }
         
-        logging = new Logging();
         
-        drive = new Drive();
-        elevator = new Elevator();
-        picker = new Picker();
-        utilities = new Utilities();
-        climb = new Climb();
+        
+        
 
         Robot.elevator.SetElevatorTarget(0);
         Robot.elevator.SetPickerElevatorTarget(0);
@@ -115,7 +117,7 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledInit(){
     	
-    	CurrentMode = "Disabled";
+    	logging.SetMode(Modes.Disabled);
       if (mAutoCommand != null) mAutoCommand.cancel();
       
       
@@ -141,8 +143,8 @@ public class Robot extends TimedRobot {
     public void disabledPeriodic() {
     	//logging.Log();
         Scheduler.getInstance().run();
-        
-        RobotMap.pigeonIMU.setFusedHeading(0, 30);
+        //shouldn't need to reset gyro every disabled loop so i commented it out
+        //RobotMap.pigeonIMU.setFusedHeading(0, 30);
         
         if(Robot.oi.mechJoystick.getRawButton(9))
         {
@@ -154,8 +156,10 @@ public class Robot extends TimedRobot {
     
     @Override
     public void autonomousInit() {
-    	  CurrentMode = "Autonomus";
+    	  logging.SetMode(Modes.Autonomus);
+    	  
 	      if (mAutoCommand != null) mAutoCommand.cancel();
+	      
 	      Robot.climb.ungrabClimber();
 	      
 	      RobotMap.SetUpTalonsForAuto();
@@ -236,7 +240,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-    	CurrentMode = "Teleop";
+    	logging.SetMode(Modes.TeleOp);
         //stop auto
         if (mAutoCommand != null) mAutoCommand.cancel();
         
@@ -247,6 +251,7 @@ public class Robot extends TimedRobot {
         Robot.climb.ungrabClimber();
         Robot.picker.hugBlock();
         RobotMap.utilitiesPCMCompressor.setClosedLoopControl(true);
+        
         //set the elevator targets to be where they are
         Robot.elevator.SetElevatorTarget(RobotMap.elevatorMotor.getSelectedSensorPosition(0));
         Robot.elevator.SetPickerElevatorTarget(RobotMap.pickerElevatorMotor.getSelectedSensorPosition(0));
@@ -277,7 +282,7 @@ public class Robot extends TimedRobot {
     
     @Override
     public void testInit() {
-    	CurrentMode = "Test";
+    	logging.SetMode(Modes.Test);
     }   
 
     @Override
