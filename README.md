@@ -1,7 +1,11 @@
 # Stealth2018
 FIRST FRC Stealth Robotics 2018
 
+![alt_text](https://github.com/Stealth-Robotics/Stealth2018/blob/master/Images/4089_Scoring_in_Scale.PNG)
+
 This code is used to run our robot for FRC 2018 Power Up!
+
+![alt text](https://github.com/Stealth-Robotics/Stealth2018/blob/master/Images/440px-2018_FIRST_Power_Up_game_logo.png)
 
 ## Cool Features :
 ### Auto Find Cube
