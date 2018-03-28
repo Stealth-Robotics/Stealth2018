@@ -30,12 +30,16 @@ public class Position1Path2 extends CommandGroup {
   @Override
     protected void initialize() {
 	  	Robot.logging.LogEvent("Position1Path2 Source: autoCommands.Position1Path2");
-		//System.out.println("Position One Source: Commands.PositionOne");
-		
+	    //reset gyro
+	    RobotMap.pigeonIMU.setFusedHeading(0, 30);
+	    
+		//set auto finished false
 		addSequential(new SetAutoFinished(false));
+		
 	    //hug block
 	    addSequential(new HugBlock());
 	    
+	    //get field data
 	    String gameData = DriverStation.getInstance().getGameSpecificMessage();
 	    int counter = 0;
 	    while ((gameData == "" || gameData == null || gameData.length() != 3) && counter < 250) {
@@ -63,7 +67,7 @@ public class Position1Path2 extends CommandGroup {
 	    	
 	    	//lower picker
 	        addSequential(new LowerPicker());
-	        //raise block to top
+	        //raise block to top top
 	        addSequential(new RaisePickerToTop());
 	        addSequential(new RaiseMainToTop());
 	        //get to the scale
@@ -96,15 +100,10 @@ public class Position1Path2 extends CommandGroup {
 	        //lower picker
 	        addSequential(new LowerPicker());
 	    }
-	    
+	    //set auto finished
 	    addSequential(new SetAutoFinished());
     
     
-  }
-
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
   }
 
   // Make this return true when this Command no longer needs to run execute()

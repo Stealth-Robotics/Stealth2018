@@ -93,15 +93,16 @@ public class Robot extends TimedRobot {
         // pointers. Bad news. Don't move it.
         oi = new OI();
         
+        //NOTE: The ones with * are ones that we should prefer to run
         chooser.addObject("Literaly Just Move Forward", new MoveForward());
         chooser.addObject("Position 1 Switch From Front", new Position1Path1());
-        chooser.addObject("Position 1 Scale From Front", new Position1Path2());
-        chooser.addObject("Position 1 Scale From Side", new Position1Path3());
+        chooser.addObject("*Position 1 Scale From Front, Fall back switch", new Position1Path2());
+        chooser.addObject("*Position 1 Switch From Front, Fall back scale", new Position1Path2_switch());
         chooser.addObject("Position 1 Cross Scale From Side or Scale From Front", new Position1Path4());
-        chooser.addDefault("Position 3 Switch From Side", new Position3Path1());
+        chooser.addDefault("*Position 3 Switch From Side", new Position3Path1());
         chooser.addObject("Position 5 Switch From Front", new Position5Path1());
-        chooser.addObject("Position 5 Scale From Front", new Position5Path2());
-        chooser.addObject("Position 5 Scale From Side", new Position5Path3());
+        chooser.addObject("*Position 5 Scale From Front, Fall back switch", new Position5Path2());
+        chooser.addObject("*Position 5 Switch From Front, Fall back scale", new Position5Path2_switch());
         chooser.addObject("Position 5 Cross Scale From Side or Scale From Front", new Position5Path4());
         SmartDashboard.putData("Auto mode", chooser);
         
@@ -185,9 +186,9 @@ public class Robot extends TimedRobot {
 	        mAutoCommand = new Position1Path2();
 	        Scheduler.getInstance().add(mAutoCommand);
 	      }
-	      else if(chooser.getSelected().getName().equals("Position1Path3"))
+	      else if(chooser.getSelected().getName().equals("Position1Path2_switch"))
 	      {
-	        mAutoCommand = new Position1Path3();
+	        mAutoCommand = new Position1Path2_switch();
 	        Scheduler.getInstance().add(mAutoCommand);
 	      }
 	      else if(chooser.getSelected().getName().equals("Position1Path4"))
@@ -210,9 +211,9 @@ public class Robot extends TimedRobot {
 	        mAutoCommand = new Position5Path2();
 	        Scheduler.getInstance().add(mAutoCommand);
 	      }
-	      else if(chooser.getSelected().getName().equals("Position5Path3"))
+	      else if(chooser.getSelected().getName().equals("Position5Path2_switch"))
 	      {
-	        mAutoCommand = new Position5Path3();
+	        mAutoCommand = new Position5Path2_switch();
 	        Scheduler.getInstance().add(mAutoCommand);
 	      }
 	      else if(chooser.getSelected().getName().equals("Position5Path4"))

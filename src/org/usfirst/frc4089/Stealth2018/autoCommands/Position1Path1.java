@@ -36,14 +36,13 @@ public class Position1Path1 extends CommandGroup {
     @Override
     protected void initialize() {
     	Robot.logging.LogEvent("Position1Path1 Source: autoCommands.Position1Path1");
-		//System.out.println("Position One Source: Commands.PositionOne");
-		
+		//reset gyro
 		RobotMap.pigeonIMU.setFusedHeading(0, 30);
+		//set the auto to not be finished yet
 		addSequential(new SetAutoFinished(false));
-	    //hug block
+	    //grab block
 	    addSequential(new HugBlock());
-	    
-	    
+	    //figure out the field data
 	    String gameData = DriverStation.getInstance().getGameSpecificMessage();
 	    int counter = 0;
 	    while ((gameData == "" || gameData == null || gameData.length() != 3) && counter < 250) {
@@ -65,30 +64,25 @@ public class Position1Path1 extends CommandGroup {
 	    	//lower picker
 		    addSequential(new LowerPicker());
 		    //raise block to top
-		    addSequential(new RaiseMainToTop());
-		    //addSequential(new RaisePickerToTop());
-		    
+		    //addSequential(new RaiseMainToTop());
+		    addSequential(new RaisePickerToTop());
+		    //drive to the correct spot
 		    addSequential(new DrivePathAction(new Red11Path60InPerSec()));
 		    System.out.println("Left");
-	      
 		    //drop it
 		    addSequential(new RejectBlock());
 	    }
 	    else
 	    {
+	      //drive forwards
 	      addSequential(new DrivePathAction(new Move10Path60InPerSec()));
 	      System.out.println("Right");
 	      //lower picker
 	      addSequential(new LowerPicker());
 	    }
-	    
+	    //kill auto command to prevent weird things
 	    addSequential(new SetAutoFinished());
     }
-
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-  }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override

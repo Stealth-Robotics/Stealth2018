@@ -31,8 +31,8 @@ import edu.wpi.first.wpilibj.*;
 /**
  *
  */
-public class Position5Path2 extends CommandGroup {
-  public Position5Path2() {
+public class Position5Path2_switch extends CommandGroup {
+  public Position5Path2_switch() {
     
   }
 
@@ -70,8 +70,16 @@ public class Position5Path2 extends CommandGroup {
 	    
 	    
 	    
-	    if(scaleRight)
-	    {
+	    if (switchRight) {
+	    	//lower picker
+	        addSequential(new LowerPicker());
+	        //raise block to top
+	        addSequential(new RaisePickerToTop());
+	        //drive to the switch
+	    	addSequential(new DrivePathAction(new Red51Path60InPerSec()));
+	        //drop it
+	        addSequential(new RejectBlock());
+	    } else if(scaleRight) {
 	    	//lower picker
 	        addParallel(new LowerPicker());
 	        //raise block to top top
@@ -92,15 +100,6 @@ public class Position5Path2 extends CommandGroup {
 	        
 	        //drop it like it is hot
 	        addSequential(new ShootBlock());
-	    } else if (switchRight) {
-	    	//lower picker
-	        addSequential(new LowerPicker());
-	        //raise block to top
-	        addSequential(new RaisePickerToTop());
-	        //drive to the switch
-	    	addSequential(new DrivePathAction(new Red51Path60InPerSec()));
-	        //drop it
-	        addSequential(new RejectBlock());
 	    } else {
 	    	addSequential(new DrivePathAction(new Move10Path60InPerSec()));
 	        System.out.println("Right");

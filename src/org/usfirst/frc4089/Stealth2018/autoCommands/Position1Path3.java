@@ -35,75 +35,66 @@ public class Position1Path3 extends CommandGroup {
   // Called just before this Command runs the first time
   @Override
     protected void initialize() {
-	  Robot.logging.LogEvent("Position1Path3 Source: autoCommands.Position1Path3");
-	  //System.out.println("Position One Source: Commands.PositionOne");
-	  addSequential(new SetAutoFinished(false));
-    //hug block
-    addSequential(new HugBlock());
-    
-    String gameData = DriverStation.getInstance().getGameSpecificMessage();
-    int counter = 0;
-    while ((gameData == "" || gameData == null || gameData.length() != 3) && counter < 250) {
-      gameData = DriverStation.getInstance().getGameSpecificMessage();
-      counter ++;
-    }
-    boolean scaleLeft = true;
-    boolean switchLeft = true;
-    
-    if(gameData.length()>1)
-    {
-      if('R'==gameData.charAt(0))
-      {
-    	  switchLeft = false;
-      }
-      if('R'==gameData.charAt(1))
-      {
-        scaleLeft = false;
-      }
-    }
-    
-    
-    
-    
-    if(scaleLeft)
-    {
-    	//lower picker
-        addSequential(new LowerPicker());
-        //raise block to top
-        addSequential(new RaisePickerToTop());
-        addSequential(new RaiseMainToTop());
-        
-        addSequential(new DrivePathAction(new Red13Path60InPerSec()));
-        System.out.println("Left");
-        
-        //drop it like it is hot
-        addSequential(new RejectBlock());
-    } else if (switchLeft) {
-    	//lower picker
-        addSequential(new LowerPicker());
-        //raise block to top
-        addSequential(new RaisePickerToTop());
-        
-    	addSequential(new DrivePathAction(new Red11Path60InPerSec()));
-        System.out.println("Left Switch");
-        
-        //drop it
-        addSequential(new RejectBlock());
-    } else {
-        addSequential(new DrivePathAction(new Move10Path60InPerSec()));
-        System.out.println("Right");
-        //lower picker
-        addSequential(new LowerPicker());
-    }
-    
-    addSequential(new SetAutoFinished());
-    
-    
-  }
-
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
+	    Robot.logging.LogEvent("Position1Path3 Source: autoCommands.Position1Path3");
+	    //reset gyro
+	    RobotMap.pigeonIMU.setFusedHeading(0, 30);
+	    //set auto finished false
+	    addSequential(new SetAutoFinished(false));
+	    //hug block
+	    addSequential(new HugBlock());
+	    //get game data
+	    String gameData = DriverStation.getInstance().getGameSpecificMessage();
+	    int counter = 0;
+	    while ((gameData == "" || gameData == null || gameData.length() != 3) && counter < 250) {
+	      gameData = DriverStation.getInstance().getGameSpecificMessage();
+	      counter ++;
+	    }
+	    boolean scaleLeft = true;
+	    boolean switchLeft = true;
+	    
+	    if(gameData.length()>1)
+	    {
+	      if('R'==gameData.charAt(0))
+	      {
+	    	  switchLeft = false;
+	      }
+	      if('R'==gameData.charAt(1))
+	      {
+	        scaleLeft = false;
+	      }
+	    }
+	    
+	    
+	    
+	    
+	    if(scaleLeft)
+	    {
+	    	//lower picker
+	        addSequential(new LowerPicker());
+	        //raise block to top top
+	        addSequential(new RaisePickerToTop());
+	        addSequential(new RaiseMainToTop());
+	        //drive to scale
+	        addSequential(new DrivePathAction(new Red13Path60InPerSec()));
+	        //drop it like it is hot
+	        addSequential(new RejectBlock());
+	    } else if (switchLeft) {
+	    	//lower picker
+	        addSequential(new LowerPicker());
+	        //raise block to top
+	        addSequential(new RaisePickerToTop());
+	        //drive to switch
+	    	addSequential(new DrivePathAction(new Red11Path60InPerSec()));
+	        //drop it
+	        addSequential(new RejectBlock());
+	    } else {
+	        addSequential(new DrivePathAction(new Move10Path60InPerSec()));
+	        System.out.println("Right");
+	        //lower picker
+	        addSequential(new LowerPicker());
+	    }
+	    
+	    addSequential(new SetAutoFinished());
   }
 
   // Make this return true when this Command no longer needs to run execute()

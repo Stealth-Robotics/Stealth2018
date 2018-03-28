@@ -13,17 +13,7 @@ package org.usfirst.frc4089.Stealth2018.autoCommands;
 import org.usfirst.frc4089.Stealth2018.Robot;
 import org.usfirst.frc4089.Stealth2018.RobotMap;
 import org.usfirst.frc4089.Stealth2018.MPPaths.*;
-import org.usfirst.frc4089.Stealth2018.commands.AutoRawDrive;
-import org.usfirst.frc4089.Stealth2018.commands.AutoRotatePickerRaiseMotor;
-import org.usfirst.frc4089.Stealth2018.commands.DrivePathAction;
-import org.usfirst.frc4089.Stealth2018.commands.HugBlock;
-import org.usfirst.frc4089.Stealth2018.commands.LowerPicker;
-import org.usfirst.frc4089.Stealth2018.commands.RaiseMainToTop;
-import org.usfirst.frc4089.Stealth2018.commands.RaisePickerToTop;
-import org.usfirst.frc4089.Stealth2018.commands.RejectBlock;
-import org.usfirst.frc4089.Stealth2018.commands.SetAutoFinished;
-import org.usfirst.frc4089.Stealth2018.commands.ShootBlock;
-import org.usfirst.frc4089.Stealth2018.commands.WaitTime;
+import org.usfirst.frc4089.Stealth2018.commands.*;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.*;
@@ -31,91 +21,85 @@ import edu.wpi.first.wpilibj.*;
 /**
  *
  */
-public class Position5Path2 extends CommandGroup {
-  public Position5Path2() {
+public class Position1Path2_switch extends CommandGroup {
+  public Position1Path2_switch() {
     
   }
 
   // Called just before this Command runs the first time
   @Override
     protected void initialize() {
-	  	Robot.logging.LogEvent("Position5Path2 Source: autoCommands.Position5Path2");
-	  	//System.out.println("Position Five Source: Commands.PositionFive");
-	  	addSequential(new SetAutoFinished(false));
+	  	Robot.logging.LogEvent("Position1Path2_switch Source: autoCommands.Position1Path2_switch");
+	    //reset gyro
+	    RobotMap.pigeonIMU.setFusedHeading(0, 30);
+	    
+		//set auto finished false
+		addSequential(new SetAutoFinished(false));
+		
 	    //hug block
 	    addSequential(new HugBlock());
 	    
-	    //get game data
+	    //get field data
 	    String gameData = DriverStation.getInstance().getGameSpecificMessage();
 	    int counter = 0;
 	    while ((gameData == "" || gameData == null || gameData.length() != 3) && counter < 250) {
 	      gameData = DriverStation.getInstance().getGameSpecificMessage();
 	      counter ++;
 	    }
-	    
-	    boolean scaleRight = false;
-	    boolean switchRight = false;
+	    boolean scaleLeft = true;
+	    boolean switchLeft = true;
 	    
 	    if(gameData.length()>1)
 	    {
 	      if('R'==gameData.charAt(0))
 	      {
-	    	  switchRight = true;
+	    	  switchLeft = false;
 	      }
 	      if('R'==gameData.charAt(1))
 	      {
-	        scaleRight = true;
+	        scaleLeft = false;
 	      }
 	    }
 	    
-	    
-	    
-	    if(scaleRight)
-	    {
-	    	//lower picker
-	        addParallel(new LowerPicker());
-	        //raise block to top top
-	        addSequential(new RaisePickerToTop());
-	        addSequential(new RaiseMainToTop());
-	        //drive to scale
-	    	addSequential(new DrivePathAction(new Red52Path60InPerSec()));
-	    	//Raise the picker a little bit
-	        addSequential(new AutoRotatePickerRaiseMotor(1.0));
-	        addSequential(new WaitTime(600));
-	        addSequential(new AutoRotatePickerRaiseMotor(0));
-	        
-	        //TODO:make adjustments to this section
-	        //rotate to face the scale
-	        addSequential(new AutoRawDrive(0,-0.1));
-	        addSequential(new WaitTime(750));
-	        addSequential(new AutoRawDrive(0,0));
-	        
-	        //drop it like it is hot
-	        addSequential(new ShootBlock());
-	    } else if (switchRight) {
+	    if (switchLeft) {
 	    	//lower picker
 	        addSequential(new LowerPicker());
 	        //raise block to top
 	        addSequential(new RaisePickerToTop());
 	        //drive to the switch
-	    	addSequential(new DrivePathAction(new Red51Path60InPerSec()));
+	    	addSequential(new DrivePathAction(new Red11Path60InPerSec()));
 	        //drop it
 	        addSequential(new RejectBlock());
+	    } else if(scaleLeft) {
+	    	//lower picker
+	        addSequential(new LowerPicker());
+	        //raise block to top top
+	        addSequential(new RaisePickerToTop());
+	        addSequential(new RaiseMainToTop());
+	        //get to the scale
+	        addSequential(new DrivePathAction(new Red12Path60InPerSec()));
+	        //Raise the picker a little bit
+	        addSequential(new AutoRotatePickerRaiseMotor(1.0));
+	        addSequential(new WaitTime(600));
+	        addSequential(new AutoRotatePickerRaiseMotor(0));
+	        //rotate to face the scale
+	        addSequential(new AutoRawDrive(0,0.1));
+	        addSequential(new WaitTime(750));
+	        addSequential(new AutoRawDrive(0,0));
+	        //shoot it
+	        addSequential(new ShootBlock());
+	      
 	    } else {
-	    	addSequential(new DrivePathAction(new Move10Path60InPerSec()));
-	        System.out.println("Right");
+	    	System.out.println("Right Scale and Switch");
+	    	//get across the line
+	        addSequential(new DrivePathAction(new Move10Path60InPerSec()));
 	        //lower picker
 	        addSequential(new LowerPicker());
 	    }
-	    
+	    //set auto finished
 	    addSequential(new SetAutoFinished());
     
     
-  }
-
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
   }
 
   // Make this return true when this Command no longer needs to run execute()
