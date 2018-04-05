@@ -98,7 +98,7 @@ public class Elevator extends Subsystem {
   //--------------------------------------------------------------------  
   private void HandleElevator(double yElevator) {
     yElevator = DriveMath.DeadBand(yElevator, 0.15);
-    int change = (int)(-yElevator * 50);
+    int change = (int)(-yElevator * 60);
     boolean topSwitch = RobotMap.elevatorSensors.isFwdLimitSwitchClosed();
     boolean bottomSwitch = RobotMap.elevatorSensors.isRevLimitSwitchClosed();
     
@@ -243,7 +243,7 @@ public class Elevator extends Subsystem {
   //--------------------------------------------------------------------  
   private void HandlePickerElevator(double yElevator) {
     yElevator = DriveMath.DeadBand(yElevator,0.1);
-    int change = (int)(-yElevator * 50);
+    int change = (int)(-yElevator * 60);
     boolean topSwitch = RobotMap.pickerElevatorSensors.isFwdLimitSwitchClosed();
     boolean bottomSwitch = RobotMap.pickerElevatorSensors.isRevLimitSwitchClosed();
     

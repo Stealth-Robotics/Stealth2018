@@ -43,7 +43,7 @@ public class Logging {
 		
 		try {
 			logMatch = new FileWriter("/LOGS/logMatch.csv", true);
-			logSystems = new FileWriter("/LOGS/logElevatorSystems.csv", true);
+			logSystems = new FileWriter("/LOGS/logSystems.csv", true);
 			logError = new FileWriter("/LOGS/logError.csv", true);
 			logEvents = new FileWriter("/LOGS/logEvents.csv", true);
 		} catch(IOException e) {
