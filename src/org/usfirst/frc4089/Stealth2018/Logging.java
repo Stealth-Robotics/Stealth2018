@@ -142,7 +142,8 @@ public class Logging {
 					currentMode.toString() + "," +
 					DriverStation.getInstance().isDSAttached() + "," +
 					
-					RobotController.getBatteryVoltage() + "," +
+					//RobotController.getBatteryVoltage() + "," +
+					DriverStation.getInstance().getBatteryVoltage()+ "," +
 					RobotMap.PDP.getVoltage() + "," +
 					RobotMap.PDP.getTemperature() + "," +
 					RobotMap.PDP.getTotalPower() + "," +
