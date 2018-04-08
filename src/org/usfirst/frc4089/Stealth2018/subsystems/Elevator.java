@@ -79,7 +79,7 @@ public class Elevator extends Subsystem {
   // --------------------------------------------------------------------
   // Constants:
   // --------------------------------------------------------------------
-  final double elevatorKp = 0.005;
+  final double elevatorKp = 0.01;
   final double elevatorKi = 0;
   final double elevatorKd = 0;
 
@@ -223,7 +223,7 @@ public class Elevator extends Subsystem {
   // --------------------------------------------------------------------
   // Constants:
   // --------------------------------------------------------------------
-  final double pickerElevatorKp = 0.005;
+  final double pickerElevatorKp = 0.0075;
   final double pickerElevatorKi = 0;
   final double pickerElevatorKd = 0;
 
