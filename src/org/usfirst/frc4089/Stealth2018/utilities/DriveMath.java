@@ -18,6 +18,7 @@
 package org.usfirst.frc4089.Stealth2018.utilities;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.usfirst.frc4089.Stealth2018.Constants;
 import org.usfirst.frc4089.Stealth2018.MPPaths.Path;
@@ -202,14 +203,18 @@ public class DriveMath {
     	path.kSpeed = 60;
     	path.kNumPoints = list.size() - 1;
     	path.kPoints = new double[list.size() - 1][3];
-    	MPPoint first = list.get(0);
+    	MPPoint first = list.get(list.size() - 1);
     	double lastLeftPos = first.ticksL;
     	double lastRightPos = first.ticksR;
-    	for (int c = list.size() - 1; c >= 1; c++)
+    	for (int c = list.size() - 2; c >= 0; c--)
     	{
-    		path.kPoints[c - 1][0] = (list.get(c).ticksL - lastLeftPos) * Constants.encoderConversionDisIN;
-    		path.kPoints[c - 1][1] = (list.get(c).ticksR - lastRightPos) * Constants.encoderConversionDisIN;
-    		path.kPoints[c - 1][2] = list.get(c).heading;
+    		MPPoint current = list.get(c);
+    		path.kPoints[list.size() - 2 - c][0] = (current.ticksL - lastLeftPos) * Constants.encoderConversionDisIN * 1000 / current.timeTaken;
+    		path.kPoints[list.size() - 2 - c][1] = (current.ticksR - lastRightPos) * Constants.encoderConversionDisIN * 1000 / current.timeTaken;
+    		path.kPoints[list.size() - 2 - c][2] = current.heading;
+    		lastLeftPos = current.ticksL;
+    		lastRightPos = current.ticksR;
+    		System.out.println("" + c + ":" + Arrays.toString(path.kPoints[c]));
     	}
     	return path;
     }

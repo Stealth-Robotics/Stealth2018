@@ -51,6 +51,7 @@ public class AutoFindCube extends Command {
 	//final double stop_kD = 0.0002;
 	//the path the robot is taking to get to the block
 	final ArrayList<MPPoint> encoderLogger = new ArrayList<MPPoint>();
+	private double lastTime;
 	
     public AutoFindCube() {
         requires(Robot.drive);
@@ -62,6 +63,7 @@ public class AutoFindCube extends Command {
     protected void initialize() {
     	Robot.logging.LogEvent("AutoFindCube Source: Commands.AutoFindCube");
     	state = 0;
+    	lastTime = System.currentTimeMillis();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -131,7 +133,9 @@ public class AutoFindCube extends Command {
     	PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
 		RobotMap.pigeonIMU.getFusedHeading(fusionStatus);
 		//record path taken in order to retrace steps
-		encoderLogger.add(new MPPoint(RobotMap.driveSRXDriveLF.getSelectedSensorVelocity(0), RobotMap.driveSRXDriveRF.getSelectedSensorVelocity(0), fusionStatus.heading));
+		double currentTime = System.currentTimeMillis();
+		encoderLogger.add(new MPPoint(RobotMap.driveSRXDriveLF.getSelectedSensorVelocity(0), RobotMap.driveSRXDriveRF.getSelectedSensorVelocity(0), fusionStatus.heading, currentTime - lastTime));
+		lastTime = currentTime;
     	
     }	
 
