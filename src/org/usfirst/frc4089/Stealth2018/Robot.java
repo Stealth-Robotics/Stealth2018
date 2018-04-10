@@ -67,6 +67,7 @@ public class Robot extends TimedRobot {
         climb = new Climb();
         
         logging.SetMode(Modes.Init);
+        logging.LogEvent("Robot Code Init");
         
         RobotMap.pigeonIMU.setFusedHeading(0, 30);
         
@@ -76,10 +77,6 @@ public class Robot extends TimedRobot {
 	        camera.setResolution(320,240);
 	        camera.setFPS(30);
         }
-        
-        
-        
-        
 
         Robot.elevator.SetElevatorTarget(0);
         Robot.elevator.SetPickerElevatorTarget(0);
@@ -158,6 +155,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
     	  logging.SetMode(Modes.Autonomus);
+    	  logging.LogEvent("Autonomus Init");
     	  
 	      if (mAutoCommand != null) mAutoCommand.cancel();
 	      

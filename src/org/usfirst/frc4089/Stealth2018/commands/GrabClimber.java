@@ -10,8 +10,7 @@
 
 
 package org.usfirst.frc4089.Stealth2018.commands;
-import org.usfirst.frc4089.Stealth2018.Robot;
-import org.usfirst.frc4089.Stealth2018.RobotMap;
+import org.usfirst.frc4089.Stealth2018.*;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -22,11 +21,7 @@ public class GrabClimber extends Command {
 
     
     public GrabClimber() {
-
-    
         requires(Robot.climb);
-
-    
     }
 
     // Called just before this Command runs the first time

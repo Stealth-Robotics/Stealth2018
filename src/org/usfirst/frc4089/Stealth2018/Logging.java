@@ -17,8 +17,11 @@ import edu.wpi.first.wpilibj.Timer;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.*;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
+
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -37,9 +40,13 @@ public class Logging {
 	
 	private long StartTime;
 	
+	private Date date;
+	
 	public Logging() {
 		
-		StartTime = RobotController.getFPGATime();
+		date = new Date();
+		
+		StartTime = date.getTime();
 		
 		try {
 			logMatch = new FileWriter("/LOGS/logMatch.csv", true);
@@ -66,11 +73,13 @@ public class Logging {
 	}
 	
 	public void LogEvent(String input) {
+		System.out.println("LogEvent Input: " + input);
+		
 		try {
 			//start Time, System Time, input
 			logEvents.write(
 					StartTime + "," +
-					RobotController.getFPGATime() + "," +
+					date.getTime() + "," +
 							
 					input 
 					
@@ -91,7 +100,7 @@ public class Logging {
 			//Match Time, isFMSConnected, Event Name, Match Number, Match Type, Alliance, Replay Number, Game Specific Message
 			logMatch.write(
 					StartTime + "," +
-					RobotController.getFPGATime() + "," +
+					date.getTime() + "," +
 					
 					Timer.getMatchTime() + "," +
 					DriverStation.getInstance().isFMSAttached() + "," +
@@ -129,12 +138,12 @@ public class Logging {
 			//Picker Raise Motor Voltage, Picker Raise Motor Output %
 			logSystems.write(
 					StartTime + "," +
-					RobotController.getFPGATime() + "," +
+					date.getTime() + "," +
 					currentMode.toString() + "," +
 					DriverStation.getInstance().isDSAttached() + "," +
 					
-					//RobotController.getBatteryVoltage() + "," +
-					DriverStation.getInstance().getBatteryVoltage()+ "," +
+					RobotController.getBatteryVoltage() + "," +
+					//DriverStation.getInstance().getBatteryVoltage()+ "," +
 					RobotMap.PDP.getVoltage() + "," +
 					RobotMap.PDP.getTemperature() + "," +
 					RobotMap.PDP.getTotalPower() + "," +
@@ -200,8 +209,9 @@ public class Logging {
 			//Fault Count 3.3v, Fault Count 5v, Fault Count 6v,
 			//CAN Status,
 			//Gyro Last error, Gyro State
-			logError.write(StartTime + "," +
-					RobotController.getFPGATime() + "," +
+			logError.write(
+					StartTime + "," +
+					date.getTime() + "," +
 					
 					RobotController.isBrownedOut() + "," +
 					RobotController.isSysActive() + "," +
